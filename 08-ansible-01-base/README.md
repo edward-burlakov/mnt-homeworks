@@ -135,10 +135,11 @@
 
  
 7. При помощи `ansible-vault` шифруем  факты в `group_vars/deb` и `group_vars/el` с паролем `netology`.
-   #  ansible-vault encrypt group_vars/deb/examp.yml
-   #  ansible-vault encrypt group_vars/el/examp.yml
 
-   Результат 
+        #  ansible-vault encrypt group_vars/deb/examp.yml
+        #  ansible-vault encrypt group_vars/el/examp.yml
+
+        Результат: 
    
         root@ubuntu22:~/# cat group_vars/deb/examp.yml
         $ANSIBLE_VAULT;1.1;AES256
@@ -400,7 +401,4 @@
          localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
          ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-
-6. Напишите скрипт на bash: автоматизируйте поднятие необходимых контейнеров, запуск ansible-playbook и остановку контейнеров.
-7. Все изменения должны быть зафиксированы и отправлены в вашей личный репозиторий.
 
