@@ -87,7 +87,7 @@
          80f1d7019ea2   pycontribs/ubuntu:latest   "sleep 6000000"   9 minutes ago    Up 9 minutes              ubuntu
          346ad5c71fe9   pycontribs/centos:7        "sleep 6000000"   13 minutes ago   Up 13 minutes             centos7
 
-4. Проведите запуск playbook на окружении из `prod.yml`. Зафиксируйте полученные значения `some_fact` для каждого из `managed host`.
+4. Производим запуск playbook на окружении из `prod.yml`. Фиксируем полученные значения `some_fact` для каждого из `managed host`.
        Внимание !!! Имена хостов в prod.xml должны обязательно  совпадать чс именами в поле NAMES docker-контейнеров!!!
 
          root@ubuntu22:~/# ansible-playbook site.yml -i  inventory/prod.yml
@@ -170,31 +170,32 @@
         ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 9. Выводим  при помощи `ansible-doc` список плагинов для подключения. 
-   Выбираем коннектор "local", как подходящий для работы на `control node`.
 
-         # ansible-doc -t connection  -F
-         ansible.netcommon.grpc         /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/grpc.py
-         ansible.netcommon.httpapi      /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/httpapi.py
-         ansible.netcommon.libssh       /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/libssh.py
-         ansible.netcommon.napalm       /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/napalm.py
-         ansible.netcommon.netconf      /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/netconf.py
-         ansible.netcommon.network_cli  /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/network_cli.py
-         ansible.netcommon.persistent   /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/persistent.py
-         community.aws.aws_ssm          /usr/lib/python3/dist-packages/ansible_collections/community/aws/plugins/connection/aws_ssm.py
-         community.docker.docker        /root/.ansible/collections/ansible_collections/community/docker/plugins/connection/docker.py
-         ......
-         ......
-         kubernetes.core.kubectl        /usr/lib/python3/dist-packages/ansible_collections/kubernetes/core/plugins/connection/kubectl.py
-         local                          /usr/lib/python3/dist-packages/ansible/plugins/connection/local.py
-         paramiko_ssh                   /usr/lib/python3/dist-packages/ansible/plugins/connection/paramiko_ssh.py
-         psrp                           /usr/lib/python3/dist-packages/ansible/plugins/connection/psrp.py
-         ssh                            /usr/lib/python3/dist-packages/ansible/plugins/connection/ssh.py
-         winrm                          /usr/lib/python3/dist-packages/ansible/plugins/connection/winrm.py
+    Выбираем коннектор "local", как подходящий для работы на `control node`.
+
+          # ansible-doc -t connection  -F
+          ansible.netcommon.grpc         /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/grpc.py
+          ansible.netcommon.httpapi      /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/httpapi.py
+          ansible.netcommon.libssh       /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/libssh.py
+          ansible.netcommon.napalm       /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/napalm.py
+          ansible.netcommon.netconf      /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/netconf.py
+          ansible.netcommon.network_cli  /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/network_cli.py
+          ansible.netcommon.persistent   /usr/lib/python3/dist-packages/ansible_collections/ansible/netcommon/plugins/connection/persistent.py
+          community.aws.aws_ssm          /usr/lib/python3/dist-packages/ansible_collections/community/aws/plugins/connection/aws_ssm.py
+          community.docker.docker        /root/.ansible/collections/ansible_collections/community/docker/plugins/connection/docker.py
+          ......
+          ......
+          kubernetes.core.kubectl        /usr/lib/python3/dist-packages/ansible_collections/kubernetes/core/plugins/connection/kubectl.py
+          local                          /usr/lib/python3/dist-packages/ansible/plugins/connection/local.py
+          paramiko_ssh                   /usr/lib/python3/dist-packages/ansible/plugins/connection/paramiko_ssh.py
+          psrp                           /usr/lib/python3/dist-packages/ansible/plugins/connection/psrp.py
+          ssh                            /usr/lib/python3/dist-packages/ansible/plugins/connection/ssh.py
+          winrm                          /usr/lib/python3/dist-packages/ansible/plugins/connection/winrm.py
 
 
 10. В `prod.yml` добавляем новую группу хостов с именем  `local`, в ней размещаем localhost с необходимым типом подключения.
        
-        # cat inventory/prod.yml ; echo ""
+        # cat inventory/prod.yml
         ---
         el:
           hosts:
@@ -253,7 +254,7 @@
      
 
 
-12. Заполнил `\playbook\README.md` ответами на вопросы. 
+12. Заполнил `README1.md` ответами на вопросы. 
 
 
 ## Необязательная часть
@@ -302,9 +303,6 @@
           36636266363133383230376266343762316132313239356238323663356437656332633264363066
           6163616235353966660a366630643634353833363532353434303339646139393435326461623737
           3438
-
-
-
 
 3. Запускаем `playbook`, убеждаемся, что для нужных хостов применился новый `fact`.
         
