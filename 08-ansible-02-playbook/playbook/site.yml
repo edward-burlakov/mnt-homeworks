@@ -51,7 +51,7 @@
        # force: true
        # validate_certs: false
         copy:
-        src: "/files/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
+        src: "./files/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
         dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
         mode: 0644
       register: get_elastic
@@ -91,7 +91,7 @@
       # force: true
       # validate_certs: false
         copy:
-        src: "/files/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
+        src: "./files/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
         dest: "/tmp/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
         mode: 0644
       register: get_kibana
