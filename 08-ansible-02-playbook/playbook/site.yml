@@ -110,4 +110,5 @@
       template:
         src: templates/kibana.sh.j2
         dest: /etc/profile.d/kibana.sh
+        mode: 0644
       tags: kibana
