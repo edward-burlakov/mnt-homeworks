@@ -19,6 +19,7 @@
       file:
         state: directory
         path: "{{ java_home }}"
+        mode: 0644
       tags: java
     - name: Extract java in the installation directory
       become: true
@@ -36,6 +37,7 @@
       template:
         src: jdk.sh.j2
         dest: /etc/profile.d/jdk.sh
+        mode: 0644
       tags: java
 - name: Install Elasticsearch
   hosts: elasticsearch
@@ -55,6 +57,7 @@
       file:
         state: directory
         path: "{{ elastic_home }}"
+        mode: 0644
       tags: elastic
     - name: Extract Elasticsearch in the installation directory
       become: true
@@ -71,6 +74,7 @@
       template:
         src: templates/elk.sh.j2
         dest: /etc/profile.d/elk.sh
+        mode: 0644
       tags: elastic
 - name: Install Kibana
   hosts: kibana
