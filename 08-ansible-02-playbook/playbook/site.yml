@@ -6,7 +6,6 @@
       set_fact:
         java_home: "/opt/jdk/{{ java_jdk_version }}"
       tags: java
-
     - name: Upload .tar.gz file containing binaries from local storage
       copy:
         src: "/files/{{ java_oracle_jdk_package }}"
@@ -16,7 +15,6 @@
       until: download_java_binaries is succeeded
 
       tags: java
-
     - name: Ensure installation dir exists
       become: true
       file:
