@@ -3,7 +3,7 @@
 ## Подготовка к выполнению
 1. Создайте свой собственный (или используйте старый) публичный репозиторий на github с произвольным именем.
 2. Скачайте [playbook](./playbook/) из репозитория с домашним заданием и перенесите его в свой репозиторий.
-3. Подготовьте хосты в соотвтествии с группами из предподготовленного playbook. 
+3. Подготовьте хосты в соответствии с группами из предподготовленного playbook. 
 4. Скачайте дистрибутив [java](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) и положите его в директорию `playbook/files/`. 
 
 ## Основная часть
@@ -11,6 +11,23 @@
 2. Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает kibana.
 3. При создании tasks рекомендую использовать модули: `get_url`, `template`, `unarchive`, `file`.
 4. Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.
+
+Для Ubuntu
+===========
+wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | tee -a /etc/apt/sources.list.d/elastic-7.x.list
+apt update && apt install kibana
+# systemctl daemon-reload
+# systemctl enable kibana.service
+# systemctl start kibana.service
+
+Для  Centos
+============
+rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+cp  kibana.repo  /etc/yum.repos.d/
+yum install kibana
+
+
 5. Запустите `ansible-lint site.yml` и исправьте ошибки, если они есть.
 6. Попробуйте запустить playbook на этом окружении с флагом `--check`.
 7. Запустите playbook на `prod.yml` окружении с флагом `--diff`. Убедитесь, что изменения на системе произведены.
