@@ -2,7 +2,10 @@
 # Домашнее задание к занятию "08.02 Работа с Playbook"
 
 ----
-### 1. Добавляем в файл prod.yml  новый play ля развертывания пакета kibana  / Также создаем в каталоге \group_vars\kibana файл vars.yml  с переменными  пакета kibana.
+### 1. Изменяем файл  prod.yml  соответствии с заданием
+
+      Создаем  третий play  для развертывания пакета kibana .
+      Также создаем файл vars.yml  с переменными  пакета kibana   в каталоге /group_vars/kibana .
 
 ----
 ### 2. Tasks должны: скачать нужной версии дистрибутив, выполнить распаковку в выбранную директорию, сгенерировать конфигурацию с параметрами.
@@ -15,7 +18,7 @@
 
        root@ubuntu22:~/# ansible-lint site.yml
        WARNING  Overriding detected file kind 'yaml' with 'playbook' for given positional argument: site.yml
-       root@ubuntu22:~/NETOLOGY/mnt-homeworks/08-ansible-02-playbook/playbook#
+       root@ubuntu22:~/#
 
 ----
 ### 4. Запускаем playbook на этом окружении с флагом `--check`.
@@ -84,7 +87,7 @@
 ----
 ### 5. Запускаем  playbook на `prod.yml` окружении с флагом `--diff`. Убеждаемся, что изменения на системе произведены.
 
-       root@ubuntu22:~/NETOLOGY/mnt-homeworks/08-ansible-02-playbook/playbook# ansible-playbook -i inventory/prod.yml site.yml --diff
+       root@ubuntu22:~/# ansible-playbook -i inventory/prod.yml site.yml --diff
 
        PLAY [Install Java Developers Kit] *****************************************************************************************************
 
@@ -174,7 +177,7 @@
 ### 6. Повторно запускаем  playbook с флагом `--diff` и убеждаемся, что playbook идемпотентен.
 
 
-     root@ubuntu22:~/NETOLOGY/mnt-homeworks/08-ansible-02-playbook/playbook# ansible-playbook -i inventory/prod.yml site.yml --diff                                       
+     root@ubuntu22:~/# ansible-playbook -i inventory/prod.yml site.yml --diff                                       
      PLAY [Install Java Developers Kit] ********************************************************************************************************
 
      TASK [Gathering Facts] *******************************************************************************************************************
