@@ -43,14 +43,14 @@
   hosts: elasticsearch
   tasks:
     - name: Upload tar.gz Elasticsearch from remote URL
-     #get_url:
-       #url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
-       # dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
-       # mode: 0755
-       # timeout: 60
-       # force: true
-       # validate_certs: false
-        copy:
+      #get_url:
+      # url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
+      # dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
+      # mode: 0755
+      # timeout: 60
+      # force: true
+      # validate_certs: false
+      copy:
         src: "./files/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
         dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
         mode: 0644
@@ -90,7 +90,7 @@
       # timeout: 60
       # force: true
       # validate_certs: false
-        copy:
+      copy:
         src: "./files/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
         dest: "/tmp/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
         mode: 0644
