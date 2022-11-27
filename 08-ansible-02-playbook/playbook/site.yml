@@ -11,9 +11,10 @@
       copy:
         src: "/files/{{ java_oracle_jdk_package }}"
         dest: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
+        mode: 0644
       register: download_java_binaries
       until: download_java_binaries is succeeded
-      mode: 0644
+
       tags: java
 
     - name: Ensure installation dir exists
@@ -28,6 +29,7 @@
         copy: false
         src: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
         dest: "{{ java_home }}"
+        mode: 0644
         extra_opts: [--strip-components=1]
         creates: "{{ java_home }}/bin/java"
       tags:
