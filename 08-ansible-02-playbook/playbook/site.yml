@@ -9,8 +9,8 @@
     - name: Upload .tar.gz file containing binaries from local storage
       copy:
         src: "./files/{{ java_oracle_jdk_package }}"
-        dest: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
-        mode: 0644
+        dest: "/tmp/jdk-{{ java_jdk_version }}_linux-x64_bin.tar.gz"
+        mode: 0755
       register: download_java_binaries
       until: download_java_binaries is succeeded
       tags: java
@@ -19,13 +19,13 @@
       file:
         state: directory
         path: "{{ java_home }}"
-        mode: 0755
+        mode: 0644
       tags: java
     - name: Extract java in the installation directory
       become: true
       unarchive:
         remote_src: false
-        src: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
+        src: "/tmp/jdk-{{ java_jdk_version }}_linux-x64_bin.tar.gz"
         dest: "{{ java_home }}"
         mode: 0644
         extra_opts: [--strip-components=1]
@@ -43,7 +43,7 @@
   hosts: elasticsearch
   tasks:
     - name: Upload tar.gz Elasticsearch from remote URL
-      #get_url:
+    # get_url:
       # url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
       # dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
       # mode: 0755
@@ -51,9 +51,10 @@
       # force: true
       # validate_certs: false
       copy:
+        remote_src: false
         src: "./files/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
         dest: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
-        mode: 0644
+        mode: 0755
       register: get_elastic
       until: get_elastic is succeeded
       tags: elastic
@@ -66,11 +67,11 @@
     - name: Extract Elasticsearch in the installation directory
       become: true
       unarchive:
+        creates: "{{ elastic_home }}/bin/elasticsearch"
         remote_src: false
         src: "/tmp/elasticsearch-{{ elastic_version }}-linux-x86_64.tar.gz"
         dest: "{{ elastic_home }}"
         extra_opts: [--strip-components=1]
-        creates: "{{ elastic_home }}/bin/elasticsearch"
       tags: elastic
     - name: Set environment Elastic
       become: true
@@ -83,7 +84,7 @@
   hosts: kibana
   tasks:
     - name: Upload tar.gz Kibana from remote URL
-      #get_url:
+    # get_url:
       # url: "https://artifacts.elastic.co/downloads/kibana/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
       # dest: "/tmp/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
       # mode: 0755
@@ -91,9 +92,10 @@
       # force: true
       # validate_certs: false
       copy:
+        remote_src: false
         src: "./files/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
         dest: "/tmp/kibana-{{ kibana_version }}-linux-x86_64.tar.gz"
-        mode: 0644
+        mode: 0755
       register: get_kibana
       until: get_kibana is succeeded
       tags: kibana
