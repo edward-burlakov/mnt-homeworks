@@ -13,6 +13,7 @@
         dest: "/tmp/jdk-{{ java_jdk_version }}.tar.gz"
       register: download_java_binaries
       until: download_java_binaries is succeeded
+      mode: 0644
       tags: java
 
     - name: Ensure installation dir exists
