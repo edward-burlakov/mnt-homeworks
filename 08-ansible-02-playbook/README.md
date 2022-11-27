@@ -245,5 +245,22 @@
     расположенные  в каталоге /opt.   Также  для локального хоста публикуется переменные каждого пакета в переменную PATH и также формируются 
     скрипты автоматического экпорта данных переменных путем формования скриптов автозапуска в каталоге /etc/profile.d/ .
     Если при проверке целевого рабочего каталога уже присутствует исполняемый скрипт соответствующего пакета, распаковка не производится.
-   
+    
+    В  трех плеях  использованы три вида тегов :
 
+        Play "Install Java Developers Kit"  : java  
+        Play "Install Elasticsearch"        : elastic
+        PLay "Install Kibana"               : kibana 
+    
+    Использованы  переменные  со следующими значениями:
+        Play "Install Java Developers Kit"
+          java_jdk_version: "11.0.17"
+          java_oracle_jdk_package: "jdk-{{java_jdk_version }}_linux-x64_bin.tar.gz"
+
+        Play "Install Elasticsearch"   
+          elastic_version: "7.10.1"
+          elastic_home: "/opt/elastic/{{ elastic_version }}"
+
+        PLay "Install Kibana"
+          kibana_version: "7.10.1"
+          kibana_home: "/opt/kibana/{{ kibana_version }}"
