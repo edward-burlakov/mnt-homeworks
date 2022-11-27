@@ -1,2 +1,2 @@
 kibana_version: "7.10.1"
-KIBANA_HOME: "/etc/kibana/{{ kibana_version }}"
+kibana_home: "/etc/kibana/{{ kibana_version }}"
