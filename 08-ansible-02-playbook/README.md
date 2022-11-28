@@ -253,14 +253,14 @@
         PLay "Install Kibana"               : kibana 
     
     Использованы  переменные  со следующими значениями:
-        Play "Install Java Developers Kit"
+        `Play "Install Java Developers Kit"`
           java_jdk_version: "11.0.17"
           java_oracle_jdk_package: "jdk-{{java_jdk_version }}_linux-x64_bin.tar.gz"
 
-        Play "Install Elasticsearch"   
+        `Play "Install Elasticsearch"`   
           elastic_version: "7.10.1"
           elastic_home: "/opt/elastic/{{ elastic_version }}"
 
-        PLay "Install Kibana"
+        `PLay "Install Kibana"`
           kibana_version: "7.10.1"
           kibana_home: "/opt/kibana/{{ kibana_version }}"
