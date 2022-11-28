@@ -248,9 +248,9 @@
     
     В  трех плеях  использованы три вида тегов :
 
-        Play "Install Java Developers Kit"  : java  
-        Play "Install Elasticsearch"        : elastic
-        PLay "Install Kibana"               : kibana 
+        Play "Install Java Developers Kit"  : `java`  
+        Play "Install Elasticsearch"        : `elastic`
+        PLay "Install Kibana"               : `kibana` 
     
     Использованы  переменные  со следующими значениями:
         `Play "Install Java Developers Kit"`
