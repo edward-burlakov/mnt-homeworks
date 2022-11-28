@@ -15,6 +15,8 @@
 
 ----
 ### 3. Запускаем  `ansible-lint site.yml` и исправляем ошибки. Результат:
+          
+   [https://github.com/edward-burlakov/mnt-homeworks/blob/master/08-ansible-02-playbook/playbook/site.yml]
 
        root@ubuntu22:~/# ansible-lint site.yml
        WARNING  Overriding detected file kind 'yaml' with 'playbook' for given positional argument: site.yml
