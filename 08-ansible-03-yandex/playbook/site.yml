@@ -33,11 +33,30 @@
       tags: nginx
     - name: Export environment variables
       become: true
+
+
+    - name: Create home catalog for www
+      file:
+        path: /var/www/{{ virtual_domain }}
+        state: directory
+
+    - name: Replace nginx.conf
       template:
-        src: jdk.sh.j2
-        dest: /etc/profile.d/jdk.sh
+        src=templates/nginx.conf
+        dest=/etc/nginx/nginx.conf
         mode: 0644
-      tags: jnginx
+    - name: Add virtual domain in NGINX for RPM
+      vars:
+        fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
+      template:
+        src": templates/nginx_vhosts.conf
+        dest: /etc/nginx/conf.d/{{ virtual_domain }}.conf
+        mode: 0644
+      notify:
+        - nginx restart
+      tags: nginx
+
+
 - name: Install Clickhouse on hosts
   hosts: clickhouse
   handlers:

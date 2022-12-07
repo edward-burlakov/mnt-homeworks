@@ -1,3 +1,4 @@
 ---
 nginx_version: "8.10.1"
 nginx_home: "/etc/nginx"
+nginx_user: "nginx"
