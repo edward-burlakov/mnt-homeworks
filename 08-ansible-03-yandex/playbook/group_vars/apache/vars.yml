@@ -1,3 +1,0 @@
----
-apache_version: "8.10.1"
-apache_home: "/var/www/html/{{ apache_version }}"
