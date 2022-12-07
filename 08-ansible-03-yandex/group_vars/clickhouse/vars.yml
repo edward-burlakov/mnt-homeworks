@@ -1,0 +1,3 @@
+---
+clickhouse_version: "7.10.1"
+clickhouse_home: "/opt/clickhouse/{{ clickhouse_version }}"

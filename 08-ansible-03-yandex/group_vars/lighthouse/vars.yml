@@ -1,0 +1,3 @@
+---
+lighthouse_version: "7.10.1"
+lighthouse_home: "/opt/lighthouse/{{ lighthouse_version }}"
