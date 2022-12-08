@@ -4,6 +4,9 @@
 ##  hosts: all
 ##  become: true
 ##    tasks:
+##      - name: Print Debug
+##        debug:
+##        var: one
 ##    - name: Add epel-release repo
 ##      yum:
 ##        name: epel-release
@@ -58,6 +61,9 @@
   hosts: vector
   become: true
     tasks:
+    - name: Print Debug
+      debug:
+         var: one
     - name: Upload tar.gz VECTOR from remote URL
       get_url:
         url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
@@ -104,7 +110,6 @@
       args:
       executable: /bin/bash
       chdir: {{ vector_home }}/bin/
-
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
@@ -115,6 +120,9 @@
         name: clickhouse-server
         state: restarted
   tasks:
+    - name: Print Debug
+      debug:
+         var: one
     - block:
         - name: Get clickhouse distrib
           ansible.builtin.get_url:
@@ -145,12 +153,13 @@
         src: templates/clockhouse.sh.j2
         dest: /etc/profile.d/clickhouse.sh
         mode: 0644
-
-
 #########################################################################################################
 - name: Install lighthouse on hosts
   hosts: lighthouse
   tasks:
+    - name: Print Debug
+      debug:
+         var: one
     - name: Set facts for NGINX vars
       set_fact:
         lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
