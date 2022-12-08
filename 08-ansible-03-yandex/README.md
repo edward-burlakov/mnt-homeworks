@@ -1,15 +1,12 @@
-
+---
 ## Домашнее задание к занятию "3. Использование Yandex Cloud"
 --
 Подготовка к выполнению
 Подготовьте в Yandex Cloud три хоста: для clickhouse, для vector и для lighthouse.
 Ссылка на репозиторий LightHouse: https://github.com/VKCOM/lighthouse
 
-
 ---
 ## Основная часть
-
-
 
 Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает lighthouse.
 При создании tasks рекомендую использовать модули: get_url, template, yum, apt.
