@@ -46,7 +46,7 @@
         mode: 0644
       notify:
         - nginx restart
-    - name: Export environment variables
+    - name: Export environment variables for NGINX
       become: true
       tags: nginx
 #########################################################################################
@@ -94,7 +94,7 @@
         mode: 0644
       tags: vector
 
-    - name: Set environment for VECTOR
+    - name: Export environment variables for VECTOR
       become: true
       template:
         src: templates/vector.sh.j2
@@ -142,7 +142,7 @@
       register: create_db
       failed_when: create_db.rc != 0 and create_db.rc !=82
       changed_when: create_db.rc == 0
-    - name: Set environment of clickhouse
+    - name: Export environment variables for clickhouse
       become: true
       template:
         src: templates/clockhouse.sh.j2
