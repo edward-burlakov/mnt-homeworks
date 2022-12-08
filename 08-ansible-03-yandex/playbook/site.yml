@@ -4,9 +4,6 @@
 ##  hosts: all
 ##  become: true
 ##    tasks:
-##      - name: Print Debug
-##        debug:
-##        var: one
 ##      - name: Add epel-release repo
 ##        yum:
 ##          name: epel-release
@@ -61,18 +58,25 @@
   hosts: vector
   become: true
     tasks:
-      - name: Upload tar.gz VECTOR from remote URL
-        get_url:
-          url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
-          dest: "/files/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+      - name: Get Vector version
+        ansible.builtin.command: vector --version
+        register: vector_is_installed  # Запись результата в переменную
+      - name: Get tar.gz VECTOR from remote URL
+        ansible.builtin.get_url:
+          url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
+          dest: "/files/vector-{{ vector_version }}-1.x86_64.rpm"
           mode: 0755
           timeout: 60
           force: true
           validate_certs: false
+        when: # Условия при котором будет выполняться закачка
+          - vector_is_installed is failed
+          - ansible_distribution == "CentOS"
+      - name: Copy tar.gz VECTOR from localhost
         copy:
           remote_src: false
-          src: "./files/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
-          dest: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+          src: "./files/vector-{{ vector_version }}-1.x86_64.rpm"
+          dest: "/tmp/vector-{{ vector_version }}-1.x86_64.rpm"
           mode: 0755
         register: get_vector
         until: get_vector is succeeded
