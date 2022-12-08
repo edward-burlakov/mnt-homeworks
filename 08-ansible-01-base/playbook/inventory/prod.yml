@@ -1,4 +1,5 @@
 ---
+<<<<<<< HEAD
 el:
   hosts:
     centos7:
@@ -9,3 +10,21 @@ deb:
     ubuntu:
       ansible_host: localhost
       ansible_connection: docker
+=======
+  el:
+    hosts:
+      centos7:
+        ansible_connection: docker
+  deb:
+    hosts:
+      ubuntu:
+        ansible_connection: docker
+  fedora:
+    hosts:
+      fed:
+        ansible_connection: docker
+  local:
+    hosts:
+      localhost:
+        ansible_connection: local
+>>>>>>> 2c3b49b755fb67de295026648c51a4fb18adb1c4

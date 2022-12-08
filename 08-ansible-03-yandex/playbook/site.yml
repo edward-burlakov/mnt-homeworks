@@ -1,0 +1,196 @@
+---
+##################################################################################
+##- name: Install NGINX on all hosts
+##  hosts: all
+##  become: true
+##    tasks:
+##      - name: Print Debug
+##        debug:
+##        var: one
+##    - name: Add epel-release repo
+##      yum:
+##        name: epel-release
+##        state: present
+##
+##    - name: Install nginx
+##      yum:
+##        name: nginx
+##        state: present
+##
+##    - name: Insert Index Page
+##      template:
+##        src: index.html
+##        dest: /usr/share/nginx/html/index.html
+##
+##    - name: Add ufw rule
+##      sudo: yes
+##      command: iptables allow 80,443/tcp
+##
+##    - name: Start NGiNX
+##      service:
+##        name: nginx
+##        state: started
+##        tags: nginx
+##
+##    - name: Create home catalog for www
+##      file:
+##        path: {{ nginx_web }}/{{ virtual_domain }}
+##        state: directory
+##        tags: nginx
+##        mode: 0644
+##
+##    - name: Replace nginx.conf
+##      template:
+##        src=templates/nginx.conf
+##        dest=/etc/nginx/nginx.conf
+##        mode: 0644
+##    - name: Add virtual domain in NGINX for RPM
+##      vars:
+##        fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
+##      template:
+##        src": templates/nginx_vhosts.conf
+##        dest: /etc/nginx/conf.d/{{ virtual_domain }}.conf
+##        mode: 0644
+##      notify:
+##        - nginx restart
+##    - name: Export environment variables for NGINX
+##      become: true
+##      tags: nginx
+#########################################################################################
+- name: Install Vector on hosts
+  hosts: vector
+  become: true
+    tasks:
+    - name: Print Debug
+      debug:
+         var: one
+    - name: Upload tar.gz VECTOR from remote URL
+      get_url:
+        url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        dest: "/files/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        mode: 0755
+        timeout: 60
+        force: true
+        validate_certs: false
+      copy:
+        remote_src: false
+        src: "./files/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        dest: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        mode: 0755
+      register: get_vector
+      until: get_vector is succeeded
+      tags: vector
+    - name: Create directory for Vector
+      file:
+        state: directory
+        path: "{{ vector_home }}"
+        mode: 0644
+      tags: vector
+    - name: Extract Vector in the installation directory
+      become: true
+      unarchive:
+        creates: "{{ vector_home }}/bin/vector"
+        remote_src: false
+        src: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        dest: "{{ vector_home }}"
+        extra_opts: [--strip-components=1]
+        mode: 0644
+      tags: vector
+
+    - name: Export environment variables for VECTOR
+      become: true
+      template:
+        src: templates/vector.sh.j2
+        dest: /etc/profile.d/vector.sh
+        mode: 0644
+      tags: vector
+
+    - name: Execute Vector in the installation directory
+      ansible.builtin.shell: vector --config config/vector.toml
+      args:
+      executable: /bin/bash
+      chdir: {{ vector_home }}/bin/
+##################################################################################################
+- name: Install Clickhouse on hosts
+  hosts: clickhouse
+  handlers:
+    - name: Start clickhouse service
+      become: true
+      ansible.builtin.service:
+        name: clickhouse-server
+        state: restarted
+  tasks:
+    - name: Print Debug
+      debug:
+         var: one
+    - block:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
+            dest: "./{{ item }}-{{ clickhouse_version }}.rpm"
+          with_items: "{{ clickhouse_packages }}"
+      rescue:
+        - name: Get clickhouse distrib
+          ansible.builtin.get_url:
+            url: "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-{{ clickhouse_version }}.x86_64.rpm"
+            dest: "./clickhouse-common-static-{{ clickhouse_version }}.rpm"
+    - name: Install clickhouse packages
+      become: true
+      ansible.builtin.yum:
+        name:
+          - clickhouse-common-static-{{ clickhouse_version }}.rpm
+          - clickhouse-client-{{ clickhouse_version }}.rpm
+          - clickhouse-server-{{ clickhouse_version }}.rpm
+      notify: Start clickhouse service
+    - name: Create database
+      ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
+      register: create_db
+      failed_when: create_db.rc != 0 and create_db.rc !=82
+      changed_when: create_db.rc == 0
+    - name: Export environment variables for clickhouse
+      become: true
+      template:
+        src: templates/clockhouse.sh.j2
+        dest: /etc/profile.d/clickhouse.sh
+        mode: 0644
+#########################################################################################################
+- name: Install lighthouse on hosts
+  hosts: lighthouse
+  tasks:
+    - name: Print Debug
+      debug:
+         var: one
+    - name: Set facts for NGINX vars
+      set_fact:
+        lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
+      tags: nginx
+    - name: Upload .tar.gz file containing binaries from local storage
+      copy:
+        src: "./files/lighthouse-master.tar.gz"
+        dest: "/tmp/lighthouse-master.tar.gz"
+        mode: 0755
+      register: download_lighthouse_binaries
+      until: download_lighthouse_binaries is succeeded
+      tags: lighthouse
+    - name: Ensure installation dir exists
+      become: true
+      file:
+        state: directory
+        path: "{{ lighthouse_home }}"
+        mode: 0644
+      tags: lighthouse
+    - name: Extract lighthouse in the installation directory
+      become: true
+      unarchive:
+        remote_src: false
+        src: "/tmp/lighthouse-master.tar.gz"
+        dest: "{{ lighthouse_home }}"
+        mode: 0644
+      tags: lighthouse
+    - name: Export environment variables
+      become: true
+      template:
+        src: templates/lighthouse.sh.j2
+        dest: /etc/profile.d/clickhouse.sh
+        mode: 0644
+      tags: lighthouse

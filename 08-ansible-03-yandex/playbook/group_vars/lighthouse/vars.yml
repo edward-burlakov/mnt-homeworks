@@ -1,0 +1,4 @@
+---
+lighthouse_version: "7.10.1"
+virtual_domain: "lighthouse"
+lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
