@@ -58,7 +58,10 @@
   hosts: vector
   become: true
     tasks:
-      - name: Get Vector version
+      - name: "Choose version to install"
+        set_fact:
+        vector_version: "0.26.0"
+      - name: Get Vector installed version
         ansible.builtin.command: vector --version
         register: vector_is_installed  # Запись результата в переменную
       - name: Get tar.gz VECTOR from remote URL
