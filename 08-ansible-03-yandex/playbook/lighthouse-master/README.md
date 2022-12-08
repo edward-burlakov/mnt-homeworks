@@ -1,5 +1,7 @@
 # LightHouse
-LightHouse is a lightweight GUI interface for ClickHouse. Do not confuse it with LightHouse from Google (https://github.com/GoogleChrome/lighthouse). Interface is inspired by Sequel Pro (https://www.sequelpro.com/).
+LightHouse is a lightweight GUI interface for ClickHouse. 
+Do not confuse it with LightHouse from Google (https://github.com/GoogleChrome/lighthouse). 
+Interface is inspired by Sequel Pro (https://www.sequelpro.com/).
 
 # Usage
 Just clone this repository and use index.html in your browser.
