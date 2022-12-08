@@ -61,7 +61,6 @@
   hosts: vector
   become: true
     tasks:
-
     - name: Upload tar.gz VECTOR from remote URL
       get_url:
         url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
@@ -109,7 +108,6 @@
         dest: /etc/profile.d/vector.sh
         mode: 0644
       tags: vector
-
     - name: Execute Vector in the installation directory
       ansible.builtin.shell: vector --config config/vector.toml
       args:
