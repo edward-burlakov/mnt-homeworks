@@ -61,9 +61,7 @@
   hosts: vector
   become: true
     tasks:
-#    - name: Print Debug
-#      debug:
-#         var: one
+
     - name: Upload tar.gz VECTOR from remote URL
       get_url:
         url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
@@ -80,6 +78,9 @@
       register: get_vector
       until: get_vector is succeeded
       tags: vector
+#    - name: Print Debug
+#      debug:
+#         var: get_vector
     - name: Create directory for Vector
       file:
         state: directory
@@ -95,8 +96,12 @@
         dest: "{{ vector_home }}"
         extra_opts: [--strip-components=1]
         mode: 0644
+      register: extract_vector
+      until: extract_vector is succeeded
       tags: vector
-
+#    - name: Print Debug
+#      debug:
+#         var: extract_vector
     - name: Export environment variables for VECTOR
       become: true
       template:
@@ -120,9 +125,6 @@
         name: clickhouse-server
         state: restarted
   tasks:
-  #  - name: Print Debug
-  #    debug:
-  #       var: one
     - block:
         - name: Get clickhouse distrib
           ansible.builtin.get_url:
@@ -142,6 +144,12 @@
           - clickhouse-client-{{ clickhouse_version }}.rpm
           - clickhouse-server-{{ clickhouse_version }}.rpm
       notify: Start clickhouse service
+      register: clickhouse_installed
+      until: clickhouse_installed is succeeded
+      tags: clickhouse
+#    - name: Print Debug
+#      debug:
+#         var: extract_vector
     - name: Create database
       ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
       register: create_db
@@ -157,9 +165,6 @@
 - name: Install lighthouse on hosts
   hosts: lighthouse
   tasks:
-#    - name: Print Debug
-#      debug:
-#         var: one
     - name: Set facts for NGINX vars
       set_fact:
         lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
@@ -172,6 +177,9 @@
       register: download_lighthouse_binaries
       until: download_lighthouse_binaries is succeeded
       tags: lighthouse
+#    - name: Print Debug
+#      debug:
+#         var: download_lighthouse_binaries
     - name: Ensure installation dir exists
       become: true
       file:
