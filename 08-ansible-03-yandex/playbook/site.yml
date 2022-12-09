@@ -1,18 +1,32 @@
 ---
 ##################################################################################
 # - name: Install NGINX on all hosts
-##  hosts: all
-##  become: true
+##  hosts: lighthouse
+##    handlers:
+##    - name: start-nginx
+##      become: true
+##      command nginx
+##    - name: reload-nginx
+##      become: true
+##      ansible.builtin.command nginx -s reload
 ##    tasks:
-##      - name: Add epel-release repo
-##        yum:
+##      - name: NGINX / Add epel-release repo
+##        become: true
+##        ansible.buildin.yum:
 ##          name: epel-release
 ##          state: present
-##
-##      - name: Install nginx
-##        yum:
+##      - name: NGINX / Install NGINX
+##        become: true
+##        ansible.buildin.yum:
 ##          name: nginx
 ##          state: present
+##        notify: start-nginx
+##      - name: Replace nginx.conf
+##        become: true
+##        template:
+##          src: templates/nginx.conf
+##          dest: /etc/nginx/nginx.conf
+##          mode: 0644
 ##
 ##      - name: Insert Index Page
 ##        template:
@@ -36,11 +50,6 @@
 ##          tags: nginx
 ##          mode: 0644
 ##
-##      - name: Replace nginx.conf
-##        template:
-##          src=templates/nginx.conf
-##          dest=/etc/nginx/nginx.conf
-##          mode: 0644
 ##      - name: Add virtual domain in NGINX for RPM
 ##        vars:
 ##          fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
