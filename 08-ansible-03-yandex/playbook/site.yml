@@ -95,7 +95,7 @@
         creates: "{{ vector_home }}/bin/vector"
         remote_src: false
         src: "/tmp/vector-{{ vector_version }}-1.x86_64.rpm"
-        dest: "/{{ vector_home }}"
+        dest: "{{ vector_home }}"
         extra_opts: [--strip-components=1]
         mode: 0644
       register: extract_vector
@@ -116,14 +116,14 @@
       ansible.builtin.copy:
         remote_src: false
         src: "templates/vector.toml"
-        dest: "/{{ vector_home }}/config/vector.toml"
+        dest: "{{ vector_home }}/config/vector.toml"
         mode: 0644
       tags: vector
     - name: Execute Vector in the installation directory
-      ansible.builtin.shell: /{{ vector_home }}/bin/vector --config config/vector.toml
+      ansible.builtin.shell: {{ vector_home }}/bin/vector --config config/vector.toml
       args:
         executable: /bin/bash
-        chdir: /{{ vector_home }}/bin/
+        chdir: {{ vector_home }}/bin/
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
