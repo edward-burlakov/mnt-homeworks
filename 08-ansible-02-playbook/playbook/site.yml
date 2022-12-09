@@ -59,7 +59,7 @@
       register: get_elastic
       until: get_elastic is succeeded
       tags: elastic
-    - name: Create directrory for Elasticsearch
+    - name: Create directory for Elasticsearch
       ansible.builtin.file:
         state: directory
         path: "{{ elastic_home }}"
