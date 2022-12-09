@@ -62,6 +62,7 @@
       ansible.builtin.shell: /{{ vector_home }}/bin/vector --version
       args:
         executable: /bin/bash
+      ignore_unreachable: true
       register: vector_is_installed  # Запись результата в переменную
       ignore_errors: true
     - name: Get tar.gz VECTOR from remote URL
