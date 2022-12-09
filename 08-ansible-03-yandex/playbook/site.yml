@@ -59,11 +59,11 @@
   become: true
   tasks:
     - name: Get Vector installed version
-      ansible.builtin.shell: /{{ vector_home }}/bin/vector --version
+      ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
       args:
         executable: /bin/bash
-      ignore_unreachable: true
       register: vector_is_installed  # Запись результата в переменную
+      ignore_unreachable: true
       ignore_errors: true
     - name: Get tar.gz VECTOR from remote URL
       ansible.builtin.get_url:
@@ -120,10 +120,10 @@
         mode: 0644
       tags: vector
     - name: Execute Vector in the installation directory
-      ansible.builtin.shell: {{ vector_home }}/bin/vector --config config/vector.toml
+      ansible.builtin.shell: "{{ vector_home }}/bin/vector --config config/vector.toml"
       args:
         executable: /bin/bash
-        chdir: {{ vector_home }}/bin/
+        chdir: "{{ vector_home }}/bin/"
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
