@@ -1,3 +1,2 @@
 ---
 nginx_web:  "/usr/share/nginx/html"
-vector_version: "0.26.0"
