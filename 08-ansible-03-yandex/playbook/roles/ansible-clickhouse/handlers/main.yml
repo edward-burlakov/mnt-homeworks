@@ -1,6 +1,6 @@
 ---
 # handlers file for clickhouse
 - name: "Restart Clickhouse Service"
-  ansible.buildin.set_fact:
+  ansible.builtin.set_fact:
     clickhouse_service_ensure: "restarted"
   listen: 'restart-ch'

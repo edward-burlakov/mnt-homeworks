@@ -1,5 +1,5 @@
 ---
-- name: Ensure {{ clickhouse_service }}  is enabled: {{ clickhouse_service_enable }}  and state: {{ clickhouse_service_ensure }}
+- name: "Ensure {{ clickhouse_service }}  is enabled: {{ clickhouse_service_enable }}  and state: {{ clickhouse_service_ensure }}"
   ansible.builtin.service:
     name: "{{ clickhouse_service }}"
     enabled: "{{ clickhouse_service_enable }}"
