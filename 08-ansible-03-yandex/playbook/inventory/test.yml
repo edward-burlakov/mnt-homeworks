@@ -2,36 +2,32 @@
 clickhouse:
     hosts:
       clickhouse-01:
-            ansible_host: 158.160.3.78
-#           ansible_connection: ssh
-#           ansible_user: root
-#           ansible_password: centos22
-#           ansible_host: 88.11.22.2
+            ansible_host: 84.252.137.85
+            ansible_connection: ssh
+            ansible_user: bes
 vector:
     hosts:
       vector-01:
-             ansible_host: 84.201.176.201
+            ansible_host: 84.201.179.226
+            ansible_connection: ssh
+            ansible_user: bes
 #  lighthouse:
 #    hosts:
 #       lighthouse-01:
 #           ansible_host: 88.11.22.22
 #           ansible_connection: ssh
 #           ansible_user: root
-#           ansible_password: centos22
 #  nginx:
 #    hosts:
 #       clickhouse-01:
 #           ansible_host: 88.11.22.11
 #           ansible_connection: ssh
 #           ansible_user: root
-#           ansible_password: centos22
 #       lighthouse-01:
 #           ansible_host: 88.11.22.22
 #           ansible_connection: ssh
 #           ansible_user: root
-#           ansible_password: centos22
 #       vector-01:
 #           ansible_host: 88.11.22.33
 #           ansible_connection: ssh
 #           ansible_user: root
-#           ansible_password: centos22
