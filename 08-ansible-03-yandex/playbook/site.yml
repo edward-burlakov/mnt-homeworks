@@ -1,4 +1,8 @@
----
+# ---
+# - name: Apply clickhouse role
+#   hosts: clickhouse
+#   roles:
+#     - ansible-clickhouse
 ##################################################################################
 # - name: Install NGINX on all hosts
 ##  hosts: lighthouse
@@ -129,6 +133,7 @@
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
+  roles: ansible-ckickhouse
   handlers:
     - name: Start clickhouse service
       become: true
