@@ -1,9 +1,5 @@
 ---
-<<<<<<< HEAD
-  - name: "Print os facts"
-=======
   - name: "Print os fact"
->>>>>>> 2c3b49b755fb67de295026648c51a4fb18adb1c4
     hosts: all
     gather_facts: true
     tasks:
