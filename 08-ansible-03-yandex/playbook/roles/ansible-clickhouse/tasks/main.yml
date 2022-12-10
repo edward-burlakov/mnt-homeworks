@@ -1,7 +1,7 @@
 ---
 # tasks file for clickhouse
 - name: 'Include OS Family Specific Variables'
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -11,13 +11,16 @@
         - 'vars'
   tags: [always]
 
-- include_tasks: precheck.yml
+- name: 'Include precheck'
+  ansible.builtin.include_tasks: precheck.yml
   tags: [always]
 
-- include_tasks: params.yml
+- name: 'Include params'
+  ansible.builtin.include_tasks: params.yml
   tags: [always]
 
-- include_tasks:
+- name: 'Apply params'
+  ansible.builtin.include_tasks:
     file: "{{ lookup('first_found', params) }}"
     apply:
       tags: [install]
@@ -29,7 +32,8 @@
   tags: [install]
   when: not clickhouse_remove|bool
 
-- include_tasks: 
+- name: 'Apply sys'
+  ansible.builtin.include_tasks:
     file: configure/sys.yml
     apply:
       tags: [config, config_sys]
@@ -39,32 +43,35 @@
 - name: "Notify Handlers Now"
   meta: flush_handlers
 
-- include_tasks: service.yml
+- name: 'Include service'
+  ansible.builtin.include_tasks: service.yml
   tags: [always]
 
 - name: "Wait for Clickhouse Server to Become Ready"
-  wait_for:
+  ansible.builtin.wait_for:
     port: "{{ clickhouse_tcp_secure_port | default(clickhouse_tcp_port) }}"
     delay: "{{ clickhouse_ready_delay }}"
   when: not clickhouse_remove|bool
 
-- include_tasks:
+- name: 'Install db'
+  ansible.builtin.include_tasks:
     file: configure/db.yml
     apply:
       tags: [config, config_db]
   tags: [config, config_db]
   when: not clickhouse_remove|bool
 
-- include_tasks:
+- ansible.builtin.include_tasks:
     file: configure/dict.yml
     apply:
       tags: [config, config_dict]
   tags: [config, config_dict]
   when: not clickhouse_remove|bool
 
-- include_tasks:
+- ansible.builtin.include_tasks:
     file: remove.yml
     apply:
       tags: [remove]
   tags: [remove]
   when: clickhouse_remove|bool
+

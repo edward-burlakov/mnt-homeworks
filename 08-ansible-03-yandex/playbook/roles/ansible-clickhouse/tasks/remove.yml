@@ -1,7 +1,6 @@
 ---
-
 - name: Remove clickhouse config,data and logs
-  file:
+  ansible.builtin.file:
     dest: "{{ item }}"
     state: absent
   loop:
@@ -12,4 +11,5 @@
   become: true
   when: clickhouse_remove_full
 
-- include_tasks: "remove/{{ ansible_pkg_mgr }}.yml"
+- name: Remove yml file
+  ansible.builtin.include_tasks: "remove/{{ ansible_pkg_mgr }}.yml"

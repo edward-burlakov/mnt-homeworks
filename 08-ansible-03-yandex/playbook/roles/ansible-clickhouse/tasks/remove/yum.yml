@@ -1,23 +1,24 @@
 ---
-#Main installation actions
-#https://clickhouse.com/docs/en/getting-started/#installation
+# Main installation actions
+# https://clickhouse.com/docs/en/getting-started/#installation
 
 - name: Uninstall by YUM | Ensure clickhouse package uninstalled
-  yum:
+  ansible.builtin.yum:
     name: "{{ clickhouse_package }}"
     state: absent
-    autoremove: yes
+    autoremove: true
   become: true
 
 - name: Uninstall by YUM | Ensure clickhouse repo uninstalled
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: clickhouse
     file: clickhouse
     state: absent
   become: true
 
 - name: Uninstall by YUM | Ensure clickhouse key uninstalled
-  rpm_key:
+  ansible.builtin.rpm_key:
     key: "{{ clickhouse_repo_key }}"
     state: absent
   become: true
+

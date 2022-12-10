@@ -1,6 +1,6 @@
 ---
 - name: Check clickhouse config, data and logs
-  file:
+  ansible.builtin.file:
     dest: "{{ item }}"
     owner: "{{ clickhouse_user | default('clickhouse') }}"
     group: "{{ clickhouse_group | default('clickhouse') }}"
@@ -15,7 +15,7 @@
   become: true
 
 - name: Config | Create config.d folder
-  file:
+  ansible.builtin.file:
     path: "{{ clickhouse_path_configdir }}/config.d"
     state: directory
     owner: "{{ clickhouse_user | default('clickhouse') }}"
@@ -24,7 +24,7 @@
   become: true
 
 - name: Config | Create users.d folder
-  file:
+  ansible.builtin.file:
     path: "{{ clickhouse_path_configdir }}/users.d"
     state: directory
     owner: "{{ clickhouse_user | default('clickhouse') }}"
@@ -33,7 +33,7 @@
   become: true
 
 - name: Config | Generate system config
-  template:
+  ansible.builtin.template:
     src: config.j2
     dest: "{{ clickhouse_path_configdir }}/config.d/config.xml"
     owner: "{{ clickhouse_user | default('clickhouse') }}"
@@ -43,7 +43,7 @@
   become: true
 
 - name: Config | Generate users config
-  template:
+  ansible.builtin.template:
     src: users.j2
     dest: "{{ clickhouse_path_configdir }}/users.d/users.xml"
     owner: "{{ clickhouse_user | default('clickhouse') }}"
@@ -52,7 +52,7 @@
   become: true
 
 - name: Config | Generate remote_servers config
-  template:
+  ansible.builtin.template:
     src: remote_servers.j2
     dest: "{{ clickhouse_path_configdir }}/config.d/clickhouse_remote_servers.xml"
     owner: "{{ clickhouse_user | default('clickhouse') }}"
@@ -63,7 +63,7 @@
   when: clickhouse_clusters is defined
 
 - name: Config | Generate macros config
-  template:
+  ansible.builtin.template:
     src: macros.j2
     dest: "{{ clickhouse_path_configdir }}/config.d/macros.xml"
     owner: "{{ clickhouse_user | default('clickhouse') }}"
@@ -71,10 +71,9 @@
     mode: "ug=rw,o-rwx"
   notify: restart-ch
   become: true
-  when: clickhouse_macros is defined 
-
+  when: clickhouse_macros is defined
 - name: Config | Generate zookeeper servers config
-  template:
+  ansible.builtin.template:
     src: zookeeper-servers.j2
     dest: "{{ clickhouse_path_configdir }}/config.d/zookeeper-servers.xml"
     owner: "{{ clickhouse_user | default('clickhouse') }}"
@@ -85,7 +84,7 @@
   when: clickhouse_zookeeper_nodes is defined
 
 - name: Config | Fix interserver_http_port and intersever_https_port collision
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ clickhouse_path_configdir }}/config.xml"
     search_string: '<interserver_http_port>'
     state: absent
