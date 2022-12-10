@@ -64,10 +64,11 @@
 ##        tags: nginx
 #########################################################################################
 - name: Install Vector on hosts
-  hosts: vector-hosts
+  hosts: vector
   become: true
   tasks:
-    - ping:
+    - name: Ping vector host
+      ansible.builtin.ping:
     - name: Get Vector installed version
       ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
       args:
@@ -136,7 +137,7 @@
         chdir: "{{ vector_home }}/bin/"
 ##################################################################################################
 - name: Install Clickhouse on hosts
-  hosts: clickhouse-hosts
+  hosts: clickhouse
   handlers:
     - name: Start clickhouse service
       become: true
@@ -144,7 +145,8 @@
         name: clickhouse-server
         state: restarted
   tasks:
-    - ping:
+    - name: Ping ckickhouse host
+      ansible.builtin.ping:
     - name: Get and install clickhouse distrib
       block:
         - name: Get clickhouse distrib
@@ -186,7 +188,7 @@
         mode: 0644
 #########################################################################################################
 - name: Install lighthouse on hosts
-  hosts: lighthouse-hosts
+  hosts: lighthouse
   tasks:
     - name: Set facts for NGINX vars
       ansible.builtin.set_fact:

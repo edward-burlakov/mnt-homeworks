@@ -1,15 +1,11 @@
 ---
-<<<<<<< HEAD
-  - name: "Print os facts"
-=======
-  - name: "Print os fact"
->>>>>>> 2c3b49b755fb67de295026648c51a4fb18adb1c4
+- name: "Print os fact"
     hosts: all
     gather_facts: true
     tasks:
       - name: "Print OS"
-        debug:
+        ansible.builtin.debug:
           msg: "{{ ansible_distribution }}"
       - name: Print fact
-        debug:
+        ansible.builtin.debug:
           msg: "{{ some_fact }}"
