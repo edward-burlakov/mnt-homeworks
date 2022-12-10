@@ -7,8 +7,18 @@
 
 ---
 ## Основная часть
- ssh-copy-id vm1
+1) Создаем  в YC  три хоста  clickhouse-01, vector-01  , lighthouse-01 .
 
+       Указываем в атрибута хостов польщователя bes  .  
+       В атрибутах хостов d поле  ssh ключа копируеb вставляем public ключ с локального хоста, на котором запускаем ansible.
+       подключаемся к удаленным хостам по sdsh
+       # ssh -l bes <IP>
+
+2) Устанавливаем пакет c ролью clickhouse  из  https://github.com/AlexeySetevoi/ansible-clickhouse
+
+       - В корне каталоге проекта создаем файл requirements.yml
+       - Запускам установку роли : 
+         # ansible-galaxy install -p roles -r requirements.yml
 
 Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает lighthouse.
 При создании tasks рекомендую использовать модули: get_url, template, yum, apt.
