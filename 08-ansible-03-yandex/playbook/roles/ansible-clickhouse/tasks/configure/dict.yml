@@ -8,4 +8,3 @@
     mode: "ug=rw,o-rwx"
   become: true
   when: clickhouse_dicts|length>0
-

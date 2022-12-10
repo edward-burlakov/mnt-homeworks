@@ -41,7 +41,7 @@
   when: not clickhouse_remove|bool
 
 - name: "Notify Handlers Now"
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: 'Include service'
   ansible.builtin.include_tasks: service.yml
@@ -61,17 +61,18 @@
   tags: [config, config_db]
   when: not clickhouse_remove|bool
 
-- ansible.builtin.include_tasks:
+- name: 'Unclude dictionaries'
+  ansible.builtin.include_tasks:
     file: configure/dict.yml
     apply:
       tags: [config, config_dict]
   tags: [config, config_dict]
   when: not clickhouse_remove|bool
 
-- ansible.builtin.include_tasks:
+- name: 'Remove & Clean'
+  ansible.builtin.include_tasks:
     file: remove.yml
     apply:
       tags: [remove]
   tags: [remove]
   when: clickhouse_remove|bool
-

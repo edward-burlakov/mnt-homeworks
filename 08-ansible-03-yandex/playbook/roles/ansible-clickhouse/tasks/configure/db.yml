@@ -4,7 +4,7 @@
 
 - name: Gather list of existing databases
   ansible.builtin.command: "{{ clickhouse_connection_string }} -q 'show databases'"
-  changed_when: False
+  changed_when: false
   register: existing_databases
   tags: [config_db]
 

@@ -47,4 +47,3 @@
       Pin-Priority: 1001
     mode: 0644    # Inserted by Edward
   loop: "{{ clickhouse_package }}"
-

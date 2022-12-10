@@ -21,4 +21,3 @@
     key: "{{ clickhouse_repo_key }}"
     state: absent
   become: true
-

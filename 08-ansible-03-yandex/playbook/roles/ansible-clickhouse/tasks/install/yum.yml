@@ -1,16 +1,16 @@
 ---
-#Main installation actions
-#https://clickhouse.com/docs/en/getting-started/#installation
+# Main installation actions
+# https://clickhouse.com/docs/en/getting-started/#installation
 
 - name: Install by YUM | Ensure clickhouse repo GPG key imported
-  rpm_key:
+  ansible.builtin.rpm_key:
     state: present
     key: "{{ clickhouse_repo_key }}"
   tags: [install]
   become: true
 
 - name: Install by YUM | Ensure clickhouse repo installed
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: clickhouse
     file: clickhouse
     description: "Clickhouse repo"
@@ -22,18 +22,18 @@
   become: true
 
 - name: Install by YUM | Ensure clickhouse package installed (latest)
-  yum:
+  ansible.builtin.yum:
     name: "{{ clickhouse_package }} "
     state: "{{ clickhouse_version }}"
   become: true
   tags: [install]
   when: clickhouse_version == 'latest'
 
-- name: Install by YUM | Ensure clickhouse package installed (version {{ clickhouse_version }})
-  yum:
+- name: "Install by YUM | Ensure clickhouse package installed (version {{ clickhouse_version }})"
+  ansible.builtin.yum:
     name: "{{ clickhouse_package | map('regex_replace', '$', '-' + clickhouse_version) | list }}"
     state: present
-    disable_gpg_check: "{{ true if clickhouse_version == '19.4.0' else omit }}" 
+    disable_gpg_check: "{{ true if clickhouse_version == '19.4.0' else omit }}"
   become: true
   tags: [install]
   when: clickhouse_version != 'latest'

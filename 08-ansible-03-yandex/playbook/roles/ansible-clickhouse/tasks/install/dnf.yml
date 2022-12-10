@@ -29,7 +29,7 @@
   tags: [install]
   when: clickhouse_version == 'latest'
 
-- name: Install by YUM | Ensure clickhouse package installed (version {{ clickhouse_version }} )
+- name: "Install by YUM | Ensure clickhouse package installed (version {{ clickhouse_version }} )"
   ansible.builtin.dnf:
     name: "{{ clickhouse_package | map('regex_replace', '$', '-' + clickhouse_version) | list }}"
     state: present
@@ -37,4 +37,3 @@
   become: true
   tags: [install]
   when: clickhouse_version != 'latest'
-

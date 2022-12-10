@@ -1,12 +1,11 @@
 ---
 # Main installation actions
 # https://clickhouse.com/docs/en/getting-started/#installation
-
 - name: Uninstall by APT | Package uninstallation
   ansible.builtin.apt:
     name: "{{ clickhouse_package }}"
     state: absent
-    purge: yes
+    purge: true
   become: true
 
 - name: Uninstall by APT | Repo uninstallation
@@ -21,4 +20,3 @@
     id: "{{ clickhouse_repo_key }}"
     state: absent
   become: true
-
