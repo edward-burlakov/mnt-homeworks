@@ -133,7 +133,6 @@
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
-  roles: ansible-ckickhouse
   handlers:
     - name: Start clickhouse service
       become: true
@@ -141,6 +140,9 @@
         name: clickhouse-server
         state: restarted
   tasks:
+    - name: Configure standart role Clickhouse
+      import_roles:
+        name:  ansible-clickhouse   # Another variant of deploying Clickhouse role
     - name: Get and install clickhouse distrib
       block:
         - name: Get clickhouse distrib

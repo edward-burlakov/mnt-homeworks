@@ -17,8 +17,15 @@
 2) Устанавливаем пакет c ролью clickhouse  из  https://github.com/AlexeySetevoi/ansible-clickhouse
 
        - В корне каталоге проекта создаем файл requirements.yml
-       - Запускам установку роли : 
+          # cat requirements.yml
+            - name ansible-clickhouse
+              src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
+              scm: git
+              version: 1.11.1
+       - Запускаем установку роли : 
          # ansible-galaxy install -p roles -r requirements.yml
+       - Файл настроек по умолчанию находится в каталоге  /roles  ->  /roles/ansible-clickhouse/defaults/main.yml 
+
 
 Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает lighthouse.
 При создании tasks рекомендую использовать модули: get_url, template, yum, apt.
