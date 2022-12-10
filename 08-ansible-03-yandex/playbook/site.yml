@@ -130,6 +130,7 @@
 #     args:
 #       executable: /bin/bash
 #       chdir: "{{ vector_home }}/bin/"
+#
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
