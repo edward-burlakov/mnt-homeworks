@@ -1,10 +1,6 @@
 ---
 inside:
   hosts:
-<<<<<<< HEAD
-    localhost:
-      ansible_connection: local
-=======
     docker:
       ansible_connection: local
->>>>>>> 2c3b49b755fb67de295026648c51a4fb18adb1c4
+

@@ -89,7 +89,7 @@
          346ad5c71fe9   pycontribs/centos:7        "sleep 6000000"   13 minutes ago   Up 13 minutes             centos7
 
 4. Производим запуск playbook на окружении из `prod.yml`. Фиксируем полученные значения `some_fact` для каждого из `managed host`.
-       Внимание !!! Имена хостов в prod.xml должны обязательно  совпадать чс именами в поле NAMES docker-контейнеров!!!
+       Внимание !!! Имена хостов в prod.xml должны обязательно  совпадать с именами в поле NAMES docker-контейнеров!!!
 
          root@ubuntu22:~/# ansible-playbook site.yml -i  inventory/prod.yml
           ... 
