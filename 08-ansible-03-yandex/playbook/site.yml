@@ -142,23 +142,14 @@
         state: restarted
   tasks:
     - name: Configure standart role Clickhouse
-      import_roles:
+      ansible.builtin.import_role:
         name:  ansible-clickhouse   # Another variant of deploying Clickhouse role
-    - name: Get and install clickhouse distrib
-      block:
-        - name: Get clickhouse distrib
-          ansible.builtin.get_url:
-            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.noarch.rpm"
-            dest: "./{{ item }}-{{ clickhouse_version }}.rpm"
-            mode: 0644
-          with_items: "{{ clickhouse_packages }}"
-      rescue:
-        - name: Try to get another clickhouse distrib
-          ansible.builtin.get_url:
-            url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.x86_64.rpm"
-            dest: "./{{ item }}-{{ clickhouse_version }}.rpm"
-            mode: 0644
-          with_items: "{{ clickhouse_packages }}"
+    - name: Get clickhouse distrib
+      ansible.builtin.get_url:
+        url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.x86_64.rpm"
+        dest: "./{{ item }}-{{ clickhouse_version }}.rpm"
+        mode: 0644
+      with_items: "{{ clickhouse_packages }}"
     - name: Install clickhouse packages
       become: true
       ansible.builtin.yum:
