@@ -141,9 +141,9 @@
         name: clickhouse-server
         state: restarted
   tasks:
-    - name: Configure standart role Clickhouse
-      ansible.builtin.import_role:
-        name:  ansible-clickhouse   # Another variant of deploying Clickhouse role
+#    - name: Configure standart role Clickhouse
+#      ansible.builtin.import_role:
+#        name:  ansible-clickhouse   # Another variant of deploying Clickhouse role
     - name: Get clickhouse distrib
       ansible.builtin.get_url:
         url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.x86_64.rpm"
