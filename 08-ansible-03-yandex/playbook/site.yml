@@ -135,7 +135,7 @@
 - name: Install Clickhouse on hosts
   hosts: clickhouse
   handlers:
-    - name: Start clickhouse service
+    - name: Start Clickhouse service
       become: true
       ansible.builtin.service:
         name: clickhouse-server
@@ -157,7 +157,7 @@
           - clickhouse-common-static-{{ clickhouse_version }}.rpm
           - clickhouse-client-{{ clickhouse_version }}.rpm
           - clickhouse-server-{{ clickhouse_version }}.rpm
-      notify: Start clickhouse service
+      notify: Start Clickhouse service
       register: clickhouse_installed
       until: clickhouse_installed is succeeded
       tags: clickhouse
@@ -169,7 +169,7 @@
     - name: Export environment variables for clickhouse
       become: true
       ansible.builtin.template:
-        src: templates/clickhouse.sh.j2
+        src: templates/cliyckhouse.sh.j2
         dest: /etc/profile.d/clickhouse.sh
         mode: 0644
 #########################################################################################################
