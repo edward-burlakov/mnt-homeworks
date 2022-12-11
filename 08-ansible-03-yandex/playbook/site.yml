@@ -162,6 +162,7 @@
       until: clickhouse_installed is succeeded
       tags: clickhouse
     - name: Run clickhouse server
+      become: true
       ansible.builtin.service:
         name: clickhouse-server
         state: restarted
