@@ -169,7 +169,7 @@
     - name: Export environment variables for clickhouse
       become: true
       ansible.builtin.template:
-        src: templates/cliyckhouse.sh.j2
+        src: templates/clickhouse.sh.j2
         dest: /etc/profile.d/clickhouse.sh
         mode: 0644
 #########################################################################################################
