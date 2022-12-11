@@ -140,6 +140,7 @@
       ansible.builtin.service:
         name: clickhouse-server
         state: restarted
+        delay: 20
   tasks:
 #    - name: Configure standart role Clickhouse
 #      ansible.builtin.import_role:
