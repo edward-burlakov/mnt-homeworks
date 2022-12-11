@@ -140,7 +140,6 @@
       ansible.builtin.service:
         name: clickhouse-server
         state: restarted
-        delay: 20
   tasks:
 #    - name: Configure standart role Clickhouse
 #      ansible.builtin.import_role:
@@ -162,6 +161,12 @@
       register: clickhouse_installed
       until: clickhouse_installed is succeeded
       tags: clickhouse
+    - name: Run clickhouse server
+      ansible.builtin.service:
+      name: clickhouse-server
+      state: restarted
+      retries: 3
+      delay: 10
     - name: Create database
       ansible.builtin.command: "clickhouse-client -q 'create database logs;'"
       register: create_db
