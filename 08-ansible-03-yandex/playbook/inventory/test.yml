@@ -2,7 +2,7 @@
 clickhouse:
     hosts:
       clickhouse-01:
-            ansible_host: 158.160.10.35
+            ansible_host: 84.201.154.93
             ansible_connection: ssh
             ansible_user: bes
 vector:
