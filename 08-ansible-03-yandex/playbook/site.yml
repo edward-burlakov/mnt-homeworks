@@ -127,43 +127,45 @@
         dest: /etc/profile.d/vector.sh
         mode: 0644
       tags: vector
-    - name: Get Vector installed version
-      ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
-      args:
-        executable: /bin/bash
-      register: vector_is_installed  # Запись результата в переменную
-      ignore_unreachable: true
-      ignore_errors: true
-#    - name: Get archive VECTOR from remote URL
-#      ansible.builtin.get_url:
-#        url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
-#        dest: "/tmp/vector-{{ vector_version }}-1.x86_64.rpm"
-#        mode: 0755
-#        timeout: 60
-#        force: true
-#        validate_certs: false
-#      when: # Условия при котором будет выполняться загрузка дистрибутива
-#        - vector_is_installed is failed
-#        - ansible_facts['distribution'] == "CentOS"
-#      register: get_vector
-#      until: get_vector is succeeded
-#      tags: vector
+#    - name: Get Vector installed version
+#      ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
+#      args:
+#        executable: /bin/bash
+#      register: vector_is_installed  # Запись результата в переменную
+#      ignore_unreachable: true
+#      ignore_errors: true
+#
+
     - name: Ensure installation dir exists and create.
       become: true
       ansible.builtin.file:
         state: directory
         path: "{{ vector_home }}"
         mode: 0644
-    - name: Get archive Vector from remote URL
-      become: true
-      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o vector.tar.gz  https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+    - name: Get archive VECTOR from remote URL
+      ansible.builtin.get_url:
+        url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        dest: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        mode: 0755
+        timeout: 60
+        force: true
+        validate_certs: false
+      when: # Условия при котором будет выполняться загрузка дистрибутива
+        - vector_is_installed is failed
+        - ansible_facts['distribution'] == "CentOS"
       register: get_vector
       until: get_vector is succeeded
-    - name: Extract Vector in the installation directory
-      become: true
+      tags: vector
+#    - name: Get archive Vector from remote URL
+#      become: true
+#      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o vector.tar.gz  https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+#      register: get_vector
+#      until: get_vector is succeeded
+#    - name: Extract Vector in the installation directory
+#      become: true
       ansible.builtin.unarchive:
-        remote_src: false
-        src: "vector.tar.gz"
+        remote_src: true
+        src: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
         dest: "{{ vector_home }}"
         mode: 0644
       until: get_vector is succeeded
