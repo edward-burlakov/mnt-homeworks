@@ -30,7 +30,7 @@
 
        # ansible-playbook -vv -i inventory/test.yml site.yml
 
-4) Если всё  прошло успешно входим на сервер и проверяесм статус сервера clickhouse
+4) Если всё  прошло успешно входим на сервер и проверяем статус сервера clickhouse
  
        # ssh -l bes <IP адрес clickhouse севера>
        [bes@clickhouse-01 ~]$ sudo systemctl status clickhouse-server
@@ -42,19 +42,39 @@
 
 5)     Проеряем подключение с помощью клиента данной БД
 
-       [bes@clickhouse-01 ~]$ sudo systemctl status clickhouse-server
+       [bes@clickhouse-01 ~]$ sudo clickhouse-client
        ClickHouse client version 22.9.6.20 (official build).
        Connecting to localhost:9000 as user default.
        Connected to ClickHouse server version 22.9.6 revision 54460.
 
-       Warnings:
+        Warnings:
        * Linux transparent hugepages are set to "always". Check /sys/kernel/mm/transparent_hugepage/enabled
        * Linux threads max count is too low. Check /proc/sys/kernel/threads-max
        * Maximum number of threads is lower than 30000. There could be problems with handling a lot of simultaneous queries.
-       clickhouse-01.ru-central1.internal :
+        clickhouse-01.ru-central1.internal :
 
-6) 
-7) 
+6) Проверяем что БД logs создана: Вставляем  строку записей
+
+        clickhouse-01.ru-central1.internal :)  insert into logs  values ( 0, 'Edward');
+        clickhouse-01.ru-central1.internal :)  insert into logs  values ( 1, 'Dima');
+        clickhouse-01.ru-central1.internal :)  select * from logs;
+        select * from logs;
+
+        SELECT *
+        FROM logs
+
+        Query id: 35e1e7dd-da3d-4f70-886d-b3379ba1ffda
+        ┌─id─┬─name───┐
+        │  0 │ Edward │
+        └────┴────────┘
+        ┌─id─┬─name─┐
+        │  1 │ Dima │
+        └────┴──────┘
+        2 rows in set. Elapsed: 0.003 sec.
+
+
+           
+ 
 Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает lighthouse.
 При создании tasks рекомендую использовать модули: get_url, template, yum, apt.
 Tasks должны: скачать статику lighthouse, установить nginx или любой другой webserver, настроить его конфиг для открытия lighthouse, запустить webserver.
