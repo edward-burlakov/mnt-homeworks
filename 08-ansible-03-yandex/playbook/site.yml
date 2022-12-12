@@ -155,9 +155,6 @@
       ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o /tmp/vector.tar.gz  https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
       register: get_vector
       until: get_vector is succeeded
-    - name: Print Debug
-      ansible.builtin.debug:
-        var: get_vector
     - name: Extract Vector in the installation directory
       become: true
       ansible.builtin.unarchive:
@@ -165,7 +162,11 @@
         src: "/tmp/vector.tar.gz"
         dest: "{{ vector_home }}"
         mode: 0644
+      until: get_vector is succeeded
       tags: vector
+    - name: Print Debug
+      ansible.builtin.debug:
+        var: extract_vector
 #      tags: vector
 #    - name: Install Vector in the installation directory
 #      become: true
