@@ -152,7 +152,7 @@
         mode: 0644
     - name: Get archive Vector from remote URL
       become: true
-      ansible.builtin.command: "curl -OsSfL --proto '=https' --tlsv1.2 https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version}}-aarch64-unknown-linux-musl.tar.gz
+      ansible.builtin.command: "curl -OsSfL --proto '=https' --tlsv1.2 https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz
       args:
         executable: /bin/bash
     - name: Print Debug
