@@ -1,3 +1,5 @@
 ---
+user_home: "$HOME"
 vector_version: "0.26.0"
 vector_home: "$HOME/.vector"
+
