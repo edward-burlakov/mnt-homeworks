@@ -134,13 +134,13 @@
       register: vector_is_installed  # Запись результата в переменную
       ignore_unreachable: true
       ignore_errors: true
-    - name: Ensure installation dir exists and create.
+    - name: Ensure installation dir exists and create if it'isnt
       become: true
       ansible.builtin.file:
         state: directory
         path: "{{ vector_home }}/config"
         mode: 0644
-    - name: Get archive VECTOR from remote URL
+    - name: Get archive of Vector from remote URL
       ansible.builtin.get_url:
         url: "{{ vector_source }}"
         dest: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
@@ -153,35 +153,18 @@
       register: get_vector
       until: get_vector is succeeded
       tags: vector
-    - name: Print Debug
-      ansible.builtin.debug:
-        var: get_vector
-#    - name: Get archive Vector from remote URL
-#      become: true
-#      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o vector.tar.gz  {{ vector_source }}"
-#      register: get_vector
-#      until: get_vector is succeeded
     - name: Extract Vector in the installation directory
       become: true
       ansible.builtin.unarchive:
         remote_src: true
         src: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
         dest: "/tmp"
-        extra_opts:
-        - xzvf
         mode: 0644
-      until: get_vector is succeeded
+      register: extract_vector
       tags: vector
-#      tags: vector
-#    - name: Install Vector in the installation directory
-#      become: true
-#      ansible.builtin.yum:
-#        name: /tmp/vector-{{ vector_version }}-1.x86_64.rpm
-#        state: present
-#        skip_broken: true
-#      register: install_vector
-#      until: install_vector is succeeded
-#      tags: vector
+    - name: Print Debug
+      ansible.builtin.debug:
+        var: extract_vector
     - name: Copy distrib to working catalog
       ansible.builtin.copy:
         remote_src: true
