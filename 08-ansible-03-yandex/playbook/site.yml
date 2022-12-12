@@ -120,6 +120,13 @@
   hosts: vector
   become: true
   tasks:
+    - name: Export environment variables for Vector
+      become: true
+      ansible.builtin.template:
+        src: templates/vector.sh.j2
+        dest: /etc/profile.d/vector.sh
+        mode: 0644
+      tags: vector
     - name: Get Vector installed version
       ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
       args:
@@ -152,14 +159,14 @@
         mode: 0644
     - name: Get archive Vector from remote URL
       become: true
-      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o /$HOME/vector.tar.gz  https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o /{{ vector_home }}  https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
       register: get_vector
       until: get_vector is succeeded
     - name: Extract Vector in the installation directory
       become: true
       ansible.builtin.unarchive:
         remote_src: false
-        src: "/$HOME/vector.tar.gz"
+        src: "vector.tar.gz"
         dest: "{{ vector_home }}"
         mode: 0644
       until: get_vector is succeeded
@@ -177,13 +184,7 @@
 #      register: install_vector
 #      until: install_vector is succeeded
 #      tags: vector
-    - name: Export environment variables for Vector
-      become: true
-      ansible.builtin.template:
-        src: templates/vector.sh.j2
-        dest: /etc/profile.d/vector.sh
-        mode: 0644
-      tags: vector
+
     - name: Copy configuration file  for Vector
       become: true
       ansible.builtin.copy:
