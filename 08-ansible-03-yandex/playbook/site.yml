@@ -144,16 +144,20 @@
       register: get_vector
       until: get_vector is succeeded
       tags: vector
-    - name: Create directory for Vector
-      ansible.builtin.file:
-        state: directory
-        path: "{{ vector_home }}/config"
-        mode: 0755
-      tags: vector
+    - name: Print Debug
+      ansible.builtin.debug:
+        var: get_vector
+#    - name: Create directory for Vector
+#      ansible.builtin.file:
+#        state: directory
+#        path: "{{ vector_home }}/config"
+#        mode: 0755
+#      tags: vector
     - name: Install Vector in the installation directory
       become: true
       ansible.builtin.yum:
         name: /tmp/vector-{{ vector_version }}-1.x86_64.rpm
+        installroot: "{{ vector_home }}"
         state: present
         skip_broken: true
       register: install_vector
