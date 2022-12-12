@@ -183,7 +183,8 @@
         chdir: "{{ vector_home }}/bin/"
     - name: Print Debug
         ansible.builtin.debug:
-        var: {{ vector_home }}
+            var: result   # Return results of previous command
+            verbosity: 2
 #########################################################################################################
 - name: Install lighthouse on hosts
   hosts: lighthouse
