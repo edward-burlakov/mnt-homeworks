@@ -178,11 +178,10 @@
       tags: vector
     - name: Execute Vector in the installation directory
 #     ansible.builtin.command: "{{ vector_home }}/bin/vector --config '{{ vector_home }}/config/vector.toml'"
-      ansible.builtin.shell:
+      ansible.builtin.shell: "{{ vector_home }}/bin/vector --config /config/vector.toml"
       args:
-        executable: /bin/bash
-        cmd: "{{ vector_home }}/bin/vector --config /config/vector.toml"
         chdir: "{{ vector_home }}/bin"
+        executable: /bin/bash  # Run vector in the Bash shell
 #########################################################################################################
 - name: Install lighthouse on hosts
   hosts: lighthouse
