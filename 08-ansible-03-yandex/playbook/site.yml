@@ -148,7 +148,7 @@
     - name: Create directory for Vector
       ansible.builtin.file:
         state: directory
-        path: {{ vector_home }}
+        path: "{{ vector_home }}"
         mode: 0755
       tags: vector
     - name: Install Vector in the installation directory
