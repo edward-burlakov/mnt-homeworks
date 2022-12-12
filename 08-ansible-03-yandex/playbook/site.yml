@@ -166,7 +166,7 @@
       become: true
       ansible.builtin.unarchive:
         remote_src: false
-        src: "vector.tar.gz"
+        src: "/{{ vector_home }}/vector.tar.gz"
         dest: "{{ vector_home }}"
         mode: 0644
       until: get_vector is succeeded
