@@ -142,13 +142,13 @@
         mode: 0644
     - name: Get archive of Vector from remote URL
       ansible.builtin.get_url:
-       url: "{{ vector_source }}"
+        url: "{{ vector_source }}"
         dest: "/tmp/vector.tar.gz"
         mode: 0755
         timeout: 60
         force: true
-       validate_certs: false
-       when: # Условия при котором будет выполняться загрузка дистрибутива
+      validate_certs: false
+      when: # Условия при котором будет выполняться загрузка дистрибутива
        - vector_is_installed is failed
       register: get_vector
       until: get_vector is succeeded
