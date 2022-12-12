@@ -173,7 +173,7 @@
       ansible.builtin.copy:
         remote_src: false
         src: "templates/vector.toml"
-        dest: "{{ vector_home }}/vector.toml"
+        dest: "{{ vector_home }}/bin/vector.toml"
         mode: 0644
       tags: vector
     - name: Execute Vector in the installation directory
