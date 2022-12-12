@@ -8,7 +8,7 @@ clickhouse:
 vector:
     hosts:
       vector-01:
-            ansible_host: 158.160.23.12
+            ansible_host: 51.250.27.139
             ansible_connection: ssh
             ansible_user: bes
 #  lighthouse:
