@@ -141,6 +141,7 @@
         path: "{{ vector_home }}/config"
         mode: 0644
     - name: Get archive of Vector from remote URL
+      become: true
       ansible.builtin.get_url:
         url: "{{ vector_source }}"
         dest: "/tmp/vector.tar.gz"
