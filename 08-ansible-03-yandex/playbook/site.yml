@@ -150,7 +150,7 @@
         validate_certs: false
       when: # Условия при котором будет выполняться загрузка дистрибутива
         - vector_is_installed is failed
-        - ansible_facts['distribution'] == "CentOS"
+        - ansible_facts['distribution'] is "CentOS"
       register: get_vector
       until: get_vector is succeeded
       tags: vector
