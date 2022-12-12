@@ -138,7 +138,7 @@
       become: true
       ansible.builtin.file:
         state: directory
-        path: "{{ vector_home }}"
+        path: "{{ vector_home }}/config"
         mode: 0644
     - name: Get archive VECTOR from remote URL
       ansible.builtin.get_url:
