@@ -134,7 +134,7 @@
       register: vector_is_installed  # Запись результата в переменную
       ignore_unreachable: true
       ignore_errors: true
-    - name: Ensure installation dir exists and create if it'isnt
+    - name: Ensure installation dir exists and create if it's not
       become: true
       ansible.builtin.file:
         state: directory
@@ -173,12 +173,12 @@
       ansible.builtin.copy:
         remote_src: false
         src: "templates/vector.toml"
-        dest: "{{ vector_home }}/config/vector.toml"
+        dest: "{{ vector_home }}/vector.toml"
         mode: 0644
       tags: vector
     - name: Execute Vector in the installation directory
 #     ansible.builtin.shell: "{{ vector_home }}/bin/vector --config '{{ vector_home }}/config/vector.toml'"
-      ansible.builtin.shell: "{{ vector_home }}/bin/vector --config {{ vector_home }}/config/vector.toml"
+      ansible.builtin.shell: "{{ vector_home }}/bin/vector vector.toml"
       args:
         chdir: "{{ vector_home }}/bin"
         executable: /bin/bash  # Run vector in the Bash shell
