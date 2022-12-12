@@ -127,15 +127,13 @@
         dest: /etc/profile.d/vector.sh
         mode: 0644
       tags: vector
-#    - name: Get Vector installed version
-#      ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
-#      args:
-#        executable: /bin/bash
-#      register: vector_is_installed  # Запись результата в переменную
-#      ignore_unreachable: true
-#      ignore_errors: true
-#
-
+    - name: Get Vector installed version
+      ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
+      args:
+        executable: /bin/bash
+      register: vector_is_installed  # Запись результата в переменную
+      ignore_unreachable: true
+      ignore_errors: true
     - name: Ensure installation dir exists and create.
       become: true
       ansible.builtin.file:
@@ -144,7 +142,7 @@
         mode: 0644
     - name: Get archive VECTOR from remote URL
       ansible.builtin.get_url:
-        url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        url: "{{ vector_source}}"
         dest: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
         mode: 0755
         timeout: 60
@@ -158,7 +156,7 @@
       tags: vector
 #    - name: Get archive Vector from remote URL
 #      become: true
-#      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o vector.tar.gz  https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+#      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o vector.tar.gz  {{ vector_source }}"
 #      register: get_vector
 #      until: get_vector is succeeded
     - name: Extract Vector in the installation directory
