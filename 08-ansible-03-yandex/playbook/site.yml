@@ -168,7 +168,7 @@
     - name: Copy distrib to working catalog
       ansible.builtin.copy:
         remote_src: true
-        src: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl"
+        src: "/tmp/vector-aarch64-unknown-linux-musl"
         dest: "{{ vector_home }}"
         mode: 0755
     - name: Copy configuration file  for Vector
