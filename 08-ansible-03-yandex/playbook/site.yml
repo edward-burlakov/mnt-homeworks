@@ -152,7 +152,9 @@
         mode: 0644
     - name: Get archive VECTOR from remote URL
       become: true
-       ansible.builtin.command:  curl -sSfL --proto '=https' --tlsv1.2 https://packages.timber.io/vector/0.26.0/vector-0.26.0-aarch64-unknown-linux-musl.tar.gz |  tar xzf - -C {{ vector_home }} --strip-components=2
+      ansible.builtin.command: "curl -sSfL --proto '=https' --tlsv1.2 https://packages.timber.io/vector/0.26.0/vector-0.26.0-aarch64-unknown-linux-musl.tar.gz |  tar xzf - -C {{ vector_home }} --strip-components=2"
+      args:
+        executable: /bin/bash
     - name: Create directory for Vector
       ansible.builtin.file:
         state: directory
