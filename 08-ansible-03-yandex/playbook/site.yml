@@ -159,15 +159,15 @@
       ansible.builtin.unarchive:
         remote_src: true
         src: "/tmp/vector.tar.gz"
-#        dest: "/tmp"
+        dest: "/tmp"
         dest: "{{ vector_home }}"
       register: extract_vector
       tags: vector
-#    - name: Copy distrib to working catalog
-#      ansible.builtin.copy:
-#        remote_src: true
-#        src: "/tmp/vector-x86_64-unknown-linux-musl/"
-#        dest: "{{ vector_home }}"
+    - name: Copy distrib to working catalog
+      ansible.builtin.copy:
+        remote_src: true
+        src: "/tmp/vector-x86_64-unknown-linux-musl/"
+        dest: "{{ vector_home }}"
     - name: Copy configuration file  for Vector
       become: true
       ansible.builtin.copy:
