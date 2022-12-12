@@ -142,7 +142,7 @@
         mode: 0644
     - name: Get archive VECTOR from remote URL
       ansible.builtin.get_url:
-        url: "{{ vector_source}}"
+        url: "{{ vector_source }}"
         dest: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
         mode: 0755
         timeout: 60
