@@ -153,6 +153,9 @@
       register: get_vector
       until: get_vector is succeeded
       tags: vector
+    - name: Print Debug
+      ansible.builtin.debug:
+        var: get_vector
 #    - name: Get archive Vector from remote URL
 #      become: true
 #      ansible.builtin.command: "curl -sSfL -# --tlsv1.2  --proto '=https'  -o vector.tar.gz  {{ vector_source }}"
@@ -167,9 +170,6 @@
         mode: 0644
       until: get_vector is succeeded
       tags: vector
-    - name: Print Debug
-      ansible.builtin.debug:
-        var: extract_vector
 #      tags: vector
 #    - name: Install Vector in the installation directory
 #      become: true
