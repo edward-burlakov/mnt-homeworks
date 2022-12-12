@@ -140,51 +140,39 @@
         state: directory
         path: "{{ vector_home }}/config"
         mode: 0644
-#   - name: Get archive of Vector from remote URL
-#     ansible.builtin.get_url:
-#       url: "{{ vector_source }}"
-#       dest: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
-#       mode: 0755
-#       timeout: 60
-#       force: true
-#      validate_certs: false
-#      when: # Условия при котором будет выполняться загрузка дистрибутива
-#      - vector_is_installed is failed
-#     register: get_vector
-#     until: get_vector is succeeded
-#     tags: vector
-#   - name: Extract Vector in the installation directory
-#     become: true
-#     ansible.builtin.unarchive:
-#       remote_src: true
-#         src: "/tmp/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+    - name: Get archive of Vector from remote URL
+      ansible.builtin.get_url:
+       url: "{{ vector_source }}"
+        dest: "/tmp/vector.tar.gz"
+        mode: 0755
+        timeout: 60
+        force: true
+       validate_certs: false
+       when: # Условия при котором будет выполняться загрузка дистрибутива
+       - vector_is_installed is failed
+      register: get_vector
+      until: get_vector is succeeded
+      tags: vector
+    - name: Extract Vector in the installation directory
+      become: true
+      ansible.builtin.unarchive:
+        remote_src: true
+          src: "/tmp/vector.tar.gz"
 #         dest: "/tmp"
-#     register: extract_vector
-#     tags: vector
+          dest  "{{ vector_home }}"
+      register: extract_vector
+      tags: vector
 #   - name: Copy distrib to working catalog
 #     ansible.builtin.copy:
 #       remote_src: true
-#        src: "/tmp/vector-aarch64-unknown-linux-musl/"
-#        dest: "{{ vector_home }}"
-    - name: Get Vector RPM-distrib
-      ansible.builtin.get_url:
-        url:  "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
-        dest: "/tmp"
-        mode: 0644
-    - name: Install RPM packages
-      become: true
-      ansible.builtin.yum:
-        name: https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm
-        state: present
-        update_cache: true
-        skip_broken: yes
-      tags: vector
+#       src: "/tmp/vector-aarch64-unknown-linux-musl/"
+#       dest: "{{ vector_home }}"
     - name: Copy configuration file  for Vector
       become: true
       ansible.builtin.copy:
         remote_src: false
         src: "templates/vector.toml"
-        dest: "{{ vector_home }}/bin/vector.toml"
+        dest: "{{ vector_home }}/config/vector.toml"
         mode: 0644
       tags: vector
     - name: Execute Vector in the installation directory

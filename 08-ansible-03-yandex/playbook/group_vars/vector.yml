@@ -2,5 +2,6 @@
 user_home: "$HOME"
 vector_version: "0.26.0"
 vector_home: "$HOME/.vector"
-vector_source: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+vector_source: "https://packages.timber.io/vector/nightly/latest/vector-nightly-x86_64-unknown-linux-musl.tar.gz"
+
 
