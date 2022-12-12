@@ -133,7 +133,7 @@
     - name: Get archive VECTOR from remote URL
       ansible.builtin.get_url:
         url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
-        dest: "/tmp/vector-{{ vector_version }}-1.x86_64.rpm"
+#        dest: "/tmp/vector-{{ vector_version }}-1.x86_64.rpm"
         mode: 0755
         timeout: 60
         force: true
@@ -144,9 +144,6 @@
       register: get_vector
       until: get_vector is succeeded
       tags: vector
-    - name: Print Debug
-      ansible.builtin.debug:
-        var: get_vector
 #    - name: Create directory for Vector
 #      ansible.builtin.file:
 #        state: directory
@@ -157,12 +154,15 @@
       become: true
       ansible.builtin.yum:
         name: /tmp/vector-{{ vector_version }}-1.x86_64.rpm
-        installroot: "{{ vector_home }}"
+#        installroot: "{{ vector_home }}"
         state: present
         skip_broken: true
       register: install_vector
       until: install_vector is succeeded
       tags: vector
+    - name: Print Debug
+      ansible.builtin.debug:
+        var: get_vector
     - name: Export environment variables for Vector
       become: true
       ansible.builtin.template:
