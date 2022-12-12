@@ -147,7 +147,7 @@
     - name: Create directory for Vector
       ansible.builtin.file:
         state: directory
-        path: "{{ vector_home }}"
+        path: "{{ vector_home }}/config"
         mode: 0755
       tags: vector
     - name: Install Vector in the installation directory
@@ -159,14 +159,14 @@
       register: install_vector
       until: install_vector is succeeded
       tags: vector
-    - name: Export environment variables for VECTOR
+    - name: Export environment variables for Vector
       become: true
       ansible.builtin.template:
         src: templates/vector.sh.j2
         dest: /etc/profile.d/vector.sh
         mode: 0644
       tags: vector
-    - name: Copy configuration file  for VECTOR
+    - name: Copy configuration file  for Vector
       become: true
       ansible.builtin.copy:
         remote_src: false
