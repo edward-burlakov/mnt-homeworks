@@ -144,7 +144,7 @@
 #      register: get_vector
 #      until: get_vector is succeeded
 #      tags: vector
-    - name: Ensure installation dir exists
+    - name: Ensure installation dir exists and create.
       become: true
       ansible.builtin.file:
         state: directory
@@ -155,19 +155,17 @@
       ansible.builtin.command: "curl -OsSfL --proto '=https' --tlsv1.2 https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version}}-aarch64-unknown-linux-musl.tar.gz
       args:
         executable: /bin/bash
+    - name: Print Debug
+      ansible.builtin.debug:
+        var: get_vector
     - name: Extract Vector in the installation directory
       become: true
       ansible.builtin.unarchive:
         remote_src: false
-        src: "vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
+        src: "/vector-{{ vector_version }}-aarch64-unknown-linux-musl.tar.gz"
         dest: "{{ vector_home }}"
         mode: 0644
       tags: vector
-#    - name: Create directory for Vector
-#      ansible.builtin.file:
-#        state: directory
-#        path: "{{ vector_home }}/config"
-#        mode: 0755
 #      tags: vector
 #    - name: Install Vector in the installation directory
 #      become: true
@@ -178,9 +176,6 @@
 #      register: install_vector
 #      until: install_vector is succeeded
 #      tags: vector
-    - name: Print Debug
-      ansible.builtin.debug:
-        var: get_vector
     - name: Export environment variables for Vector
       become: true
       ansible.builtin.template:
