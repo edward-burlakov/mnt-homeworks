@@ -176,7 +176,7 @@
       retries: 3
       delay: 10
     - name: Create database
-      ansible.builtin.command: "clickhouse-client -q 'create table if not exist logs (id int, name String) engine=Log;'"
+      ansible.builtin.command: "clickhouse-client -q 'create table if not exists logs (id int, name String) engine=Log;'"
       register: create_db
       failed_when: create_db.rc != 0 and create_db.rc != 82
       changed_when: create_db.rc == 0
