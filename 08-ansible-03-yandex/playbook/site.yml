@@ -157,9 +157,9 @@
       become: true
       ansible.builtin.unarchive:
         remote_src: true
-          src: "/tmp/vector.tar.gz"
-#         dest: "/tmp"
-          dest  "{{ vector_home }}"
+        src: "/tmp/vector.tar.gz"
+#       dest: "/tmp"
+        dest: "{{ vector_home }}"
       register: extract_vector
       tags: vector
 #   - name: Copy distrib to working catalog
