@@ -148,7 +148,7 @@
         mode: 0755
         timeout: 60
         force: true
-      validate_certs: false
+        validate_certs: false
       when: # Условия при котором будет выполняться загрузка дистрибутива
        - vector_is_installed is failed
       register: get_vector
