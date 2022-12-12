@@ -26,9 +26,39 @@
          # ansible-galaxy install -p roles -r requirements.yml
        - Файл настроек по умолчанию находится в каталоге  /roles  ->  /roles/ansible-clickhouse/defaults/main.yml 
 
-3) Запускаем ansible-playbook -vv -i inventory/test.yml site.yml .
+3) Запускаем тестовый PLAY для проверки развертывания clickhouse-server
 
-       # ansible-playbook -vv -i inventory/test.yml site.yml
+       # ansible-playbook -i inventory/test.yml site.yml
+
+       PLAY [Install Clickhouse on hosts] **************************************************************************
+
+       TASK [Gathering Facts] **************************************************************************************
+       ok: [clickhouse-01]
+
+       TASK [Get clickhouse distrib] *******************************************************************************
+       ok: [clickhouse-01] => (item=clickhouse-client)
+       ok: [clickhouse-01] => (item=clickhouse-server)
+       ok: [clickhouse-01] => (item=clickhouse-common-static)
+
+       TASK [Install clickhouse packages] **************************************************************************
+       ok: [clickhouse-01]
+
+       TASK [Export environment variables for clickhouse] **********************************************************
+       ok: [clickhouse-01]
+
+       TASK [Run clickhouse server] ********************************************************************************
+       changed: [clickhouse-01]
+
+       TASK [Create database] **************************************************************************************
+       changed: [clickhouse-01]
+       [WARNING]: Could not match supplied host pattern, ignoring: lighthouse
+
+       PLAY [Install lighthouse on hosts] **************************************************************************
+       skipping: no hosts matched
+
+       PLAY RECAP **************************************************************************************************
+       clickhouse-01              : ok=6    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
 
 4) Если всё  прошло успешно входим на сервер и проверяем статус сервера clickhouse
  
@@ -71,6 +101,8 @@
         │  1 │ Dima │
         └────┴──────┘
         2 rows in set. Elapsed: 0.003 sec.
+
+
 
 
            
