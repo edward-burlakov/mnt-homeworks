@@ -162,9 +162,6 @@
 #       mode: 0644
       register: extract_vector
       tags: vector
-    - name: Print Debug
-      ansible.builtin.debug:
-        var: extract_vector
     - name: Copy distrib to working catalog
       ansible.builtin.copy:
         remote_src: true
@@ -184,6 +181,9 @@
       args:
         executable: /bin/bash
         chdir: "{{ vector_home }}/bin/"
+    - name: Print Debug
+        ansible.builtin.debug:
+        var: {{ vector_home }}
 #########################################################################################################
 - name: Install lighthouse on hosts
   hosts: lighthouse
