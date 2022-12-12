@@ -175,9 +175,17 @@
         dest: "{{ vector_home }}/config/vector.toml"
         mode: 0644
       tags: vector
+    - name: Copy scriptfile  for Vector
+      become: true
+      ansible.builtin.copy:
+        remote_src: false
+        src: "templates/vector.sh"
+        dest: "{{ vector_home }}/bin/vector.sh"
+        mode: 0644
+      tags: vector
     - name: Execute Vector in the installation directory
-#     ansible.builtin.shell: "{{ vector_home }}/bin/vector --config /root/.vector/config/vector.toml"
-      ansible.builtin.shell: "{{ vector_home }}/bin/vector --config {{ vector_home }}/config/vector.toml &"
+#      ansible.builtin.shell: "{{ vector_home }}/bin/vector --config {{ vector_home }}/config/vector.toml"
+      ansible.builtin.shell: "{{ vector_home }}/bin/vector.sh &"
       args:
         chdir: "{{ vector_home }}/bin"
         executable: /bin/bash  # Run vector in the Bash shell
