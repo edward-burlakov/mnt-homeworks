@@ -130,35 +130,44 @@
     - name: Print Debug
       ansible.builtin.debug:
         var: vector_is_installed
+#    - name: Get archive VECTOR from remote URL
+#      ansible.builtin.get_url:
+#        url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
+#        dest: "/tmp/vector-{{ vector_version }}-1.x86_64.rpm"
+#        mode: 0755
+#        timeout: 60
+#        force: true
+#        validate_certs: false
+#      when: # Условия при котором будет выполняться загрузка дистрибутива
+#        - vector_is_installed is failed
+#        - ansible_facts['distribution'] == "CentOS"
+#      register: get_vector
+#      until: get_vector is succeeded
+#      tags: vector
+    - name: Ensure installation dir exists
+      become: true
+      ansible.builtin.file:
+        state: directory
+        path: "{{ vector_home }}"
+        mode: 0644
     - name: Get archive VECTOR from remote URL
-      ansible.builtin.get_url:
-        url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
-        dest: "/tmp/vector-{{ vector_version }}-1.x86_64.rpm"
-        mode: 0755
-        timeout: 60
-        force: true
-        validate_certs: false
-      when: # Условия при котором будет выполняться загрузка дистрибутива
-        - vector_is_installed is failed
-        - ansible_facts['distribution'] == "CentOS"
-      register: get_vector
-      until: get_vector is succeeded
-      tags: vector
+      become: true
+       ansible.builtin.command:  curl -sSfL --proto '=https' --tlsv1.2 https://packages.timber.io/vector/0.26.0/vector-0.26.0-aarch64-unknown-linux-musl.tar.gz |  tar xzf - -C {{ vector_home }} --strip-components=2
     - name: Create directory for Vector
       ansible.builtin.file:
         state: directory
         path: "{{ vector_home }}/config"
         mode: 0755
       tags: vector
-    - name: Install Vector in the installation directory
-      become: true
-      ansible.builtin.yum:
-        name: /tmp/vector-{{ vector_version }}-1.x86_64.rpm
-        state: present
-        skip_broken: true
-      register: install_vector
-      until: install_vector is succeeded
-      tags: vector
+#    - name: Install Vector in the installation directory
+#      become: true
+#      ansible.builtin.yum:
+#        name: /tmp/vector-{{ vector_version }}-1.x86_64.rpm
+#        state: present
+#        skip_broken: true
+#      register: install_vector
+#      until: install_vector is succeeded
+#      tags: vector
     - name: Print Debug
       ansible.builtin.debug:
         var: get_vector
