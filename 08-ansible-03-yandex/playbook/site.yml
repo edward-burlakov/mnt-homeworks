@@ -181,7 +181,7 @@
       ansible.builtin.command: "vector --config /config/vector.toml"
       args:
  #       executable: /bin/bash
-        chdir: "{{ vector_home }}/bin/"
+        chdir: "{{ vector_home }}/bin"
 #########################################################################################################
 - name: Install lighthouse on hosts
   hosts: lighthouse
