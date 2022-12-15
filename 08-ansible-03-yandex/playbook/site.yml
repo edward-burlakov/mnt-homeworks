@@ -2,21 +2,21 @@
 - name: Install NGINX on all hosts
   hosts: nginx
   handlers:
-    - name: nginx systemd
-      systemd:
+    - name: Nginx systemd
+      ansible.builtin.systemd:
         name: nginx
-        enabled: yes
+        enabled: true
         state: started
-    - name: start-nginx
+    - name: Start-nginx
       become: true
       ansible.builtin.command: nginx -s
-    - name: reload-nginx
+    - name: Reload-nginx
       become: true
       ansible.builtin.command: nginx -s reload
   tasks:
     - name: Ensure nginx is at the latest version
-      apt: name=nginx state=latest
-      become: yes
+      ansible.builtin.apt: name=nginx state=latest
+      become: true
     - name: Export environment variables for NGINX
       become: true
       ansible.builtin.template:
@@ -36,24 +36,25 @@
         name: nginx
         state: present
       tags: nginx
-      notify: nginx systemd
+      notify: Nginx systemd
     - name: Replace nginx.conf
       become: true
       ansible.builtin.template:
         src: templates/nginx.conf
         dest: /etc/nginx/nginx.conf
         mode: 0644
-      notify: reload-nginx
+      notify: Reload-nginx
     - name: Insert Default Index Page
       ansible.builtin.template:
         src: /templates/index.html
         dest: "{{ nginx_web }}/index.html"
+        mode: 0644
       tags: nginx
     - name: Add ufw rule
       become: true
       ansible.builtin.command: iptables allow 80,443/tcp
     - name: Start NGiNX
-      service:
+      ansible.builtin.service:
         name: nginx
         state: started
       tags: nginx
@@ -69,7 +70,7 @@
         dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
         mode: 0644
       tags: nginx
-      notify: reload-nginx
+      notify: Reload-nginx
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
@@ -235,4 +236,3 @@
 #   roles:
 #     - ansible-clickhouse
 ##################################################################################
-
