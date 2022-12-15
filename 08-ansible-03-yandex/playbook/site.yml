@@ -2,17 +2,12 @@
 - name: Install NGINX on hosts
   hosts: nginx
   handlers:
-    - name: Nginx systemd
-      ansible.builtin.systemd:
-        name: nginx
-        enabled: true
-        state: started
     - name: Start-nginx
       become: true
-      ansible.builtin.command: nginx -s
+      ansible.builtin.command: systemctl start nginx.service
     - name: Reload-nginx
       become: true
-      ansible.builtin.command: nginx -s reload
+      ansible.builtin.command: systemctl reload nginx.service
   tasks:
     - name: Export environment variables for NGINX
       become: true
@@ -33,14 +28,14 @@
         name: nginx
         state: present
       tags: nginx
-      notify: Nginx systemd
-    - name: Replace nginx.conf
-      become: true
-      ansible.builtin.template:
-        src: templates/nginx.conf
-        dest: /etc/nginx/nginx.conf
-        mode: 0644
-      notify: Reload-nginx
+      notify: Start-nginx
+#    - name: Replace nginx.conf
+#      become: true
+#      ansible.builtin.template:
+#        src: templates/nginx.conf
+#        dest: /etc/nginx/nginx.conf
+#        mode: 0644
+#      notify: Reload-nginx
     - name: Insert Default Index Page
       ansible.builtin.template:
         src: /templates/index.html

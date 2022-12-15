@@ -1,11 +1,11 @@
 ---
-  lighthouse:
+  nginx:
     hosts:
       lighthouse-01:
         ansible_host: 158.160.25.35
         ansible_connection: ssh
         ansible_user: bes
-  nginx:
+  lighthouse:
     hosts:
       lighthouse-01:
         ansible_host: 158.160.25.35
