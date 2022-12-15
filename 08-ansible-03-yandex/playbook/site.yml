@@ -184,7 +184,6 @@
         mode: 0750
       tags: vector
     - name: Execute Vector in the installation directory
-#      ansible.builtin.shell: "{{ vector_home }}/bin/vector --config {{ vector_home }}/config/vector.toml"
       ansible.builtin.shell: "{{ vector_home }}/bin/vector.sh > /dev/null &"
       args:
         chdir: "{{ vector_home }}/bin"
