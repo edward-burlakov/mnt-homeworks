@@ -17,10 +17,10 @@
         ansible_host: 51.250.23.140
         ansible_connection: ssh
         ansible_user: bes
- vector:
-   hosts:
-     vector-01:
-       ansible_host: 84.201.136.12
-       ansible_connection: ssh
-       ansible_user: bes
+  vector:
+    hosts:
+      vector-01:
+        ansible_host: 84.201.136.12
+        ansible_connection: ssh
+        ansible_user: bes
 
