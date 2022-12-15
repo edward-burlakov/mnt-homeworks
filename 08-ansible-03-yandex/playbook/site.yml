@@ -1,5 +1,5 @@
 ---
-- name: Install NGINX on host
+- name: Install NGINX on hosts
   hosts: nginx
   handlers:
     - name: Start-nginx
@@ -33,13 +33,6 @@
         state: present
       tags: nginx
       notify: Start-nginx
-#    - name: Replace nginx.conf
-#      become: true
-#      ansible.builtin.template:
-#        src: templates/nginx.conf
-#        dest: /etc/nginx/nginx.conf
-#        mode: 0644
-#      notify: Reload-nginx
     - name: Insert Default Index Page
       become: true
       ansible.builtin.template:
@@ -48,20 +41,8 @@
         mode: 0644
       tags: nginx
       notify: Reload-nginx
-#    - name: Start NGiNX
-#      ansible.builtin.service:
-#        name: nginx
-#        state: started
-#      tags: nginx
-#
-#    - name: Create home catalog for www
-#      ansible.builtin.file:
-#        path: "{{ nginx_web }}/{{ virtual_domain }}"
-#        state: directory
-#        mode: 0644
-#      tags: nginx
-#########################################################################################################
-- name: Install lighthouse on hosts
+####################################################################################################
+- name: Install LIGHTHOUSE on hosts
   hosts: lighthouse
   handlers:
     - name: Reload-nginx
@@ -114,9 +95,9 @@
         src: templates/lighthouse.sh.j2
         dest: /etc/profile.d/clickhouse.sh
         mode: 0644
-      tags: lighthousels -l
+      tags: lighthouse
 ##################################################################################################
-- name: Install Clickhouse on hosts
+- name: Install ClICKHOUSE on hosts
   hosts: clickhouse
   handlers:
     - name: Start Clickhouse service
@@ -125,9 +106,6 @@
         name: clickhouse-server
         state: restarted
   tasks:
-#    - name: Configure standart role Clickhouse
-#      ansible.builtin.import_role:
-#        name:  ansible-clickhouse   # Another variant of deploying Clickhouse role
     - name: Get clickhouse distrib
       ansible.builtin.get_url:
         url: "https://packages.clickhouse.com/rpm/stable/{{ item }}-{{ clickhouse_version }}.x86_64.rpm"
@@ -164,8 +142,8 @@
       register: create_db
       failed_when: create_db.rc != 0 and create_db.rc != 82
       changed_when: create_db.rc == 0
-#########################################################################################
-- name: Install Vector on hosts
+##############################################################################################################
+- name: Install VECTOR on hosts
   hosts: vector
   become: true
   tasks:
@@ -238,8 +216,3 @@
         chdir: "{{ vector_home }}/bin"
         executable: /bin/bash  # Run vector in the Bash shell
 
-# - name: Apply clickhouse role
-#   hosts: clickhouse
-#   roles:
-#     - ansible-clickhouse
-##################################################################################
