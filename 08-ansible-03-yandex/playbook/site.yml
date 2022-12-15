@@ -18,13 +18,13 @@
       tags: nginx
     - name: NGINX / Add epel-release repository
       become: true
-      ansible.buildin.yum:
+      ansible.builtin.yum:
         name: epel-release
         state: present
       tags: nginx
     - name: NGINX / Install NGINX
       become: true
-      ansible.buildin.yum:
+      ansible.builtin.yum:
         name: nginx
         state: present
       tags: nginx
