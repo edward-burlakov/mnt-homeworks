@@ -47,14 +47,12 @@
         dest: "{{ nginx_web }}/index.html"
         mode: 0644
       tags: nginx
-    - name: Add ufw rule
-      become: true
-      ansible.builtin.command: iptables allow 80,443/tcp
-    - name: Start NGiNX
-      ansible.builtin.service:
-        name: nginx
-        state: started
-      tags: nginx
+      notify: Reload-nginx
+#    - name: Start NGiNX
+#      ansible.builtin.service:
+#        name: nginx
+#        state: started
+#      tags: nginx
     - name: Create home catalog for www
       ansible.builtin.file:
         path: "{{ nginx_web }}/{{ virtual_domain }}"
