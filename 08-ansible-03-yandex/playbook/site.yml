@@ -1,5 +1,5 @@
 ---
-- name: Install NGINX on all hosts
+- name: Install NGINX on hosts
   hosts: nginx
   handlers:
     - name: Nginx systemd
@@ -14,9 +14,6 @@
       become: true
       ansible.builtin.command: nginx -s reload
   tasks:
-    - name: Ensure nginx is at the latest version
-      ansible.builtin.apt: name=nginx state=latest
-      become: true
     - name: Export environment variables for NGINX
       become: true
       ansible.builtin.template:
