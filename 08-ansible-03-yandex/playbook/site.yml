@@ -7,7 +7,7 @@
       ansible.builtin.command: nginx -s
     - name: reload-nginx
       become: true
-       ansible.builtin.command: nginx -s reload
+      ansible.builtin.command: nginx -s reload
   tasks:
     - name: Export environment variables for NGINX
       become: true
