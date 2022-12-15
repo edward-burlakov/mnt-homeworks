@@ -71,7 +71,7 @@
       ansible.builtin.template:
         src: templates/nginx_vhosts.conf
         dest: "{{ web_root }}/conf.d/{{ virtual_domain }}.conf"
-        mode: 0644
+        mode: 0641
       tags: lighthouse
       notify: Reload-nginx
     - name: Ensure installation dir exists
