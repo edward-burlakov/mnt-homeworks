@@ -1,7 +1,7 @@
 ---
 nginx_version: "8.10.1"
 nginx_user: "nginx"
-# nginx_home: "/etc/nginx"
+nginx_home: "/etc/nginx"
 nginx_web: "/usr/share/nginx/html"
 virtual_domain: "lighthouse"
 
