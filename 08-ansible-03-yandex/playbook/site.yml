@@ -4,10 +4,14 @@
   handlers:
     - name: Start-nginx
       become: true
-      ansible.builtin.command: systemctl start nginx.service
+      ansible.builtin.systemd:
+        name:  nginx.service
+        state: started
     - name: Reload-nginx
       become: true
-      ansible.builtin.command: systemctl reload nginx.service
+      ansible.builtin.systemd:
+        name:  nginx.service
+        state: reloaded
   tasks:
     - name: Export environment variables for NGINX
       become: true
