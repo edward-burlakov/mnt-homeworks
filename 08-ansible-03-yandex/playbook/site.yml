@@ -78,6 +78,8 @@
       until: download_lighthouse_binaries is succeeded
       tags: lighthouse
     - name: Add virtual domain in NGINX
+      vars:
+        fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
       become: true
       ansible.builtin.template:
         src: templates/nginx_vhosts.conf
