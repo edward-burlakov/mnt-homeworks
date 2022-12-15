@@ -1,3 +1,4 @@
 ---
 lighthouse_version: "7.10.1"
 lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
+nginx_home: "/etc/nginx"

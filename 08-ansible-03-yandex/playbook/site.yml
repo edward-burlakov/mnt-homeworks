@@ -80,7 +80,7 @@
     - name: Add virtual domain in NGINX
       become: true
       ansible.builtin.template:
-        src": templates/nginx_vhosts.conf
+        src: templates/nginx_vhosts.conf
         dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
         mode: 0644
       tags: lighthouse
