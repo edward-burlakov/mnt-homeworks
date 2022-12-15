@@ -37,7 +37,7 @@
       become: true
       ansible.builtin.template:
         src: templates/index.html
-        dest: "{{ nginx_web }}/index.html"
+        dest: "{{ web_root }}/index.html"
         mode: 0644
       tags: nginx
       notify: Reload-nginx
@@ -53,7 +53,7 @@
   tasks:
     - name: Set facts for NGINX vars
       ansible.builtin.set_fact:
-        lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
+        lighthouse_home: "{{ web_root }}/{{ virtual_domain }}"
       tags: nginx
     - name: Upload .tar.gz file containing binaries from local storage
       become: true
