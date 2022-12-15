@@ -63,6 +63,12 @@
 #########################################################################################################
 - name: Install lighthouse on hosts
   hosts: lighthouse
+  handlers:
+    - name: Reload-nginx
+      become: true
+      ansible.builtin.systemd:
+        name:  nginx
+        state: reloaded
   tasks:
     - name: Set facts for NGINX vars
       ansible.builtin.set_fact:
