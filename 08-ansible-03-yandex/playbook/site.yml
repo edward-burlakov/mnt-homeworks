@@ -53,19 +53,13 @@
 #        name: nginx
 #        state: started
 #      tags: nginx
-    - name: Create home catalog for www
-      ansible.builtin.file:
-        path: "{{ nginx_web }}/{{ virtual_domain }}"
-        state: directory
-        mode: 0644
-      tags: nginx
-    - name: Add virtual domain in NGINX for RPM
-      ansible.builtin.template:
-        src": templates/nginx_vhosts.conf
-        dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
-        mode: 0644
-      tags: nginx
-      notify: Reload-nginx
+#
+#    - name: Create home catalog for www
+#      ansible.builtin.file:
+#        path: "{{ nginx_web }}/{{ virtual_domain }}"
+#        state: directory
+#        mode: 0644
+#      tags: nginx
 #########################################################################################################
 - name: Install lighthouse on hosts
   hosts: lighthouse
@@ -83,6 +77,14 @@
       register: download_lighthouse_binaries
       until: download_lighthouse_binaries is succeeded
       tags: lighthouse
+    - name: Add virtual domain in NGINX
+      become: true
+      ansible.builtin.template:
+        src": templates/nginx_vhosts.conf
+        dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
+        mode: 0644
+      tags: lighthouse
+      notify: Reload-nginx
     - name: Ensure installation dir exists
       become: true
       ansible.builtin.file:
