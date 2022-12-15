@@ -3,66 +3,66 @@
   hosts: nginx
   handlers:
     - name: start-nginx
-       become: true
+      become: true
       ansible.builtin.command: nginx -s
     - name: reload-nginx
       become: true
        ansible.builtin.command: nginx -s reload
-   tasks:
-     - name: Export environment variables for NGINX
-       become: true
-       ansible.builtin.template:
-         src: templates/nginx.sh.j2
-         dest: /etc/profile.d/nginx.sh
-         mode: 0644
-       tags: nginx
-     - name: NGINX / Add epel-release repository
-       become: true
-       ansible.buildin.yum:
-         name: epel-release
-         state: present
-       tags: nginx
-     - name: NGINX / Install NGINX
-       become: true
-       ansible.buildin.yum:
-         name: nginx
-         state: present
-       tags: nginx
-#      notify: start-nginx
-     - name: Replace nginx.conf
-       become: true
-       ansible.builtin.template:
-         src: templates/nginx.conf
-         dest: /etc/nginx/nginx.conf
-         mode: 0644
-     - name: Insert Index Page
-       ansible.builtin.template:
-         src: /templates/index.html
-         dest: /usr/share/nginx/html/index.html
-       tags: nginx
-     - name: Add ufw rule
-       sudo: yes
-       ansible.builtin.command: iptables allow 80,443/tcp
-     - name: Start NGiNX
-       service:
-         name: nginx
-         state: started
-       tags: nginx
-     - name: Create home catalog for www
-       ansible.builtin.file:
-         path: "{{ nginx_web }}/{{ virtual_domain }}"
-         state: directory
-         mode: 0644
-       tags: nginx
-     - name: Add virtual domain in NGINX for RPM
-       ansible.builtin.vars:
-         fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
-       ansible.builtin.template:
-         src": templates/nginx_vhosts.conf
-         dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
-         mode: 0644
-       tags: nginx
-       notify: reload-nginx
+  tasks:
+    - name: Export environment variables for NGINX
+      become: true
+      ansible.builtin.template:
+        src: templates/nginx.sh.j2
+        dest: /etc/profile.d/nginx.sh
+        mode: 0644
+      tags: nginx
+    - name: NGINX / Add epel-release repository
+      become: true
+      ansible.buildin.yum:
+        name: epel-release
+        state: present
+      tags: nginx
+    - name: NGINX / Install NGINX
+      become: true
+      ansible.buildin.yum:
+        name: nginx
+        state: present
+      tags: nginx
+#     notify: start-nginx
+    - name: Replace nginx.conf
+      become: true
+      ansible.builtin.template:
+        src: templates/nginx.conf
+        dest: /etc/nginx/nginx.conf
+        mode: 0644
+    - name: Insert Index Page
+      ansible.builtin.template:
+        src: /templates/index.html
+        dest: /usr/share/nginx/html/index.html
+      tags: nginx
+    - name: Add ufw rule
+      sudo: yes
+      ansible.builtin.command: iptables allow 80,443/tcp
+    - name: Start NGiNX
+      service:
+        name: nginx
+        state: started
+      tags: nginx
+    - name: Create home catalog for www
+      ansible.builtin.file:
+        path: "{{ nginx_web }}/{{ virtual_domain }}"
+        state: directory
+        mode: 0644
+      tags: nginx
+    - name: Add virtual domain in NGINX for RPM
+      ansible.builtin.vars:
+        fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
+      ansible.builtin.template:
+        src": templates/nginx_vhosts.conf
+        dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
+        mode: 0644
+      tags: nginx
+      notify: reload-nginx
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
