@@ -2,6 +2,11 @@
 - name: Install NGINX on all hosts
   hosts: nginx
   handlers:
+    - name: nginx systemd
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
     - name: start-nginx
       become: true
       ansible.builtin.command: nginx -s
@@ -9,6 +14,9 @@
       become: true
       ansible.builtin.command: nginx -s reload
   tasks:
+    - name: Ensure nginx is at the latest version
+      apt: name=nginx state=latest
+      become: yes
     - name: Export environment variables for NGINX
       become: true
       ansible.builtin.template:
@@ -28,17 +36,18 @@
         name: nginx
         state: present
       tags: nginx
-#     notify: start-nginx
+      notify: nginx systemd
     - name: Replace nginx.conf
       become: true
       ansible.builtin.template:
         src: templates/nginx.conf
         dest: /etc/nginx/nginx.conf
         mode: 0644
-    - name: Insert Index Page
+      notify: reload-nginx
+    - name: Insert Default Index Page
       ansible.builtin.template:
         src: /templates/index.html
-        dest: /usr/share/nginx/html/index.html
+        dest: "{{ nginx_web }}/index.html"
       tags: nginx
     - name: Add ufw rule
       become: true
@@ -55,8 +64,6 @@
         mode: 0644
       tags: nginx
     - name: Add virtual domain in NGINX for RPM
-      ansible.builtin.vars:
-        fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
       ansible.builtin.template:
         src": templates/nginx_vhosts.conf
         dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
