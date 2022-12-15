@@ -1,5 +1,5 @@
 ---
-- name: Install NGINX on hosts
+- name: Install NGINX on host
   hosts: nginx
   handlers:
     - name: Start-nginx
