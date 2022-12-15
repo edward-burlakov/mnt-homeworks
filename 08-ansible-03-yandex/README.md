@@ -70,7 +70,7 @@
        ...
        #
 
-5)     Проеряем подключение с помощью клиента данной БД
+5) Проверяем подключение с помощью клиента данной БД
 
        [bes@clickhouse-01 ~]$ sudo clickhouse-client
        ClickHouse client version 22.9.6.20 (official build).
@@ -101,6 +101,8 @@
         │  1 │ Dima │
         └────┴──────┘
         2 rows in set. Elapsed: 0.003 sec.
+
+7) Создаем новую роль vector . Для запуска приложения  vector в фоновом создаем исполняемый скрипт vector.sh
 
 
 

@@ -11,12 +11,12 @@ vector:
             ansible_host: 62.84.123.36
             ansible_connection: ssh
             ansible_user: bes
-#  lighthouse:
-#    hosts:
-#       lighthouse-01:
-#           ansible_host: 88.11.22.22
-#           ansible_connection: ssh
-#           ansible_user: root
+lighthouse:
+    hosts:
+       lighthouse-01:
+           ansible_host: 62.84.123.36
+           ansible_connection: ssh
+           ansible_user: root
 #  nginx:
 #    hosts:
 #       clickhouse-01:
