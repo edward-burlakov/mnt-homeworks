@@ -1,5 +1,6 @@
 ---
 lighthouse_version: "7.10.1"
+virtual_domain: "lighthouse"
 lighthouse_home: "{{ web-root }}/{{ virtual_domain }}"
 nginx_home: "/etc/nginx"
 fastcgi_pass_path: "/var/run/php-fpm/php5-fpm.sock"

@@ -1,6 +1,6 @@
 ---
 nginx_version: "8.10.1"
 nginx_home: "/etc/nginx"
-web_root: "/usr/share/nginx/html"
-virtual_domain: "lighthouse"
+# web_root: "/usr/share/nginx/html"
+
 
