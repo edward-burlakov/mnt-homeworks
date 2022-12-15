@@ -73,7 +73,7 @@
       ansible.builtin.copy:
         src: "./files/lighthouse-master.tar.gz"
         dest: "/tmp/lighthouse-master.tar.gz"
-        mode: 0644  ,
+        mode: 0644
       register: download_lighthouse_binaries
       until: download_lighthouse_binaries is succeeded
       tags: lighthouse
