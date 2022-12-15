@@ -63,6 +63,44 @@
         mode: 0644
       tags: nginx
       notify: Reload-nginx
+#########################################################################################################
+- name: Install lighthouse on hosts
+  hosts: lighthouse
+  tasks:
+    - name: Set facts for NGINX vars
+      ansible.builtin.set_fact:
+        lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
+      tags: nginx
+    - name: Upload .tar.gz file containing binaries from local storage
+      ansible.builtin.copy:
+        src: "./files/lighthouse-master.tar.gz"
+        dest: "/tmp/lighthouse-master.tar.gz"
+        mode: 0644  ,
+      register: download_lighthouse_binaries
+      until: download_lighthouse_binaries is succeeded
+      tags: lighthouse
+    - name: Ensure installation dir exists
+      become: true
+      ansible.builtin.file:
+        state: directory
+        path: "{{ lighthouse_home }}"
+        mode: 0644
+      tags: lighthouse
+    - name: Extract lighthouse in the installation directory
+      become: true
+      ansible.builtin.unarchive:
+        remote_src: false
+        src: "/tmp/lighthouse-master.tar.gz"
+        dest: "{{ lighthouse_home }}"
+        mode: 0644
+      tags: lighthouse
+    - name: Export environment variables
+      become: true
+      ansible.builtin.template:
+        src: templates/lighthouse.sh.j2
+        dest: /etc/profile.d/clickhouse.sh
+        mode: 0644
+      tags: lighthousels -l
 ##################################################################################################
 - name: Install Clickhouse on hosts
   hosts: clickhouse
@@ -185,44 +223,7 @@
       args:
         chdir: "{{ vector_home }}/bin"
         executable: /bin/bash  # Run vector in the Bash shell
-#########################################################################################################
-- name: Install lighthouse on hosts
-  hosts: lighthouse
-  tasks:
-    - name: Set facts for NGINX vars
-      ansible.builtin.set_fact:
-        lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
-      tags: nginx
-    - name: Upload .tar.gz file containing binaries from local storage
-      ansible.builtin.copy:
-        src: "./files/lighthouse-master.tar.gz"
-        dest: "/tmp/lighthouse-master.tar.gz"
-        mode: 0644  ,
-      register: download_lighthouse_binaries
-      until: download_lighthouse_binaries is succeeded
-      tags: lighthouse
-    - name: Ensure installation dir exists
-      become: true
-      ansible.builtin.file:
-        state: directory
-        path: "{{ lighthouse_home }}"
-        mode: 0644
-      tags: lighthouse
-    - name: Extract lighthouse in the installation directory
-      become: true
-      ansible.builtin.unarchive:
-        remote_src: false
-        src: "/tmp/lighthouse-master.tar.gz"
-        dest: "{{ lighthouse_home }}"
-        mode: 0644
-      tags: lighthouse
-    - name: Export environment variables
-      become: true
-      ansible.builtin.template:
-        src: templates/lighthouse.sh.j2
-        dest: /etc/profile.d/clickhouse.sh
-        mode: 0644
-      tags: lighthouse
+
 # - name: Apply clickhouse role
 #   hosts: clickhouse
 #   roles:
