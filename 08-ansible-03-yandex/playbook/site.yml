@@ -103,7 +103,7 @@
     - name: Extract lighthouse in the installation directory
       become: true
       ansible.builtin.unarchive:
-        remote_src: false
+        remote_src: true
         src: "/tmp/lighthouse-master.tar.gz"
         dest: "{{ lighthouse_home }}"
         mode: 0644
