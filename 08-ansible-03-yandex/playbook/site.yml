@@ -41,7 +41,7 @@
         dest: /usr/share/nginx/html/index.html
       tags: nginx
     - name: Add ufw rule
-      sudo: yes
+      sudo: true
       ansible.builtin.command: iptables allow 80,443/tcp
     - name: Start NGiNX
       service:
