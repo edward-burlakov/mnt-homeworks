@@ -5,12 +5,12 @@
     - name: Start-nginx
       become: true
       ansible.builtin.systemd:
-        name:  nginx.service
+        name:  nginx
         state: started
     - name: Reload-nginx
       become: true
       ansible.builtin.systemd:
-        name:  nginx.service
+        name:  nginx
         state: reloaded
   tasks:
     - name: Export environment variables for NGINX
