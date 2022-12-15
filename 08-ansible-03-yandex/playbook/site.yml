@@ -215,4 +215,3 @@
       args:
         chdir: "{{ vector_home }}/bin"
         executable: /bin/bash  # Run vector in the Bash shell
-
