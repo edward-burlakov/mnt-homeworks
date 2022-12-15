@@ -41,6 +41,7 @@
 #        mode: 0644
 #      notify: Reload-nginx
     - name: Insert Default Index Page
+      become: true
       ansible.builtin.template:
         src: templates/index.html
         dest: "{{ nginx_web }}/index.html"
