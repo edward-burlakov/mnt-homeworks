@@ -10,8 +10,8 @@
        ansible.builtin.command: nginx -s reload
    tasks:
      - name: Export environment variables for NGINX
-         become: true
-         ansible.builtin.template:
+       become: true
+       ansible.builtin.template:
          src: templates/nginx.sh.j2
          dest: /etc/profile.d/nginx.sh
          mode: 0644
