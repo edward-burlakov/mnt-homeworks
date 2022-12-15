@@ -1,12 +1,12 @@
 ---
- - name: Install NGINX on all hosts
-   hosts: nginx
-   handlers:
-     - name: start-nginx
+- name: Install NGINX on all hosts
+  hosts: nginx
+  handlers:
+    - name: start-nginx
        become: true
-       ansible.builtin.command: nginx -s
-     - name: reload-nginx
-       become: true
+      ansible.builtin.command: nginx -s
+    - name: reload-nginx
+      become: true
        ansible.builtin.command: nginx -s reload
    tasks:
      - name: Export environment variables for NGINX
@@ -28,7 +28,7 @@
          name: nginx
          state: present
        tags: nginx
-#       notify: start-nginx
+#      notify: start-nginx
      - name: Replace nginx.conf
        become: true
        ansible.builtin.template:
@@ -50,7 +50,7 @@
        tags: nginx
      - name: Create home catalog for www
        ansible.builtin.file:
-         path: {{ nginx_web }}/{{ virtual_domain }}
+         path: "{{ nginx_web }}/{{ virtual_domain }}"
          state: directory
          mode: 0644
        tags: nginx
@@ -59,7 +59,7 @@
          fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
        ansible.builtin.template:
          src": templates/nginx_vhosts.conf
-         dest: {{ nginx_home }}/conf.d/{{ virtual_domain }}.conf
+         dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
          mode: 0644
        tags: nginx
        notify: reload-nginx
