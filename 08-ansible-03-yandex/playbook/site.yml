@@ -75,6 +75,7 @@
         lighthouse_home: "{{ nginx_web }}/{{ virtual_domain }}"
       tags: nginx
     - name: Upload .tar.gz file containing binaries from local storage
+      become: true
       ansible.builtin.copy:
         src: "./files/lighthouse-master.tar.gz"
         dest: "/tmp/lighthouse-master.tar.gz"
