@@ -5,12 +5,12 @@
     - name: Start-nginx
       become: true
       ansible.builtin.systemd:
-        name:  nginx
+        name: nginx
         state: started
     - name: Reload-nginx
       become: true
       ansible.builtin.systemd:
-        name:  nginx
+        name: nginx
         state: reloaded
   tasks:
     - name: Export environment variables for NGINX
@@ -49,7 +49,7 @@
     - name: Reload-nginx
       become: true
       ansible.builtin.systemd:
-        name:  nginx
+        name: nginx
         state: reloaded
   tasks:
     - name: Set facts for NGINX vars
@@ -89,7 +89,7 @@
         path: /usr/share/nginx
         owner: nginx
         group: nginx
-        mode:  0755
+        mode: 0755
       tags: lighthouse
       notify: Reload-nginx
     - name: Ensure installation dir exists
