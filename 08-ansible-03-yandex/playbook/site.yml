@@ -73,10 +73,14 @@
         dest: "{{ web_root }}"
         mode: 0644
       tags: lighthouse
+    - name: Change file ownership, group and permissions for NGINX Directory
+      ansible.builtin.file:
+        path: /usr/share/nginx
+        owner: nginx
+        group: nginx
+        mode: '0755'
+      tags: lighthouse
     - name: Add virtual domain in NGINX
-      vars:
-        fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
-      become: true
       ansible.builtin.template:
         src: templates/{{ virtual_domain }}.conf
         dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
@@ -88,7 +92,7 @@
       ansible.builtin.file:
         state: directory
         path: "{{ lighthouse_home }}"
-        mode: 0644
+        mode: 0755
       tags: lighthouse
     - name: Export environment variables
       become: true
