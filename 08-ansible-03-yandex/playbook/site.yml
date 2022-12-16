@@ -73,14 +73,14 @@
         dest: "{{ web_root }}"
         mode: 0644
       tags: lighthouse
-    - name: Add default domain config in NGINX
-      become: true
-      ansible.builtin.template:
-        src: templates/nginx.conf
-        dest: "{{ nginx_home }}/nginx.conf"
-        mode: 0644
-      tags: lighthouse
-      notify: Reload-nginx
+  #  - name: Add default domain config in NGINX
+  #    become: true
+  #    ansible.builtin.template:
+  #      src: templates/nginx.conf
+  #      dest: "{{ nginx_home }}/nginx.conf"
+  #      mode: 0644
+  #    tags: lighthouse
+  #    notify: Reload-nginx
     - name: Add virtual domain in NGINX
       become: true
       ansible.builtin.template:
