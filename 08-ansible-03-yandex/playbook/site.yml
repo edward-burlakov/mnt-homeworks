@@ -77,7 +77,7 @@
       become: true
       ansible.builtin.template:
         src: templates/nginx.conf
-        dest: "{{ nginx_home }}"
+        dest: "{{ nginx_home }}/nginx.conf"
         mode: 0644
       tags: lighthouse
       notify: Reload-nginx
