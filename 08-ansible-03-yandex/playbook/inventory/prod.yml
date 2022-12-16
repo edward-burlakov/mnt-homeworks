@@ -20,7 +20,7 @@
   vector:
     hosts:
       vector-01:
-        ansible_host: 84.201.136.12
+        ansible_host: 51.250.17.182
         ansible_connection: ssh
         ansible_user: bes
 
