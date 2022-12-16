@@ -8,15 +8,16 @@
 ---
 ### Основная часть
 
-1) Создаем  в Yandex Cloud   три хоста  clickhouse-01, vector-01  , lighthouse-01 .
+---
+### 1) Создаем  в Yandex Cloud   три хоста  clickhouse-01, vector-01  , lighthouse-01 .
 
        Указываем в атрибута хостов пользователя bes  .  
        В атрибутах хостов в поле  ssh ключа копируеb вставляем public ключ с локального хоста, на котором запускаем ansible.
        подключаемся  по очереди к кажому из удалеённыхм хостов по ssh  
        # ssh -l bes <IP>
        либо копируем  ключ на удалённый хост с помощью команды ssh-copy-id username@IP 
-       
-2) Создаем  тестовую среду  - файл test.yml.
+---       
+### 2) Создаем  тестовую среду  - файл test.yml.
 
        # cat test.yml
        ---
@@ -32,8 +33,8 @@
                ansible_host: 62.84.123.36
                ansible_connection: ssh
                ansible_user: bes 
-
-3) Пишем плей для развёртывания  clickhouse-server и запускаем его на тестовой среде 
+---
+### 3) Пишем плей для развёртывания  clickhouse-server и запускаем его на тестовой среде 
 
        # ansible-playbook -i inventory/test.yml site.yml
 
@@ -63,8 +64,8 @@
        PLAY RECAP **************************************************************************************************
        clickhouse-01              : ok=6    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-
-4) Если всё  прошло успешно входим на сервер и проверяем статус сервера clickhouse
+---
+### 4) Если всё  прошло успешно входим на сервер и проверяем статус сервера clickhouse
  
        # ssh -l bes <IP адрес clickhouse севера>
        [bes@clickhouse-01 ~]$ sudo systemctl status clickhouse-server
@@ -73,8 +74,8 @@
        Active: active (running) since Sun 2022-12-11 10:11:14 UTC; 2min 22s ago
        ...
        #
-
-5) Проверяем подключение с помощью клиента данной БД
+---
+### 5) Проверяем подключение с помощью клиента данной БД
 
        [bes@clickhouse-01 ~]$ sudo clickhouse-client
        ClickHouse client version 22.9.6.20 (official build).
@@ -86,8 +87,8 @@
        * Linux threads max count is too low. Check /proc/sys/kernel/threads-max
        * Maximum number of threads is lower than 30000. There could be problems with handling a lot of simultaneous queries.
         clickhouse-01.ru-central1.internal :
-
-6) Проверяем что БД logs создана: Вставляем  строку записей
+---
+### 6) Проверяем что БД logs создана: Вставляем  строку записей
 
         clickhouse-01.ru-central1.internal :)  insert into logs  values ( 0, 'Edward');
         clickhouse-01.ru-central1.internal :)  insert into logs  values ( 1, 'Dima');
@@ -105,11 +106,11 @@
         │  1 │ Dima │
         └────┴──────┘
         2 rows in set. Elapsed: 0.003 sec.
+---
+### 7) Создаем новую роль vector . Для запуска приложения  vector в фоновом создаем исполняемый скрипт vector.sh
 
-7) Создаем новую роль vector . Для запуска приложения  vector в фоновом создаем исполняемый скрипт vector.sh
-
-
-8) Создаем  свой собственный inventory файл prod.yml.
+---
+### 8) Создаем  свой собственный inventory файл prod.yml.
        
        # cat prod.yml
          ---
@@ -138,12 +139,12 @@
                  ansible_connection: ssh
                  ansible_user: bes
 
-
-9) После 216 коммитов добиваемся чтобы плейбук работал без сбоев при запуске  
+---
+### 9) После 216 коммитов добиваемся чтобы плейбук работал без сбоев при запуске  
 
        root@docker:/# ansible-playbook  -i inventory/prod.yml site.yml
-
-10) Запускаем ansible-lint site.yml ,исправляем ошибки и после этого запускаем  playbook на этом окружении с флагом --check.
+---
+### 10) Запускаем ansible-lint site.yml ,исправляем ошибки и после этого запускаем  playbook на этом окружении с флагом --check.
 
        root@docker:/# ansible-playbook  --check  -i inventory/prod.yml site.yml
 
@@ -260,8 +261,8 @@
        nginx-01                   : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
        vector-01                  : ok=9    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
-
-11) Запускаем  playbook на prod.yml окружении  с флагом --diff. Убеждаемся, что изменения на системе произведены.
+---
+### 11) Запускаем  playbook на prod.yml окружении  с флагом --diff. Убеждаемся, что изменения на системе произведены.
 
         root@docker:/# ansible-playbook --diff -i inventory/prod.yml site.yml
 
@@ -399,8 +400,8 @@
         vector-01                  : ok=9    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
 
-
-12) Повторно запускаем playbook с флагом --diff и убеждаемся, что playbook идемпотентен:
+---
+### 12) Повторно запускаем playbook с флагом --diff и убеждаемся, что playbook идемпотентен:
 
         root@docker:/# ansible-playbook --diff -i inventory/prod.yml site.yml
         ...
