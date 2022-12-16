@@ -139,7 +139,11 @@
                  ansible_user: bes
 
 
-9) Запускаем ansible-lint site.yml ,исправляем ошибки и после этого запускаем  playbook на этом окружении с флагом --check.
+9) После 216 коммитов добиваемся чтобы плейбук работал без сбоев при запуске  
+
+       root@docker:/# ansible-playbook  -i inventory/prod.yml site.yml
+
+10) Запускаем ansible-lint site.yml ,исправляем ошибки и после этого запускаем  playbook на этом окружении с флагом --check.
 
        root@docker:/# ansible-playbook  --check  -i inventory/prod.yml site.yml
 
@@ -257,7 +261,7 @@
        vector-01                  : ok=9    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
 
-10) Запускаем  playbook на prod.yml окружении  с флагом --diff. Убеждаемся, что изменения на системе произведены.
+11) Запускаем  playbook на prod.yml окружении  с флагом --diff. Убеждаемся, что изменения на системе произведены.
 
         root@docker:/# ansible-playbook --diff -i inventory/prod.yml site.yml
 
@@ -396,7 +400,7 @@
 
 
 
-11) Повторно запускаем playbook с флагом --diff и убеждаемся, что playbook идемпотентен:
+12) Повторно запускаем playbook с флагом --diff и убеждаемся, что playbook идемпотентен:
 
         root@docker:/# ansible-playbook --diff -i inventory/prod.yml site.yml
         ...
