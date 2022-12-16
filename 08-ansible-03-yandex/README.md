@@ -411,6 +411,11 @@
         nginx-01                   : ok=5    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
         vector-01                  : ok=9    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
+---
+### 13) Поверяем работу lighthouse сервер с помощью браузера:
+
+![img.png](img.png)
+
 
 ---     
 #### Итоги :  
