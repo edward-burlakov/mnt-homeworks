@@ -70,7 +70,7 @@
       ansible.builtin.unarchive:
         remote_src: true
         src: "/tmp/lighthouse-master.tar.gz"
-        dest: "{{ web-root }}"
+        dest: "{{ web_root }}"
         mode: 0644
       tags: lighthouse
     - name: Add virtual domain in NGINX
