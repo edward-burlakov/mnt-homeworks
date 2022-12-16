@@ -94,7 +94,7 @@
       become: true
       ansible.builtin.template:
         src: templates/lighthouse.sh.j2
-        dest: /etc/profile.d/clickhouse.sh
+        dest: /etc/profile.d/lighthouse.sh
         mode: 0644
       tags: lighthouse
 ##################################################################################################
