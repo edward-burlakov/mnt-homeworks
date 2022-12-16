@@ -23,4 +23,3 @@
         ansible_host: 51.250.101.212
         ansible_connection: ssh
         ansible_user: bes
-
