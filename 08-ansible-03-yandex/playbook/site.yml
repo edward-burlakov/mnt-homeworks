@@ -38,15 +38,15 @@
         name: nginx
         state: present
       tags: nginx
-      notify: Start-nginx
-    - name: Insert Default Index Page
+      notify: Enable-nginx
+    - name: Insert Default Config
       become: true
       ansible.builtin.template:
-        src: templates/index.html
-        dest: "{{ web_root }}/index.html"
+        src: templates/nginx.conf
+        dest: "{{ nginx_home }}/nginx.conf"
         mode: 0644
       tags: nginx
-      notify: Enable-nginx
+      notify: Start-nginx
 ####################################################################################################
 ####################################################################################################
 - name: Install LIGHTHOUSE on hosts
