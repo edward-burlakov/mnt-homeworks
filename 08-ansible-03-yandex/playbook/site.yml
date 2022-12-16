@@ -12,6 +12,12 @@
       ansible.builtin.systemd:
         name: nginx
         state: reloaded
+    - name: Enable-nginx
+      become: true
+      ansible.builtin.systemd:
+        name: nginx
+        enabled: true
+        masked: no
   tasks:
     - name: Export environment variables for NGINX
       become: true
@@ -40,7 +46,7 @@
         dest: "{{ web_root }}/index.html"
         mode: 0644
       tags: nginx
-      notify: Reload-nginx
+      notify: Enable-nginx
 ####################################################################################################
 ####################################################################################################
 - name: Install LIGHTHOUSE on hosts
