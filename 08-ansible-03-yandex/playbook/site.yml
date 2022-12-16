@@ -73,9 +73,15 @@
         dest: "{{ web_root }}"
         mode: 0644
       tags: lighthouse
+    - name: Add default domain in NGINX
+      become: true
+      ansible.builtin.template:
+        src: templates/nginx.conf
+        dest: "{{ nginx_home }}"
+        mode: 0644
+      tags: lighthouse
+      notify: Reload-nginx
     - name: Add virtual domain in NGINX
-      vars:
-        fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
       become: true
       ansible.builtin.template:
         src: templates/{{ virtual_domain }}.conf
