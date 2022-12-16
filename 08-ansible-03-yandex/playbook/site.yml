@@ -65,12 +65,20 @@
       register: download_lighthouse_binaries
       until: download_lighthouse_binaries is succeeded
       tags: lighthouse
+    - name: Extract lighthouse in the installation directory
+      become: true
+      ansible.builtin.unarchive:
+        remote_src: true
+        src: "/tmp/lighthouse-master.tar.gz"
+        dest: "{{ web-root }}"
+        mode: 0644
+      tags: lighthouse
     - name: Add virtual domain in NGINX
       vars:
         fastcgi_pass_path: /var/run/php-fpm/php5-fpm.sock
       become: true
       ansible.builtin.template:
-        src: templates/nginx_vhosts.conf
+        src: templates/{{ virtual_domain }}.conf
         dest: "{{ nginx_home }}/conf.d/{{ virtual_domain }}.conf"
         mode: 0644
       tags: lighthouse
@@ -80,14 +88,6 @@
       ansible.builtin.file:
         state: directory
         path: "{{ lighthouse_home }}"
-        mode: 0644
-      tags: lighthouse
-    - name: Extract lighthouse in the installation directory
-      become: true
-      ansible.builtin.unarchive:
-        remote_src: true
-        src: "/tmp/lighthouse-master.tar.gz"
-        dest: "{{ lighthouse_home }}"
         mode: 0644
       tags: lighthouse
     - name: Export environment variables
