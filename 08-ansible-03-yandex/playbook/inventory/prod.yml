@@ -2,13 +2,13 @@
   nginx:
     hosts:
       nginx-01:
-        ansible_host: 51.250.17.28
+        ansible_host: 51.250.110.236
         ansible_connection: ssh
         ansible_user: bes
   lighthouse:
     hosts:
       lighthouse-01:
-        ansible_host: 51.250.17.28
+        ansible_host: 51.250.110.236
         ansible_connection: ssh
         ansible_user: bes
   clickhouse:
