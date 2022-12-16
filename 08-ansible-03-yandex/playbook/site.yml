@@ -73,7 +73,7 @@
         dest: "{{ web_root }}"
         mode: 0644
       tags: lighthouse
-    - name: Add default domain in NGINX
+    - name: Add default domain config in NGINX
       become: true
       ansible.builtin.template:
         src: templates/nginx.conf
