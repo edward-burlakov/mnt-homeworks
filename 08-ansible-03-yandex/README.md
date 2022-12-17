@@ -1,10 +1,9 @@
---
 ###  Домашнее задание к занятию "3. Использование Yandex Cloud"
 
---
+---
 ### Основная часть
 
---
+---
 ### 1) Создаем  в Yandex Cloud   три хоста  clickhouse-01, vector-01  , lighthouse-01 .
 
        Указываем в атрибутах хостов пользователя bes  .  
@@ -12,7 +11,7 @@
        подключаемся  по очереди к кажому из удалеённыхм хостов по ssh  
        # ssh -l bes <IP>
        либо копируем  ключ на удалённый хост с помощью команды ssh-copy-id username@IP 
---       
+---       
 ### 2) Создаем  тестовую среду  - файл test.yml.
 
        # cat test.yml
@@ -29,7 +28,7 @@
                ansible_host: 62.84.123.36
                ansible_connection: ssh
                ansible_user: bes 
---
+---
 ### 3) Пишем плей для развёртывания  clickhouse-server и запускаем его на тестовой среде 
 
        # ansible-playbook -i inventory/test.yml site.yml
