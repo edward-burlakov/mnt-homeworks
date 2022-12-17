@@ -70,7 +70,7 @@
        ...
        #
 ---
-### 5) Проверяем подключение к данной БД  с помощью клиента lighthouse-client  
+### 5) Проверяем подключение к данной БД  с помощью клиента clickhouse-client  
 
        [bes@clickhouse-01 ~]$ sudo clickhouse-client
        ClickHouse client version 22.9.6.20 (official build).
