@@ -11,64 +11,39 @@
  - написать playbook для использования этих ролей. 
  - Ожидаемый результат: существуют три ваших репозитория: два с roles и один с playbook.
 
-----
-1) Создаем в старой версии playbook файл requirements.yml и заполняем его следующим содержимым:
+---
+#### 1) Создаем в старой версии playbook файл requirements.yml и заполняем его следующим содержимым:
 
        root@docker:/#   cd playbook
        root@docker:/#   touch  requirements.yml 
-       root@docker:/#   cat   playbook /requirements.yml 
-       ---
-         - src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
-           scm: git
-           version: "1.11.0"
-           name: clickhouse
-
-----    
-2) При помощи ansible-galaxy скачиваем  роль  ansible-clickhouse.   
-        
-        root@docker:/#  cd playbook
-        root@docker:/#  mkdir roles
-        root@docker:/#  cd roles
-        root@docker:/#  ansible-galaxy role init ansible-clickhouse
-        root@docker:/# ls -la
-        total 12
-        drwxr-xr-x  3 root root 4096 Dec 20 02:12 .
-        drwxr-xr-x  7 root root 4096 Dec 20 02:11 ..
-        drwxr-xr-x 10 root root 4096 Dec 20 02:12 ansible-clickhouse
-
-----
-3) Добавляем в файл requirements.yml  путь к второй  роли  vector 
-
-
-        root@docker:/# cat playbook /requirements.yml
+       root@docker:/# cat playbook /requirements.yml
          ---
            - name: ansible-clickhouse 
              src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
              scm: git
              version: "1.11.0"
-           - name: ansible-vector
-             src git@github.com:aragastmatb/vector_role.git
-             scm: git
-             version: "1.0.0"
-             
 
-----
-4) Создаём новый пустой каталог с ролью vector-role при помощи ansible-galaxy из шаблона  по умолчанию
+---
+#### 2) Создаём новый пустой каталог с ролью vector-role при помощи ansible-galaxy из шаблона  по умолчанию
 
         root@docker:/ # ansible-galaxy role init vector-role
+---
+#### 3) На основе tasks из старого playbook заполяем  новую role. Разнесите переменные между vars и default.
 
-5) На основе tasks из старого playbook заполните новую role. Разнесите переменные между vars и default.
+---
+#### 4) Переносим нужные шаблоны конфигов в templates.
 
-6) Переносим нужные шаблоны конфигов в templates.
+---
+#### 5) Описываем в README.md обе роли и их параметры.
 
-7) Описать в README.md обе роли и их параметры.
+---
+#### 6) Повторяем шаги 2)-5) для lighthouse.  Помним, что одна роль должна настраивать один продукт. 
+####    Создаём новый пустой каталог с ролью  lighthouse  при помощи ansible-galaxy из шаблона  по умолчанию
 
-8) Повторяем шаги и 3-6 для lighthouse.  Помните, что одна роль должна настраивать один продукт.
-   Создаём новый пустой каталог с ролью  lighthouse  при помощи ansible-galaxy из шаблона  по умолчанию
+        root@docker:/ # ansible-galaxy role init lighthouse-role
 
-       root@docker:/ # ansible-galaxy role init lighthouse-role 
-   
-9) Добавляем roles в requirements.yml в playbook.
+---   
+#### 7) Добавляем обе roles, опубликованные  в стороннем репозитории  в requirements.yml в playbook.
 
          root@docker:/# cat playbook /requirements.yml
          ---
@@ -87,10 +62,11 @@
 
          root@docker:/ # ansible-galaxy role init ansible-lighthouse
 
+---
+#### 10) Просталяем тэги, используя семантическую нумерацию  
 
-10) Проставьте тэги, используя семантическую нумерацию  
-
-11) Выложите все roles в репозитории. 
+---
+#### 11) Выкладываем все roles в репозитории. 
 
            # cat /playbook/site.yml
            ---
@@ -108,8 +84,6 @@
              hosts: clickhouse
              roles:
                - ansible-clickhouse
-
-
 
 
 
