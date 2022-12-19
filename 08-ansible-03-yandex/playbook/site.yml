@@ -61,7 +61,7 @@
     - name: Set facts for NGINX vars
       ansible.builtin.set_fact:
         lighthouse_home: "{{ web_root }}/{{ virtual_domain }}"
-      tags: nginx
+      tags: lighthouse
     - name: Upload .tar.gz file containing binaries from local storage
       become: true
       ansible.builtin.copy:
