@@ -83,6 +83,8 @@
 
          root@docker:/ # ansible-galaxy role init ansible-lighthouse
 
+9) 
+
 
 Выложите все roles в репозитории. Проставьте тэги, используя семантическую нумерацию Добавьте roles в requirements.yml в playbook.
 
