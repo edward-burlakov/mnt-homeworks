@@ -1,5 +1,0 @@
----
-lighthouse_version: "7.10.1"
-virtual_domain: "lighthouse-master"
-lighthouse_home: "{{ web-root }}/{{ virtual_domain }}"
-nginx_home: "/etc/nginx"

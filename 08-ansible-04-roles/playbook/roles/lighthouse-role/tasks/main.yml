@@ -1,7 +1,7 @@
 # tasks file for LIGHTHOUSE role
 - name: Set facts for NGINX vars
   ansible.builtin.set_fact:
-    lighthouse_home: "{{ web_root }}/{{ virtual_domain }}"
+    lighthouse_home: "{{ default_web_root }}/{{ virtual_domain }}"
   tags: lighthouse
 - name: Upload .tar.gz file containing binaries from local storage
   become: true
@@ -17,7 +17,7 @@
   ansible.builtin.unarchive:
     remote_src: true
     src: "/tmp/lighthouse-master.tar.gz"
-    dest: "{{ web_root }}"
+    dest: "{{ default_web_root }}"
     mode: 0644
   tags: lighthouse
 - name: Add virtual domain in NGINX
