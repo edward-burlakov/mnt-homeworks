@@ -12,18 +12,26 @@
  - Ожидаемый результат: существуют три ваших репозитория: два с roles и один с playbook.
 
 ---
-1) Создаем в старой версии playbook файл requirements.yml и заполнить его следующим содержимым:
+1) Создаем в старой версии playbook файл requirements.yml и заполняем его следующим содержимым:
 
-   При помощи ansible-galaxy скачиваем  роль  ansible-clickhouse. 
-  - src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
-    scm: git
-    version: "1.11.0"
-    name: clickhouse 
-   
-     #  ansible-galaxy role init ansible-clickhouse
+       # cd playbook
+       # touch  requirements.yml 
+       # cat   playbook /requirements.yml 
+       ---
+         - src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
+           scm: git
+           version: "1.11.0"
+           name: clickhouse
+
+---    
+2) При помощи ansible-galaxy скачиваем  роль  ansible-clickhouse.  папка назначения  на основании  /etc/ansible/ansible.cfg - 
+   cat 
+       #  ansible-galaxy role init ansible-clickhouse
 
 
-Создать новый каталог с ролью при помощи ansible-galaxy role init vector-role.
+3) Создать новый каталог с ролью при помощи ansible-galaxy
+
+       # ansible-galaxy role init vector-role.
 
 На основе tasks из старого playbook заполните новую role. Разнесите переменные между vars и default.
 
