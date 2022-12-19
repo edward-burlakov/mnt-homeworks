@@ -61,10 +61,11 @@
 
 6) Переносим нужные шаблоны конфигов в templates.
 
-
 7) Описать в README.md обе роли и их параметры.
 
 8) Повторяем шаги и 3-6 для lighthouse.  Помните, что одна роль должна настраивать один продукт.
+   
+9) Добавляем roles в requirements.yml в playbook.
 
          root@docker:/# cat playbook /requirements.yml
          ---
@@ -72,23 +73,45 @@
              src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
              scm: git
              version: "1.11.0"
-           - name: ansible-vector
-             src git@github.com:aragastmatb/vector_role.git
+           - name: avector-role
+             src: git@github.com:aragastmatb/vector_role.git
              scm: git
              version: "1.0.0"
-           - name ansible-lighthouse           
-             git@github.com:olezhuravlev/lighthouse-role.git
+           - name lighthouse-role           
+             src: git@github.com:olezhuravlev/lighthouse-role.git
              scm: git
              version: "1.0.0"
 
          root@docker:/ # ansible-galaxy role init ansible-lighthouse
 
-9) 
+
+10) Проставьте тэги, используя семантическую нумерацию  
+
+11) Выложите все roles в репозитории. 
+
+           # cat /playbook/site.yml
+           ---
+           - name Assert lighthouse role
+             hosts: lighthouse
+             roles:
+               - ansible-lighthouse
+
+           - name Assert lighthouseclickhouse role
+             hosts: vector
+             roles:
+               - ansible-vector
+
+           - name Assert clickhouse role
+             hosts: clickhouse
+             roles:
+               - ansible-clickhouse
 
 
-Выложите все roles в репозитории. Проставьте тэги, используя семантическую нумерацию Добавьте roles в requirements.yml в playbook.
 
-Переработайте playbook на использование roles. Не забудьте про зависимости lighthouse и возможности совмещения roles с tasks.
+
+
+
+12) Переработайте playbook на использование roles. Не забудьте про зависимости lighthouse и возможности совмещения roles с tasks.
 
 Выложите playbook в репозиторий.
 
