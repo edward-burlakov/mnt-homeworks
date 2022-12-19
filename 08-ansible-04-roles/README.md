@@ -53,9 +53,9 @@
              
 
 ----
-4) Создаём новый каталог с ролью ansible-vector при помощи ansible-galaxy
+4) Создаём новый пустой каталог с ролью vector-role при помощи ansible-galaxy из шаблона  по умолчанию
 
-        root@docker:/ # ansible-galaxy role init ansible-vector
+        root@docker:/ # ansible-galaxy role init vector-role
 
 5) На основе tasks из старого playbook заполните новую role. Разнесите переменные между vars и default.
 
@@ -64,6 +64,9 @@
 7) Описать в README.md обе роли и их параметры.
 
 8) Повторяем шаги и 3-6 для lighthouse.  Помните, что одна роль должна настраивать один продукт.
+   Создаём новый пустой каталог с ролью  lighthouse  при помощи ansible-galaxy из шаблона  по умолчанию
+
+       root@docker:/ # ansible-galaxy role init lighthouse-role 
    
 9) Добавляем roles в requirements.yml в playbook.
 
@@ -73,7 +76,7 @@
              src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
              scm: git
              version: "1.11.0"
-           - name: avector-role
+           - name: vector-role
              src: git@github.com:aragastmatb/vector_role.git
              scm: git
              version: "1.0.0"
