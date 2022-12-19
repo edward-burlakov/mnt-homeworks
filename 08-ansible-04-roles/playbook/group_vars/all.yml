@@ -1,0 +1,4 @@
+---
+nginx_user: "nginx"
+nginx_home: "/etc/nginx"
+web_root: "/usr/share/nginx/html"

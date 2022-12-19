@@ -1,0 +1,7 @@
+---
+clickhouse_home: "/etc/clickhouse-server"
+clickhouse_version: "22.9.6.20"
+clickhouse_packages:
+  - clickhouse-client
+  - clickhouse-server
+  - clickhouse-common-static
