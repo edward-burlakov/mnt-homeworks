@@ -1,50 +1,13 @@
 ---
-- name: Install NGINX on hosts
-  hosts: nginx
-  handlers:
-    - name: Start-nginx
-      become: true
-      ansible.builtin.systemd:
-        name: nginx
-        state: started
-    - name: Reload-nginx
-      become: true
-      ansible.builtin.systemd:
-        name: nginx
-        state: reloaded
-    - name: Enable-nginx
-      become: true
-      ansible.builtin.systemd:
-        name: nginx
-        enabled: true
-        masked: false
-  tasks:
-    - name: NGINX /     Export environment variables for NGINX
-      become: true
-      ansible.builtin.template:
-        src: templates/nginx.sh.j2
-        dest: /etc/profile.d/nginx.sh
-        mode: 0644
-      tags: nginx
-    - name: NGINX /     Add epel-release repository
-      become: true
-      ansible.builtin.yum:
-        name: epel-release
-        state: present
-      tags: nginx
-    - name: NGINX /     Install NGINX
-      become: true
-      ansible.builtin.yum:
-        name: nginx
-        state: present
-      tags: nginx
-      notify: Enable-nginx
-    - name: NGINX /     Insert Default Config
-      become: true
-      ansible.builtin.template:
-        src: templates/nginx.conf
-        dest: "{{ nginx_home }}/nginx.conf"
-        mode: 0644
-      tags: nginx
-      notify: Reload-nginx
-
+  - name: Assert lighthouse role
+    hosts: lighthouse
+    roles:
+      - ansible-lighthouse-role
+  - name: Assert vector role
+    hosts: vector
+    roles:
+      - ansible-vector-role
+  - name: Assert clickhouse role
+    hosts: clickhouse
+    roles:
+      - ansible-clickhouse-role

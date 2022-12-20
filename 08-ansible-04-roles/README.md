@@ -67,7 +67,7 @@
 ### 10) Описываем в README.md  основного проекта обе роли и их параметры.
 
 ---
-### 11) Добавляем обе roles, опубликованные  в стороннем репозитории  в requirements.yml в playbook.
+### 11) Добавляем обе roles, опубликованные  в стороннем репозитории  в requirements.yml в playbook основного проекта.
 
          root@docker:/# cat playbook /requirements.yml
          ---
@@ -78,11 +78,11 @@
            - name: ansible-vector-role
              src: git@github.com/edward-burlakov/vector-role.git
              scm: git
-             version: "1.0.0"
+             version: "1.0.1"
            - name ansible-lighthouse-role           
              src: git@github.com/edward-burlakov/lighthouse-role.git
              scm: git
-             version: "1.0.0"
+             version: "1.0.1"
 
 ---
 ### 12) Проставляем тэги , в обоих проектах , используя семантическую нумерацию. 
