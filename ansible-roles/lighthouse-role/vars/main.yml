@@ -1,0 +1,4 @@
+---
+# vars file for lighthouse-role
+# Lighthouse version
+lighthouse_version: "7.10.1"

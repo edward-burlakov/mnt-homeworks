@@ -1,0 +1,8 @@
+---
+nginx_home: "/etc/nginx"             # Path to configuration files of NGINX
+default_web_root: "/usr/share/nginx/html"    # Path to default webpage of NGINX
+virtual_domain: "lighthouse-master"  # Path to virtual domain of lighthouse
+# lighthouse_home: "{{ web-root }}/{{ virtual_domain }}"
+
+
+
