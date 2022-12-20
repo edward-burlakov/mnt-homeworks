@@ -49,7 +49,8 @@
 
 ---
 ### 7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role.
-### И  публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/lighthouse-role.git].  
+###     и  публикуем его  в личном кабинете GITHUB с именем vector-role 
+[https://github.com/edward-burlakov/lighthouse-role.git].  
 
           root@docker:/#  git init
           root@docker:/#  git branch -M main
