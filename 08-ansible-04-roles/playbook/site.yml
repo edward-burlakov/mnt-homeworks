@@ -2,12 +2,12 @@
   - name: Assert lighthouse role
     hosts: lighthouse
     roles:
-      - ansible-lighthouse-role
+      - lighthouse-role
   - name: Assert vector role
     hosts: vector
     roles:
-      - ansible-vector-role
+      - vector-role
   - name: Assert clickhouse role
     hosts: clickhouse
     roles:
-      - ansible-clickhouse-role
+      - ansible-clickhouse

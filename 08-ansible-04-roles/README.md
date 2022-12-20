@@ -48,8 +48,8 @@
 ###  6) Публикуем изменения проекта vector-role на GITHUB . 
 
 ---
-### 7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role.
-###     и  публикуем его  в личном кабинете GITHUB с именем vector-role <https://github.com/edward-burlakov/lighthouse-role.git>  
+### 7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role . 
+###     И публикуем его  в личном кабинете GITHUB с именем vector-role <https://github.com/edward-burlakov/lighthouse-role.git>  
 
           root@docker:/#  git init
           root@docker:/#  git branch -M main
@@ -109,13 +109,17 @@
                - ansible-clickhouse
 
 ---
-### 14) Запускаем плейбук и добиваемся работоспособности проекта.  
+### 14) Устанавливаем необходимые  роли перечисленные в файле requirements.yml  на management host из репозиториев: 
+### По умолчанию роли будут скачаны в каталог /user/share/ansible/roles
+
+          root@docker:/#  ansible-galaxy install -r requirements.yml    
+---
+### 15) Запускаем плейбук и добиваемся работоспособности проекта.  
         Перерабаьываем playbook на использование roles. 
         Не забываем про зависимости lighthouse и возможности совмещения roles с tasks.
 
 
-### 15) Выкладываем итоговый playbook в репозиторий.
-
+### 16) Выкладываем итоговый playbook в репозиторий.
 
 Ниже- ссылки на оба репозитория с roles и одна ссылку на репозиторий с playbook.
 
