@@ -1,13 +1,13 @@
 ---
-  - name: Install lighthouse role
-    hosts: lighthouse
-    roles:
-      - lighthouse-role
-  - name: Install vector role
-    hosts: vector
-    roles:
-      - vector-role
-  - name: Install clickhouse role
-    hosts: clickhouse
-    roles:
-      - ansible-clickhouse
+- name: Install lighthouse role
+  hosts: lighthouse
+  roles:
+    - lighthouse-role
+- name: Install vector role
+  hosts: vector
+  roles:
+    - vector-role
+- name: Install clickhouse role
+  hosts: clickhouse
+  roles:
+    - ansible-clickhouse
