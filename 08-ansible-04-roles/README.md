@@ -110,7 +110,8 @@
 
 ---
 ### 14) Устанавливаем необходимые  роли перечисленные в файле requirements.yml  на management host из репозиториев: 
-### По умолчанию роли будут скачаны в каталог /user/share/ansible/roles
+### По умолчанию роли будут скачаны в каталог /etc/ansible/roles, поскольку этот путь мы указали в файле /etc/ansible/ansible.cfg 
+
 
           root@docker:/#  ansible-galaxy install -r requirements.yml
           Starting galaxy role install process
