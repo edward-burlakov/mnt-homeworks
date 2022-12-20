@@ -26,7 +26,7 @@
 
 ---
 ### 2) На management хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально и
-### публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/vector-role.git].
+### публикуем его  в личном кабинете GITHUB с именем vector-role <https://github.com/edward-burlakov/vector-role.git>
          
          root@docker:/#  git init
          root@docker:/#  git branch -M main
@@ -49,8 +49,7 @@
 
 ---
 ### 7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role.
-###     и  публикуем его  в личном кабинете GITHUB с именем vector-role 
-[https://github.com/edward-burlakov/lighthouse-role.git].  
+###     и  публикуем его  в личном кабинете GITHUB с именем vector-role <https://github.com/edward-burlakov/lighthouse-role.git>  
 
           root@docker:/#  git init
           root@docker:/#  git branch -M main
@@ -120,9 +119,9 @@
 
 Ниже- ссылки на оба репозитория с roles и одна ссылку на репозиторий с playbook.
 
-[https://github.com/edward-burlakov/lighthouse-role.git]
-[https://github.com/edward-burlakov/vector-role.git]
-[https://github.com/edward-burlakov/mnt-homeworks/tree/master/08-ansible-04-roles]
+<https://github.com/edward-burlakov/lighthouse-role.git>
+<https://github.com/edward-burlakov/vector-role.git>
+<https://github.com/edward-burlakov/mnt-homeworks/tree/master/08-ansible-04-roles>
 
 
 
