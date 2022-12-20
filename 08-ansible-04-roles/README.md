@@ -12,11 +12,12 @@
  - Ожидаемый результат: существуют три ваших репозитория: два с roles и один с playbook.
 
 ---
-#### 1) Создаем в старой версии playbook файл requirements.yml и заполняем его следующим содержимым:
+#### 1) Копируем  старый проект "LESSON_8.3" в проект "LESSON_8.4" 
+       Создаем в новой версии в каталоге playbook файл requirements.yml и заполняем его следующим содержимым:
 
        root@docker:/#   cd playbook
        root@docker:/#   touch  requirements.yml 
-       root@docker:/# cat playbook /requirements.yml
+       root@docker:/#   cat playbook /requirements.yml
          ---
            - name: ansible-clickhouse 
              src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
@@ -24,29 +25,45 @@
              version: "1.11.0"
 
 ---
-#### 2) На managemenеt хосте  с Ansible cоздаем  публичный репозиторий vector-role локально и  публикуем его  в личном кабинете GITHUB - vector-role .
-        
----
-#### 3)  Внутри репозитория создаём новую структуры каталог с ролью vector-role при помощи ansible-galaxy из шаблона  по умолчанию
+#### 2) На managament хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально 
+и  публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/vector-role.git].
+         
+         root@docker:/#  git init
+         root@docker:/#  git branch -M main
+         root@docker:/#  git remote add origin https://github.com/edward-burlakov/vector-role .git
+         root@docker:/#  git push -u origin main
+--- 
+#### 3) При помощи ansible-galaxy внутри репозитория создаём новую структуру каталогов с ролью vector-role  из шаблона  по умолчанию
 
-        root@docker:/ # ansible-galaxy role init vector-role
+         root@docker:/# ansible-galaxy role init vector-role
 ---
-#### 4) На основе tasks из старого playbook заполняем  новую role. Из старого проекта (LESSON_8.3 ) переносим все такси касающиеся роли vector .
-        Также разнсим переменные  из старых каталогов group_vars между vars и default.
+#### 4) На основе tasks из старого playbook заполняем  новую role. Из старого проекта (LESSON_8.3 ) переносим все таски касающиеся роли vector .
+        Также разносим переменные  из старых каталогов group_vars в  каталогами vars и default. 
+         В vars- те,что сможет менять пользователь опубликованного нами плейбука.
 ---
-#### 5) Переносим нужные шаблоны конфигов  из старого проекта (LESSON_8.3 )  в  папку templates.
-
----
-###  6) Публикуем изменения проекта vector-role на GITHUB . Добавляем на итоговый коммит  tag "1.0.0" для версионирования  опубликованной роли.
-
----
-#### 7) Повторяем шаги 2)-5) для lighthouse.  Помним, что одна роль должна настраивать один продукт. 
-####    Создаём новый пустой каталог с ролью  lighthouse  при помощи ansible-galaxy из шаблона  по умолчанию
-
-        root@docker:/ # ansible-galaxy role init lighthouse-role
+#### 5) Переносим нужные шаблоны конфигов  из каталога templates старого проекта (LESSON_8.3 )  в  папку templates.
 
 ---
-#### 8) Описываем в README.md обе роли и их параметры.
+###  6) Публикуем изменения проекта vector-role на GITHUB . Добавляем  tag "1.0.0"  на итоговый коммит для версионирования  опубликованной роли
+        и публикации релиза в виде архива .
+
+---
+#### 7) На managament хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role.
+и  публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/lighthouse-role.git].       
+          root@docker:/#  git init
+          root@docker:/#  git branch -M main
+          root@docker:/#  git remote add origin https://github.com/edward-burlakov/lighthouse-role .git
+          root@docker:/#  git push -u origin main
+          
+--- 
+#### 8)   Развертываем пустой каталог  lighthouse  при помощи ansible-galaxy из шаблона  по умолчанию
+       
+         root@docker:/#  ansible-galaxy role init lighthouse-role
+---
+####  Повторяем шаги 4)-5)-6) для  проекта lighthouse.  Помним, что одна роль должна настраивать один продукт. 
+
+---
+#### 9) Описываем в README.md  основного проекта обе роли и их параметры.
 
 ---
 #### 9) Добавляем обе roles, опубликованные  в стороннем репозитории  в requirements.yml в playbook.
@@ -67,7 +84,11 @@
              version: "1.0.0"
 
 ---
-#### 10) Проставляем тэги, используя семантическую нумерацию  
+#### 10) Проставляем тэги , в обоих проектах , используя семантическую нумерацию  
+
+[https://github.com/edward-burlakov/lighthouse-role.git]
+
+[https://github.com/edward-burlakov/vector-role.git]
 
 ---
 #### 11) Выкладываем все roles в репозитории. 
@@ -78,12 +99,10 @@
              hosts: lighthouse
              roles:
                - ansible-lighthouse-role 
-
-           - name Assert lighthouseclickhouse role
+           - name Assert vector role
              hosts: vector
              roles:
                - ansible-vector-role
-
            - name Assert clickhouse role
              hosts: clickhouse
              roles:

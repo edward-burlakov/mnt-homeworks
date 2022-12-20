@@ -19,31 +19,32 @@
         enabled: true
         masked: false
   tasks:
-    - name: Export environment variables for NGINX
+    - name: NGINX /     Export environment variables for NGINX
       become: true
       ansible.builtin.template:
         src: templates/nginx.sh.j2
         dest: /etc/profile.d/nginx.sh
         mode: 0644
       tags: nginx
-    - name: NGINX / Add epel-release repository
+    - name: NGINX /     Add epel-release repository
       become: true
       ansible.builtin.yum:
         name: epel-release
         state: present
       tags: nginx
-    - name: NGINX / Install NGINX
+    - name: NGINX /     Install NGINX
       become: true
       ansible.builtin.yum:
         name: nginx
         state: present
       tags: nginx
       notify: Enable-nginx
-    - name: Insert Default Config
+    - name: NGINX /     Insert Default Config
       become: true
       ansible.builtin.template:
         src: templates/nginx.conf
         dest: "{{ nginx_home }}/nginx.conf"
         mode: 0644
       tags: nginx
-      notify: Start-nginx
+      notify: Reload-nginx
+
