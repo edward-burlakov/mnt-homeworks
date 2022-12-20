@@ -74,15 +74,15 @@
            - name: ansible-clickhouse 
              src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
              scm: git
-             version: "1.11.0"
+             version: "1.13"
            - name: ansible-vector-role
              src: git@github.com/edward-burlakov/vector-role.git
              scm: git
-             version: "1.0.1"
+             version: "1.0.2"
            - name ansible-lighthouse-role           
              src: git@github.com/edward-burlakov/lighthouse-role.git
              scm: git
-             version: "1.0.1"
+             version: "1.0.2"
 
 ---
 ### 12) Проставляем тэги , в обоих проектах , используя семантическую нумерацию. 
@@ -95,15 +95,15 @@
 
            # cat /playbook/site.yml
            ---
-           - name Assert lighthouse role
+           - name: Install lighthouse role
              hosts: lighthouse
              roles:
                - ansible-lighthouse-role 
-           - name Assert vector role
+           - name Install vector role
              hosts: vector
              roles:
                - ansible-vector-role
-           - name Assert clickhouse role
+           - name Install clickhouse role
              hosts: clickhouse
              roles:
                - ansible-clickhouse

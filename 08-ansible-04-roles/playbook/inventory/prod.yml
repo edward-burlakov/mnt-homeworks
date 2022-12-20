@@ -1,10 +1,4 @@
 ---
-  nginx:
-    hosts:
-      nginx-01:
-        ansible_host: 51.250.107.31
-        ansible_connection: ssh
-        ansible_user: bes
   lighthouse:
     hosts:
       lighthouse-01:
