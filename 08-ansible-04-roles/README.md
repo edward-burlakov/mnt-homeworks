@@ -110,10 +110,10 @@
 
 ---
 ### 14) Устанавливаем необходимые  роли перечисленные в файле requirements.yml  на management host из репозиториев: 
-### По умолчанию роли будут скачаны в каталог /etc/ansible/roles, поскольку этот путь мы указали в файле /etc/ansible/ansible.cfg 
+### По умолчанию роли будут скачаны в каталог /etc/ansible/roles, поскольку этот путь мы указали в файле /etc/ansible/ansible.cfg
+### Для принудительной переустановки добавляем ключ --force
 
-
-          root@docker:/#  ansible-galaxy install -r requirements.yml
+          root@docker:/#  ansible-galaxy install -r requirements.yml --force
           Starting galaxy role install process
           - extracting ansible-clickhouse to /etc/ansible/roles/ansible-clickhouse
           - ansible-clickhouse (1.13) was installed successfully
