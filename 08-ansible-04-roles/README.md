@@ -112,7 +112,16 @@
 ### 14) Устанавливаем необходимые  роли перечисленные в файле requirements.yml  на management host из репозиториев: 
 ### По умолчанию роли будут скачаны в каталог /user/share/ansible/roles
 
-          root@docker:/#  ansible-galaxy install -r requirements.yml    
+          root@docker:/#  ansible-galaxy install -r requirements.yml
+          Starting galaxy role install process
+          - extracting ansible-clickhouse to /etc/ansible/roles/ansible-clickhouse
+          - ansible-clickhouse (1.13) was installed successfully
+          - extracting vector-role to /etc/ansible/roles/vector-role
+          - vector-role (1.0.2) was installed successfully
+          - extracting lighthouse-role to /etc/ansible/roles/lighthouse-role
+          - lighthouse-role (1.0.2) was installed successfully
+
+
 ---
 ### 15) Запускаем плейбук и добиваемся работоспособности проекта.  
         Перерабаьываем playbook на использование roles. 
