@@ -13,7 +13,7 @@
 
 ---
 ### 1) Копируем  старый проект "LESSON_8.3" в проект "LESSON_8.4" 
-       Создаем в новой версии в каталоге playbook файл requirements.yml и заполняем его следующим содержимым:
+###    Создаем в новой версии в каталоге playbook файл requirements.yml и заполняем его следующим содержимым:
 
        root@docker:/#   cd playbook
        root@docker:/#   touch  requirements.yml 
@@ -26,7 +26,7 @@
 
 ---
 ### 2) На management хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально и
-публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/vector-role.git].
+### публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/vector-role.git].
          
          root@docker:/#  git init
          root@docker:/#  git branch -M main
@@ -37,19 +37,20 @@
 
          root@docker:/# ansible-galaxy role init vector-role
 ---
-### 4) На основе tasks из старого playbook заполняем  новую role. Из старого проекта (LESSON_8.3 ) переносим все таски касающиеся роли vector .
-        Также разносим переменные  из старых каталогов group_vars в  каталогами vars и default. 
-         В vars- те,что сможет менять пользователь опубликованного нами плейбука.
+### 4) На основе tasks из старого playbook заполняем  новую role. Из основного  проекта "LESSON_8.4" переносим все таски касающиеся роли vector .
+###        Также разносим переменные  из старых каталогов group_vars в  каталогами vars и default. 
+###         В vars- те,что сможет менять пользователь опубликованного нами плейбука.
+
 ---
-### 5) Переносим нужные шаблоны конфигов  из каталога templates старого проекта (LESSON_8.3 )  в  папку templates.
+### 5) Переносим нужные шаблоны конфигов  из каталога templates основного проекта "LESSON_8.4"  в  папку templates.
 
 ---
 ###  6) Публикуем изменения проекта vector-role на GITHUB . Добавляем  tag "1.0.0"  на итоговый коммит для версионирования  опубликованной роли
         и публикации релиза в виде архива .
 
 ---
-### 7) На managament хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role.
-и  публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/lighthouse-role.git].  
+### 7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role.
+### И  публикуем его  в личном кабинете GITHUB с именем vector-role  [https://github.com/edward-burlakov/lighthouse-role.git].  
 
           root@docker:/#  git init
           root@docker:/#  git branch -M main
@@ -85,11 +86,7 @@
              version: "1.0.0"
 
 ---
-#### 12) Проставляем тэги , в обоих проектах , используя семантическую нумерацию  
-
-[https://github.com/edward-burlakov/lighthouse-role.git]
-
-[https://github.com/edward-burlakov/vector-role.git]
+### 12) Проставляем тэги , в обоих проектах , используя семантическую нумерацию. 
 
 ---
 ### 13) Выкладываем все roles в репозитории. 
@@ -117,4 +114,14 @@
 
 ### 15) Выкладываем итоговый playbook в репозиторий.
 
-В ответ приведите ссылки на оба репозитория с roles и одну ссылку на репозиторий с playbook.
+
+Ниже- ссылки на оба репозитория с roles и одна ссылку на репозиторий с playbook.
+
+[https://github.com/edward-burlakov/lighthouse-role.git]
+[https://github.com/edward-burlakov/vector-role.git]
+[https://github.com/edward-burlakov/mnt-homeworks/tree/master/08-ansible-04-roles]
+
+
+
+
+
