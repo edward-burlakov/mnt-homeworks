@@ -11,7 +11,7 @@
   - написать playbook для использования этих ролей. 
   - Ожидаемый результат: существуют три ваших репозитория: два с roles и один с playbook.
 
----
+----
 ### 1) Копируем  старый проект "LESSON_8.3" в проект "LESSON_8.4" 
 ###    Создаем в новой версии в каталоге playbook файл requirements.yml и заполняем его следующим содержимым:
 
@@ -24,7 +24,7 @@
              scm: git
              version: "1.11.0"
 
----
+----
 ### 2) На management хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально и публикуем его на Github с именем vector-role.
 ### <https://github.com/edward-burlakov/vector-role.git>
          
@@ -32,22 +32,22 @@
          root@docker:/#  git branch -M main
          root@docker:/#  git remote add origin https://github.com/edward-burlakov/vector-role .git
          root@docker:/#  git push -u origin main
---- 
+---- 
 ### 3) При помощи ansible-galaxy внутри репозитория создаём новую структуру каталогов с ролью vector-role  из шаблона  по умолчанию
 
          root@docker:/# ansible-galaxy role init vector-role
----
+----
 ### 4) На основе tasks из старого playbook заполняем  новую role. Из основного  проекта "LESSON_8.4" переносим все таски касающиеся роли vector .
 ###        Также разносим переменные  из старых каталогов group_vars в  каталогами vars и default. 
 ###         В каталог  vars помещаем те переменные, которые НЕ сможет менять пользователь опубликованного нами плейбука.
 
----
+----
 ### 5) Переносим нужные шаблоны конфигов  из каталога templates основного проекта "LESSON_8.4"  в  папку templates.
 
----
+----
 ###  6) Публикуем изменения проекта vector-role на GITHUB . 
 
----
+----
 ### 7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role и публикуем его  на Github.
 ###     <https://github.com/edward-burlakov/lighthouse-role.git>  
 
@@ -56,17 +56,17 @@
           root@docker:/#  git remote add origin https://github.com/edward-burlakov/lighthouse-role .git
           root@docker:/#  git push -u origin main
           
---- 
+---- 
 ### 8)   Развертываем пустой каталог  lighthouse  при помощи ansible-galaxy из шаблона  по умолчанию
        
          root@docker:/#  ansible-galaxy role init lighthouse-role
----
+----
 ### 9)  Повторяем шаги 4)-5)-6) для  проекта lighthouse , учитывая, что одна роль должна настраивать один продукт. 
 
----
+----
 ### 10) Описываем в README.md  основного проекта обе роли и их параметры.
 
----
+----
 ### 11) Добавляем в playbook основного проекта в файл requirements.yml  обе roles, опубликованные  в сторонних репозиториях  .
 
          root@docker:/# cat playbook /requirements.yml
@@ -84,13 +84,13 @@
              scm: git
              version: "1.0.2"
 
----
+----
 ### 12) Проставляем тэги , в обоих проектах , используя семантическую нумерацию. 
 
            Добавляем  tag "1.0.X"  на итоговые  коммиты  обоих репозиториев 
            для версионирования  опубликованных  ролей и  публикации их релизов в виде архива .
 
----
+----
 ### 13) Выкладываем все roles в репозитории. 
 
            # cat /playbook/site.yml
@@ -108,7 +108,7 @@
              roles:
                - ansible-clickhouse
 
----
+----
 ### 14) Устанавливаем необходимые  роли перечисленные в файле requirements.yml  на management host из репозиториев: 
 ### По умолчанию роли будут скачаны в каталог /etc/ansible/roles, поскольку этот путь мы указали в файле /etc/ansible/ansible.cfg
 ### Для принудительной переустановки добавляем ключ --force
@@ -123,7 +123,7 @@
           - lighthouse-role (1.0.2) was installed successfully
 
 
----
+----
 ### 15) Запускаем плейбук и добиваемся работоспособности проекта.  
 ###     Перерабатываем playbook на использование roles. 
 ###     Не забываем про зависимости lighthouse и возможности совмещения roles с tasks.
@@ -310,7 +310,7 @@
     lighthouse-01              : ok=12   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
     vector-01                  : ok=10   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-
+----
 ### 16) Выкладываем итоговый playbook в репозиторий.
 
 Ниже- ссылки на оба репозитория с roles и одна ссылку на репозиторий с playbook.
