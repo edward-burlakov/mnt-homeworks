@@ -315,9 +315,9 @@
 
 Ниже- ссылки на оба репозитория с roles и одна ссылку на репозиторий с playbook.
 
-### *  <https://github.com/edward-burlakov/lighthouse-role.git>
-### *  <https://github.com/edward-burlakov/vector-role.git>
-### *  <https://github.com/edward-burlakov/mnt-homeworks/tree/master/08-ansible-04-roles>
+* ###  <https://github.com/edward-burlakov/lighthouse-role.git>
+* ###  <https://github.com/edward-burlakov/vector-role.git>
+* ###  <https://github.com/edward-burlakov/mnt-homeworks/tree/master/08-ansible-04-roles>
 
 
 
