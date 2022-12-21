@@ -25,7 +25,7 @@
              version: "1.11.0"
 
 ----
-### 2) На management хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально и публикуем его на Github с именем vector-role.
+###  2) На management хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально и публикуем его на Github с именем vector-role.
 ### <https://github.com/edward-burlakov/vector-role.git>
          
          root@docker:/#  git init
@@ -33,22 +33,22 @@
          root@docker:/#  git remote add origin https://github.com/edward-burlakov/vector-role .git
          root@docker:/#  git push -u origin main
 ---- 
-### 3) При помощи ansible-galaxy внутри репозитория создаём новую структуру каталогов с ролью vector-role  из шаблона  по умолчанию
+###  3) При помощи ansible-galaxy внутри репозитория создаём новую структуру каталогов с ролью vector-role  из шаблона  по умолчанию
 
          root@docker:/# ansible-galaxy role init vector-role
 ----
-### 4) На основе tasks из старого playbook заполняем  новую role. Из основного  проекта "LESSON_8.4" переносим все таски касающиеся роли vector .
+###  4) На основе tasks из старого playbook заполняем  новую role. Из основного  проекта "LESSON_8.4" переносим все таски касающиеся роли vector .
 ###        Также разносим переменные  из старых каталогов group_vars в  каталогами vars и default. 
 ###         В каталог  vars помещаем те переменные, которые НЕ сможет менять пользователь опубликованного нами плейбука.
 
 ----
-### 5) Переносим нужные шаблоны конфигов  из каталога templates основного проекта "LESSON_8.4"  в  папку templates.
+###  5) Переносим нужные шаблоны конфигов  из каталога templates основного проекта "LESSON_8.4"  в  папку templates.
 
 ----
 ###  6) Публикуем изменения проекта vector-role на GITHUB . 
 
 ----
-### 7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role и публикуем его  на Github.
+###  7)  На management хосте  с установленным Ansible  создаём публичный репозиторий для роли  lighthouse-role и публикуем его  на Github.
 ###     <https://github.com/edward-burlakov/lighthouse-role.git>  
 
           root@docker:/#  git init
