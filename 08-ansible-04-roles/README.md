@@ -3,13 +3,13 @@
 
 ----
 ### Создайте два пустых публичных репозитория в любом своём проекте: vector-role и lighthouse-role.
-Добавьте публичную часть своего ключа к своему профилю в github.
-Основная часть
-Наша основная цель - разбить наш playbook на отдельные roles. 
-Задачи: 
- - сделать roles для clickhouse, vector и lighthouse 
- - написать playbook для использования этих ролей. 
- - Ожидаемый результат: существуют три ваших репозитория: два с roles и один с playbook.
+-Добавьте публичную часть своего ключа к своему профилю в github.
+-Основная часть
+-Наша основная цель - разбить наш playbook на отдельные roles. 
+-Задачи: 
+  - сделать roles для clickhouse, vector и lighthouse 
+  - написать playbook для использования этих ролей. 
+  - Ожидаемый результат: существуют три ваших репозитория: два с roles и один с playbook.
 
 ---
 ### 1) Копируем  старый проект "LESSON_8.3" в проект "LESSON_8.4" 
@@ -26,7 +26,7 @@
 
 ---
 ### 2) На management хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально и
-####   Публикуем его на Gthib с именем vector-role <https://github.com/edward-burlakov/vector-role.git>
+###   публикуем его на Gthib с именем vector-role <https://github.com/edward-burlakov/vector-role.git>
          
          root@docker:/#  git init
          root@docker:/#  git branch -M main
