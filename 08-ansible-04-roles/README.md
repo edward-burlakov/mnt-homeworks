@@ -26,7 +26,8 @@
 
 ---
 ### 2) На management хосте  с установленным Ansible cоздаем  публичный репозиторий vector-role локально и
-###   публикуем его на Gthib с именем vector-role <https://github.com/edward-burlakov/vector-role.git>
+###   публикуем его на Github с именем vector-role
+<https://github.com/edward-burlakov/vector-role.git>
          
          root@docker:/#  git init
          root@docker:/#  git branch -M main
