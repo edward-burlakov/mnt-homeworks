@@ -28,7 +28,8 @@
 ###  Tox
 ----
 1) Добавьте в директорию с vector-role файлы из директории
-2) Запустите docker run --privileged=True -v <path_to_repo>:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
+2) Запустите docker run --privileged=True -v <path_to_repo>:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash, 
+   где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
 3) Внутри контейнера выполните команду tox, посмотрите на вывод.
 4) Создайте облегчённый сценарий для molecule с драйвером molecule_podman. Проверьте его на исполнимость.
 5) Пропишите правильную команду в tox.ini для того чтобы запускался облегчённый сценарий.

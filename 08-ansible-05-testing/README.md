@@ -1,7 +1,23 @@
 ### Molecule
 ----
 
-1) Запустите molecule test -s centos_7 внутри корневой директории clickhouse-role ( Ошибка) , посмотрите на вывод команды.
+1) Убедимся предварительно что необходимый драйвер  docker пакета-фрейморка molecule установлен.
+            root@docker:/#   pip install 'molecule[docker]'
+            ...
+            ERROR: docker 6.0.1 has requirement urllib3>=1.26.0, but you'll have urllib3 1.25.8 which is incompatible.
+            ERROR: molecule-docker 2.1.0 has requirement molecule>=4.0.0, but you'll have molecule 3.5.2 which is incompatible.
+            Installing collected packages: websocket-client, docker, molecule-docker
+            Successfully installed docker-6.0.1 molecule-docker-2.1.0 websocket-client-1.4.2
+
+
+3) Запустите molecule test -s centos_7 внутри корневой директории clickhouse-role ( Ошибка) , посмотрите на вывод команды.
+
+            Проверяем версию молекулы
+            root@docker:/# molecule --version
+            molecule 3.5.2 using python 3.8
+            ansible:2.13.6
+            delegated:3.5.2 from molecule
+
 
             root@docker:/#  cd /etc/ansible/roles/ansible-clickhouse
             root@docker:/#  ls -la
@@ -45,15 +61,40 @@
           {'driver': [{'name': ['unallowed value docker']}]}
 
 
-2) Переходим  в каталог с ролью vector-role и создаем сценарий тестирования по умолчанию при помощи
+3) Инициализируем новую  пустую роль со сценарием тестирования default с выбранным драйвером
+    c помощью команды  "molecule init role vector-role --driver-name docker"
+
+           root@docker:/#  molecule init role --driver-name docker vector-role
+  
+    Или переходим  в каталог с уже существующей ролью vector-role, чтобы создать сценарий тестирования по умолчанию
 
             root@docker:/#  cd /vector-role
-            root@docker:/#  molecule init scenario --driver-name delegated -r vector-role
+            root@docker:/#  molecule init scenario --driver-name docker
             INFO     Initializing new scenario default...
             INFO     Initialized scenario in /home/bes/LESSONS/vector-role/molecule/default successfully.
 
-4) Добавьте несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и протестируйте роль, исправьте найденные ошибки, если они есть.
-5) Добавьте несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
+4) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и протестируйте роль, исправьте найденные ошибки, если они есть.
+          
+            root@docker:/#  cat  /vector-role/molecule/default/molecule.yml
+            ---
+            dependency:
+              name: galaxy
+            driver:
+              name: docker
+            platforms:
+              - name: Centos8
+                image: docker.io/pycontribs/centos:8
+                pre_build_image: true
+              - name: Centos7
+                image: docker.io/pycontribs/centos:7
+                pre_build_image: true
+
+            provisioner:
+              name: ansible
+            verifier:
+              name: ansible
+
+5) Добавяем несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
    (проверка, что конфиг валидный, проверка успешности запуска, etc).
 6) Запустите тестирование роли повторно и проверьте, что оно прошло успешно.
 7) Добавьте новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
