@@ -5,9 +5,9 @@
 Установите molecule:
 
       pip3 install "molecule==3.5.2"
-Выполните 
+Выполните скачивание  docker-образа с podman, tox и несколькими пайтонами (3.7 и 3.9) внутри
 
-      docker pull aragast/netology:latest - это образ с podman, tox и несколькими пайтонами (3.7 и 3.9) внутри
+      docker pull aragast/netology:latest - 
 
 ### Основная часть
 ----
