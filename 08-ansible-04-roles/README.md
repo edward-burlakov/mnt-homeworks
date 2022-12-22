@@ -30,7 +30,7 @@ remote## Домашнее задание к занятию "8.4. Работа с
          
          root@docker:/#  git init
          root@docker:/#  git branch -M main
-         root@docker:/#  git remote add origin https://github.com/edward-burlakov/vector-role .git
+         root@docker:/#  git remote add origin https://github.com/edward-burlakov/vector-role.git
          root@docker:/#  git push -u origin main
 ---- 
 ###  3) При помощи ansible-galaxy внутри репозитория создаём новую структуру каталогов с ролью vector-role  из шаблона  по умолчанию

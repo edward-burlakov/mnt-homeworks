@@ -1,7 +1,8 @@
 ### Molecule
 ----
 
-1) Убедимся предварительно что необходимый драйвер  docker пакета-фрейморка molecule установлен.
+1) Убедимся предварительно, что необходимый драйвер  docker пакета-фрейморка molecule установлен.
+
             root@docker:/#   pip install 'molecule[docker]'
             ...
             ERROR: docker 6.0.1 has requirement urllib3>=1.26.0, but you'll have urllib3 1.25.8 which is incompatible.
@@ -10,7 +11,21 @@
             Successfully installed docker-6.0.1 molecule-docker-2.1.0 websocket-client-1.4.2
 
 
-3) Запустите molecule test -s centos_7 внутри корневой директории clickhouse-role ( Ошибка) , посмотрите на вывод команды.
+2) Убедимся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
+
+            root@docker:/# yamllint --version
+            yamllint 1.28.0
+            root@docker:/# ansible-lint --version
+            ansible-lint 6.8.6 using ansible 2.13.6
+            A new release of ansible-lint is available: 6.8.6 → 6.10.0
+
+            root@docker:/# pip3 install git+https://github.com/ansible/ansible-lint.git
+            Successfully installed ansible-compat-2.2.7 ansible-lint-6.10.1.dev2 pyyaml-6.0
+            root@docker:/home/bes/vector-role/molecule/default# ansible-lint --version
+            ansible-lint 6.10.1.dev2 using ansible 2.13.6
+            You are using a pre-release version of ansible-lint.
+
+3) Запустите molecule test -s centos_7 внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), посмотрите на вывод команды.
 
             Проверяем версию молекулы
             root@docker:/# molecule --version
@@ -39,39 +54,93 @@
             -rw-rw-r--  1 root root   598 Jul 26 15:10 .yamllint
 
             root@docker:/#  molecule test -s centos_7
-            ---
-            dependency:
-              name: galaxy
-            driver:
-              name: docker
-              options:
-                D: true
-                vv: true
-           lint: 'yamllint .
-           ...
-           ...
-           ...
-           verifier:
-             name: ansible
-             playbooks:
-           verify: ../resources/tests/verify.yml
-   
-          CRITICAL Failed to pre-validate.
-   
-          {'driver': [{'name': ['unallowed value docker']}]}
+            root@docker:/etc/ansible/roles/ansible-clickhouse# molecule test -s centos_7
+            INFO     centos_7 scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+            INFO     Performing prerun...
+            INFO     Set ANSIBLE_LIBRARY=/root/.cache/ansible-compat/b9a93c/modules:/root/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
+            INFO     Set ANSIBLE_COLLECTIONS_PATH=/root/.cache/ansible-compat/b9a93c/collections:/root/.ansible/collections:/usr/share/ansible/collections
+            INFO     Set ANSIBLE_ROLES_PATH=/root/.cache/ansible-compat/b9a93c/roles:/etc/ansible/roles
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/hosts.yml linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/hosts
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/group_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/group_vars
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/host_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/host_vars
+            INFO     Running centos_7 > dependency
+            INFO     Running from /etc/ansible/roles/ansible-clickhouse : ansible-galaxy collection install -vvv ansible.posix:>=1.4.0
+            WARNING  Skipping, missing the requirements file.
+            WARNING  Skipping, missing the requirements file.
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/hosts.yml linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/hosts
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/group_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/group_vars
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/host_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/host_vars
+            INFO     Running centos_7 > lint
+            COMMAND: yamllint .
+            ansible-lint
+            flake8
 
+            WARNING: ansible-lint is no longer tested under Python 3.8 and will soon require 3.9. Do not report bugs for this version.
+            Traceback (most recent call last):
+            File "/usr/local/bin/ansible-lint", line 8, in <module>
+            sys.exit(_run_cli_entrypoint())
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/__main__.py", line 344, in _run_cli_entrypoint
+            sys.exit(main(sys.argv))
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/__main__.py", line 242, in main
+            result = _get_matches(rules, options)
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/runner.py", line 235, in _get_matches
+            matches.extend(runner.run())
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/runner.py", line 166, in run
+            matches.extend(self._emit_matches(files))
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/runner.py", line 204, in _emit_matches
+            for child in ansiblelint.utils.find_children(lintable):
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/utils.py", line 226, in find_children
+            for child in play_children(basedir, item, lintable.kind, playbook_dir):
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/utils.py", line 306, in play_children
+            return delegate_map[k](basedir, k, v, parent_type)
+            File "/usr/local/lib/python3.8/dist-packages/ansiblelint/utils.py", line 318, in _include_children
+            if "{{" in v:  # pragma: no branch
+            TypeError: argument of type 'NoneType' is not iterable
+            /bin/bash: line 2: flake8: command not found
+            CRITICAL Lint failed with error code 127
+            WARNING  An error occurred during the test sequence action: 'lint'. Cleaning up.
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/hosts.yml linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/hosts
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/group_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/group_vars
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/host_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/host_vars
+            INFO     Running centos_7 > cleanup
+            WARNING  Skipping, cleanup playbook not configured.
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/hosts.yml linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/hosts
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/group_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/group_vars
+            INFO     Inventory /etc/ansible/roles/ansible-clickhouse/molecule/centos_7/../resources/inventory/host_vars/ linked to /root/.cache/molecule/ansible-clickhouse/centos_7/inventory/host_vars
+            INFO     Running centos_7 > destroy
+            INFO     Sanity checks: 'docker'
+ 
+            PLAY [Destroy] *****************************************************************
+
+            TASK [Set async_dir for HOME env] **********************************************
+            ok: [localhost]
+ 
+            TASK [Destroy molecule instance(s)] ********************************************
+            changed: [localhost] => (item=centos_7)
+ 
+            TASK [Wait for instance(s) deletion to complete] *******************************
+            FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
+            ok: [localhost] => (item=centos_7)
+ 
+            TASK [Delete docker networks(s)] ***********************************************
+ 
+            PLAY RECAP *********************************************************************
+            localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+ 
+            INFO     Pruning extra files from scenario ephemeral directory
+ 
 
 3) Инициализируем новую  пустую роль со сценарием тестирования default с выбранным драйвером
-    c помощью команды  "molecule init role vector-role --driver-name docker"
+  c помощью команды  "molecule init role vector-role --driver-name docker"
 
            root@docker:/#  molecule init role --driver-name docker vector-role
   
-    Или переходим  в каталог с уже существующей ролью vector-role, чтобы создать сценарий тестирования по умолчанию
+Или переходим  в каталог с уже существующей ролью vector-role, чтобы создать сценарий тестирования по умолчанию
 
-            root@docker:/#  cd /vector-role
-            root@docker:/#  molecule init scenario --driver-name docker
-            INFO     Initializing new scenario default...
-            INFO     Initialized scenario in /home/bes/LESSONS/vector-role/molecule/default successfully.
+           root@docker:/#  cd /vector-role
+           root@docker:/#  molecule init scenario default --driver-name docker
+           INFO     Initializing new scenario default...
+           INFO     Initialized scenario in /home/bes/LESSONS/vector-role/molecule/default successfully.
 
 4) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и протестируйте роль, исправьте найденные ошибки, если они есть.
           
@@ -81,12 +150,15 @@
               name: galaxy
             driver:
               name: docker
+            lint:
+              ansible-lint .
+              yamllint .
             platforms:
               - name: Centos8
                 image: docker.io/pycontribs/centos:8
                 pre_build_image: true
-              - name: Centos7
-                image: docker.io/pycontribs/centos:7
+              - name: Ubuntu
+                image: docker.io/pycontribs/ubuntu:latest
                 pre_build_image: true
 
             provisioner:
@@ -94,7 +166,83 @@
             verifier:
               name: ansible
 
-5) Добавляем несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
+5) Запускаем  полный сценарий тестирования .  
+   На шаге dependency  необходимые пакеты скачиваются в каталог /root/.ansible/collections
+
+         root@docker:/#  molecule test
+         INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+         INFO     Performing prerun...
+         INFO     Set ANSIBLE_LIBRARY=/root/.cache/ansible-compat/f5bcd7/modules:/root/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
+         INFO     Set ANSIBLE_COLLECTIONS_PATH=/root/.cache/ansible-compat/f5bcd7/collections:/root/.ansible/collections:/usr/share/ansible/collections
+         INFO     Set ANSIBLE_ROLES_PATH=/root/.cache/ansible-compat/f5bcd7/roles:/etc/ansible/roles
+         INFO     Running default > dependency
+         WARNING  Skipping, missing the requirements file.
+         WARNING  Skipping, missing the requirements file.
+         INFO     Running default > lint
+         INFO     Lint is disabled.
+         INFO     Running default > cleanup
+         WARNING  Skipping, cleanup playbook not configured.
+         INFO     Running default > destroy
+         INFO     Sanity checks: 'docker'
+
+         PLAY [Destroy] *****************************************************************
+
+         TASK [Set async_dir for HOME env] **********************************************
+         ok: [localhost]
+         ...
+         ...
+         ...
+         ...
+         PLAY RECAP *********************************************************************
+         Centos8                    : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+         Ubuntu                     : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+
+         INFO     Running default > idempotence
+
+         PLAY [Converge] ****************************************************************
+         ...
+         ...
+         ...
+         PLAY RECAP *********************************************************************
+         Centos8                    : ok=10   changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+         Ubuntu                     : ok=10   changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+         CRITICAL Idempotence test failed because of the following tasks:
+         * [Centos8] => vector-role : Get Vector installed version
+         * [Ubuntu] => vector-role : Get Vector installed version
+         * [Centos8] => vector-role : Copy distrib to working catalog
+         * [Ubuntu] => vector-role : Copy distrib to working catalog
+         * [Ubuntu] => vector-role : Copy configuration file  for Vector
+         * [Centos8] => vector-role : Copy configuration file  for Vector
+         * [Centos8] => vector-role : Execute Vector in the installation directory
+         * [Ubuntu] => vector-role : Execute Vector in the installation directory
+         WARNING  An error occurred during the test sequence action: 'idempotence'. Cleaning up.
+         INFO     Running default > cleanup
+         WARNING  Skipping, cleanup playbook not configured.
+         INFO     Running default > destroy
+
+         PLAY [Destroy] *****************************************************************
+
+         TASK [Set async_dir for HOME env] **********************************************
+         ok: [localhost]
+
+         TASK [Destroy molecule instance(s)] ********************************************
+         changed: [localhost] => (item=Centos8)
+         changed: [localhost] => (item=Ubuntu)
+
+         TASK [Wait for instance(s) deletion to complete] *******************************
+         changed: [localhost] => (item=Centos8)
+         changed: [localhost] => (item=Ubuntu)
+
+         TASK [Delete docker networks(s)] ***********************************************
+
+         PLAY RECAP *********************************************************************
+         localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+         INFO     Pruning extra files from scenario ephemeral directory
+
+
+7) Добавляем несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
    (проверка, что конфиг валидный, проверка успешности запуска, etc).
-6) Запустите тестирование роли повторно и проверьте, что оно прошло успешно.
-7) Добавьте новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
+8) Запускаем тестирование роли повторно и проверьте, что оно прошло успешно.
+9) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
