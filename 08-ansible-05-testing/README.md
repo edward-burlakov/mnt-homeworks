@@ -24,8 +24,8 @@
    [https://medium.datadriveninvestor.com/how-to-install-and-manage-multiple-python-versions-on-linux-916990dabe4b]
 
 
-4) Устанавливаем версию Python 3.9.16  версией по умолчанию
- 
+4) Устанавливаем версию Python 3.9.16  версией по умолчанию  - -Press  <Ctrl> + <Z> .
+
             root@docker:/# pyenv global 3.9.16
             root@docker:/# python3
             Python 3.9.16 (main, Dec 24 2022, 03:29:44)
@@ -34,7 +34,7 @@
             >>>
             [2]+  Stopped                 python3
 
-            -Press  <Ctrl> + <Z>  
+            
 
 5) Убеждаемся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
             
@@ -51,7 +51,7 @@
             ansible-lint 6.10.1.dev2 using ansible 2.13.6
             You are using a pre-release version of ansible-lint.
 
-6) Запускаем molecule test -s centos_7 внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), смотрим на вывод команды.
+6) Запускаем [molecule test -s centos_7] внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), смотрим на вывод команды.
 
             root@docker:/#  cd /etc/ansible/roles/ansible-clickhouse
             root@docker:/#  ls -la
