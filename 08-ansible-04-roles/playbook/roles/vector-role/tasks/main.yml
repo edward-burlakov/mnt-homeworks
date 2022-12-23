@@ -1,0 +1,69 @@
+---
+# tasks file for VECTOR role
+- name: Export environment variables for Vector
+  become: true
+  ansible.builtin.template:
+    src: templates/vector.sh.j2
+    dest: /etc/profile.d/vector.sh
+    mode: 0644
+  tags: vector
+- name: Get Vector installed version
+  ansible.builtin.shell: "{{ vector_home }}/bin/vector --version"
+  args:
+    executable: /bin/bash
+  register: vector_is_installed  # Запись результата в переменную
+  ignore_unreachable: true
+  ignore_errors: true
+- name: Ensure installation dir exists and create if its not
+  become: true
+  ansible.builtin.file:
+    state: directory
+    path: "{{ vector_home }}/config"
+    mode: 0644
+- name: Get archive of Vector from remote URL
+  become: true
+  ansible.builtin.get_url:
+    url: "{{ vector_source }}"
+    dest: "/tmp/vector.tar.gz"
+    mode: 0755
+    timeout: 60
+    force: true
+    validate_certs: false
+  register: get_vector
+#  until: get_vector is succeeded
+  tags: vector
+- name: Extract Vector in the installation directory
+  become: true
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "/tmp/vector.tar.gz"
+    dest: "/tmp"
+  register: extract_vector
+  tags: vector
+- name: Copy distrib to working catalog
+  ansible.builtin.copy:
+    remote_src: true
+    src: "/tmp/vector-x86_64-unknown-linux-musl/"
+    dest: "{{ vector_home }}"
+    mode: 0750
+- name: Copy configuration file  for Vector
+  become: true
+  ansible.builtin.copy:
+    remote_src: false
+    src: "templates/vector.toml"
+    dest: "{{ vector_home }}/config/vector.toml"
+    mode: 0644
+  tags: vector
+- name: Copy scriptfile  for Vector
+  become: true
+  ansible.builtin.copy:
+    remote_src: false
+    src: "templates/vector.sh"
+    dest: "{{ vector_home }}/bin/vector.sh"
+    mode: 0750
+  tags: vector
+- name: Execute Vector in the installation directory
+  ansible.builtin.shell: "{{ vector_home }}/bin/vector.sh > /dev/null &"
+  args:
+    chdir: "{{ vector_home }}/bin"
+    executable: /bin/bash  # Run vector in the Bash shell

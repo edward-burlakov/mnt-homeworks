@@ -1,0 +1,16 @@
+---
+# nginx -user, running NGINX
+nginx_user: "nginx"
+# Path to configuration files of NGINX
+nginx_home: "/etc/nginx"
+# Path to place default webpage of NGINX
+default_web_root: "/usr/share/nginx/html"
+# Path to virtual domain of lighthouse
+virtual_domain: "lighthouse-master"
+lighthouse_clh_access_point_file: /tmp/lighthouse-master/app.js
+lighthouse_clh_access_point_regexp: db_host = prompt\('Host:',
+lighthouse_clh_access_point: db_host = 'http://{{ clickhouse_host_ip }}:8123/';
+# lighthouse_home: "{{ web-root }}/{{ virtual_domain }}"
+
+
+
