@@ -487,3 +487,7 @@
           INFO     Pruning extra files from scenario ephemeral directory
 
 12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
+          
+          https://github.com/edward-burlakov/vector-role/releases/tag/1.0.5
+
+13) 
