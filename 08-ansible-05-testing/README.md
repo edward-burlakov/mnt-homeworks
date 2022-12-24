@@ -146,17 +146,18 @@
 
             INFO     Pruning extra files from scenario ephemeral directory
 
-7) * Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
+* Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
      c помощью команды  "molecule init role vector-role --driver-name docker"
 
-           root@docker:/#  molecule init role 'vector-role' --driver-name docker 
+        root@docker:/#  molecule init role 'vector-role' --driver-name docker 
   
-   * Либо  переходим  в каталог с уже существующей ролью vector-role, чтобы создать для molecule сценарий тестирования по умолчанию
+* Либо  переходим  в каталог   08-ansible-04-roles\playbook\roles\vector-role  из прошлого урока "LESSON 8.4"
+  с уже существующей ролью vector-role, чтобы создать для molecule сценарий тестирования по умолчанию
 
-        root@docker:/#  cd /home/bes/vector-role
-        root@docker:/#  molecule init scenario default --driver-name docker
-        INFO     Initializing new scenario default...
-        INFO     Initialized scenario in /home/bes/vector-role/molecule/default successfully.
+       root@docker:/#  cd /home/bes/LESSON/08-ansible-04-roles\playbook\roles\vector-role   
+       root@docker:/#  molecule init scenario default --driver-name docker
+       INFO     Initializing new scenario default...
+       INFO     Initialized scenario in /home/bes/vector-role/molecule/default successfully.
 
 8) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и тестируем роль, исправляем найденные ошибки, если они есть.
           
@@ -423,10 +424,10 @@
 
 
 9) Добавляем несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
-10) 
-11) 
-    (проверка, что конфиг валидный, проверка успешности запуска, etc).
+   (проверка, что конфиг валидный, проверка успешности запуска, etc).
 
-12) Запускаем тестирование роли повторно и проверьте, что оно прошло успешно.
+      
 
-13) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
+11) Запускаем тестирование роли повторно и проверьте, что оно прошло успешно.
+
+12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
