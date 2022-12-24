@@ -20,6 +20,7 @@ verifier:
   name: ansible
 scenario:
   test_sequence:
+    - cleanup
     - destroy
     - create
     - converge
