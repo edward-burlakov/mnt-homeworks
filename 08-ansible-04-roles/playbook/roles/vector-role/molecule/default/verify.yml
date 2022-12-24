@@ -8,13 +8,6 @@
     - name: Example assertion
       ansible.builtin.assert:
         that: true
-    - name: Include test for Centos 7
-      include_role:
-        name: centos_7
-    - name: Include test for Centos 8
-      include_role:
-        name: centos_8
-
 
 # # given phase
 # $ molecule create
