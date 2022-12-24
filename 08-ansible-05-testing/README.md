@@ -170,7 +170,7 @@
                  ansible-lint .
                  yamllint .
                platforms:
-                 - name: centos_8
+                 - name: centos
                    image: pycontribs/centos:8
                    pre_build_image: true
                  - name: ubuntu
