@@ -8,11 +8,19 @@ lint:
   ansible-lint .
   yamllint .
 platforms:
+<<<<<<< HEAD
   - name: сentos_8
     image: pycontribs/centos:8
     pre_build_image: true
   - name: ubuntu
     image: pycontribs/ubuntu:latest
+=======
+  - name: "сentos_8"
+    image: docker.io/pycontribs/centos:8
+    pre_build_image: true
+  - name: "ubuntu"
+    image: docker.io/pycontribs/ubuntu:latest
+>>>>>>> 53b9f20bc8a9adbf517c83ab495314f81e5ac37a
     pre_build_image: true
 provisioner:
   name: ansible

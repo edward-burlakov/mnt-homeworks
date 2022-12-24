@@ -7,10 +7,12 @@ galaxy_info:
   license: MIT
   min_ansible_version: "2.8"
   platforms:
-    - name: EL
+    - name: centos
       versions:
-        - 7
         - 8
+    - name: ubuntu
+      versions:
+        - latest
   galaxy_tags:
     - lighthouse
     - clickhouse
