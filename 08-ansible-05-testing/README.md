@@ -170,10 +170,10 @@
                  ansible-lint .
                  yamllint .
                platforms:
-                 - name: centos
+                 - name: Centos8
                    image: pycontribs/centos:8
                    pre_build_image: true
-                 - name: ubuntu
+                 - name: Ubuntu
                    image: pycontribs/ubuntu:latest
                    pre_build_image: true
 
@@ -256,6 +256,14 @@
         localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
         INFO     Pruning extra files from scenario ephemeral directory
+
+
+        Отслеживаем состяние тестовых контейнеров 
+        а) В роцессе выполнения фреймворка molecule
+      ![img.png](img.png)
+
+         б) После окончания работы фреймворка molecule
+      ![img_1.png](img_1.png)
 
 
 9) Добавляем несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
