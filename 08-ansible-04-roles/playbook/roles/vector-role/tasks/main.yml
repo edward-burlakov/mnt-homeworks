@@ -12,6 +12,8 @@
   args:
     executable: /bin/bash
   register: vector_is_installed  # Запись результата в переменную
+  ignore_unreachable: true
+  ignore_errors: true
   changed_when: false
 - name: Ensure installation dir exists and create if its not
   become: true
