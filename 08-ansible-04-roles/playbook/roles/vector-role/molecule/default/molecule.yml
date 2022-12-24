@@ -6,12 +6,12 @@ driver:
   name: docker
 lint:
   ansible-lint .
-  qyamllint .
+  yamllint .
 platforms:
-  - name: "сentos_8"
+  - name: "Centos8"
     image: pycontribs/centos:8
     pre_build_image: true
-  - name: "ubuntu"
+  - name: "Ubuntu"
     image: pycontribs/ubuntu:latest
     pre_build_image: true
 provisioner:
