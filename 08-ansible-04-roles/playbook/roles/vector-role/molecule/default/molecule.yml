@@ -8,20 +8,27 @@ lint: |
   ansible-lint .
   yamllint .
 platforms:
-  - name: "centos"
+  - name: centos
     image: pycontribs/centos:8
     pre_build_image: true
-  - name: "Ubuntu"
+  - name: Ubuntu
     image: pycontribs/ubuntu:latest
     pre_build_image: true
 provisioner:
   name: ansible
 verifier:
   name: ansible
-# scenario:
-#  test_sequence:
-#    - cleanup
-#    - destroy
-#    - create
-#    - converge
-#    - destroy
+scenario:
+  test_sequence:
+    - dependency
+    - lint
+    - cleanup
+    - destroy
+    - syntax
+    - create
+    - prepare
+    - converge
+    - side_effect
+    - verify
+    - cleanup
+    - destroy

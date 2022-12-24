@@ -429,10 +429,19 @@
 
           scenario:
             test_sequence: 
+              - dependency
+              - lint
+              - cleanup
               - destroy
+              - syntax
               - create
+              - prepare
               - converge
+              - side_effect
+              - verify
+              - cleanup
               - destroy
+ 
 
     Для очистки сценария по умолчанию
 
