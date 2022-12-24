@@ -8,12 +8,9 @@
     - name: Example assertion
       ansible.builtin.assert:
         that: true
-
 # # given phase
 # $ molecule create
-
 # # when phase
 # $ molecule converge
-
 # # then phase
 # $ molecule verify
