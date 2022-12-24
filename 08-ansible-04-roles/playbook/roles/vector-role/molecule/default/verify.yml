@@ -1,0 +1,26 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Example assertion
+      ansible.builtin.assert:
+        that: true
+    - name: Include test for Centos_8
+      include_role:
+        name: centos_8
+    - name: Include test for Ubuntu
+      include_role:
+        name: ubuntu
+
+
+# # given phase
+# $ molecule create
+
+# # when phase
+# $ molecule converge
+
+# # then phase
+# $ molecule verify
