@@ -6,7 +6,7 @@ driver:
   name: docker
 lint:
   ansible-lint .
-  yamllint .
+  qyamllint .
 platforms:
 <<<<<<< HEAD
   - name: сentos_8
