@@ -446,17 +446,17 @@
 
     Для очистки сценария по умолчанию
 
-         # molecule reset
+         root@docker:/#  molecule reset
 
     Для проверки запускаем:
 
-         # molecule matrix test
+         root@docker:/#  molecule matrix test
 
 11) Запускаем тестирование роли повторно и проверяем, что оно прошло успешно, 
     добавив несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
     (проверка, что конфиг валидный, проверка успешности запуска, etc).
 
-          # molecule test -s default
+         root@docker:/#  molecule test -s default
           ...
           ...
           INFO     Verifier completed successfully.
@@ -488,6 +488,32 @@
 
 12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
           
-          https://github.com/edward-burlakov/vector-role/releases/tag/1.0.5
+         https://github.com/edward-burlakov/vector-role/releases/tag/1.0.5
 
-13) 
+13) Добавляем в директорию с vector-role файлы  tox.ini и tox-requirements.txt
+
+14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
+    
+        root@docker:/#  docker run --privileged=True -v /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
+        [root@0259424bb717 vector-role]# 
+
+15) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
+      
+         [root@0259424bb717 vector-role]# tox
+         py37-ansible210 create: /opt/vector-role/.tox/py37-ansible210
+         py37-ansible210 installdeps: -rtox-requirements.txt, ansible<3.0
+         py37-ansible210 installed: ansible==2.10.7,ansible-base==2.10.17,ansible-compat==1.0.0,ansible-lint==5.1.3,arrow==1.2.3,bcrypt==4.0.1,binaryornot==0.4.4,bracex==2.3.post1,cached-property==1.5.2,Cerberus==1.3.2,certifi==2022.12.7,cffi==1.15.1,chardet==5.1.0,charset-normalizer==2.1.1,click==8.1.3,click-help-colors==0.9.1,commonmark==0.9.1,cookiecutter==2.1.1,cryptography==38.0.4,distro==1.8.0,enrich==1.2.7,idna==3.4,importlib-metadata==5.2.0,Jinja2==3.1.2,jinja2-time==0.2.0,jmespath==1.0.1,lxml==4.9.2,MarkupSafe==2.1.1,molecule==3.4.0,molecule-podman==1.0.1,packaging==22.0,paramiko==2.12.0,pathspec==0.10.3,pluggy==0.13.1,pycparser==2.21,Pygments==2.13.0,PyNaCl==1.5.0,python-dateutil==2.8.2,python-slugify==7.0.0,PyYAML==5.4.1,requests==2.28.1,rich==12.6.0,ruamel.yaml==0.17.21,ruamel.yaml.clib==0.2.7,selinux==0.2.1,six==1.16.0,subprocess-tee==0.3.5,tenacity==8.1.0,text-unidecode==1.3,typing_extensions==4.4.0,urllib3==1.26.13,wcmatch==8.4.1,yamllint==1.26.3,zipp==3.11.0
+         py37-ansible210 run-test-pre: PYTHONHASHSEED='3703112135'
+         py37-ansible210 run-test: commands[0] | molecule test -s compatibility --destroy always
+         ...
+         ...
+         _____________________________________________________________________________ summary ______________________________________________________________________________
+         ERROR:   py37-ansible210: commands failed
+         ERROR:   py37-ansible30: commands failed
+         ERROR:   py39-ansible210: commands failed
+         ERROR:   py39-ansible30: commands failed
+
+17) Создайте облегчённый сценарий для molecule с драйвером molecule_podman. Проверьте его на исполнимость.
+18) Пропишите правильную команду в tox.ini для того чтобы запускался облегчённый сценарий.
+19) Запустите команду tox. Убедитесь, что всё отработало успешно.
+20) Добавьте новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
