@@ -426,6 +426,7 @@
            INFO     Pruning extra files from scenario ephemeral directory
 
 10) Переопределяем список тестов путем добавления сценария в файл module/default/molecule.yml
+    Исключаем из списка тест на идемпотентность 
 
           scenario:
             test_sequence: 
@@ -451,12 +452,38 @@
 
          # molecule matrix test
 
-
-12) Добавляем несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
+11) Запускаем тестирование роли повторно и проверяем, что оно прошло успешно, 
+    добавив несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
     (проверка, что конфиг валидный, проверка успешности запуска, etc).
 
-      
+          # molecule test -s default
+          ...
+          ...
+          INFO     Verifier completed successfully.
+          INFO     Running default > cleanup
+          WARNING  Skipping, cleanup playbook not configured.
+          INFO     Running default > destroy
 
-12) Запускаем тестирование роли повторно и проверяем, что оно прошло успешно.
+          PLAY [Destroy] *****************************************************************
 
-13) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
+          TASK [Set async_dir for HOME env] **********************************************
+          ok: [localhost]
+
+          TASK [Destroy molecule instance(s)] ********************************************
+          changed: [localhost] => (item=centos)
+          changed: [localhost] => (item=Ubuntu)
+
+          TASK [Wait for instance(s) deletion to complete] *******************************
+          FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
+          changed: [localhost] => (item=centos)
+          changed: [localhost] => (item=Ubuntu)
+
+          TASK [Delete docker networks(s)] ***********************************************
+          skipping: [localhost]
+
+          PLAY RECAP *********************************************************************
+          localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+          INFO     Pruning extra files from scenario ephemeral directory
+
+12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
