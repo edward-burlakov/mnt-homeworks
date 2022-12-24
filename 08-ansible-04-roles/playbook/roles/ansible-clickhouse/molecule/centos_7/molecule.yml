@@ -10,7 +10,7 @@ driver:
 lint: |
   yamllint .
   ansible-lint
-  flake8
+
 platforms:
   - name: centos_7
     image: centos:7
