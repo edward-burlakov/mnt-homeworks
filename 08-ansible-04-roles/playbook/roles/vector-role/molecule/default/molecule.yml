@@ -18,10 +18,10 @@ provisioner:
   name: ansible
 verifier:
   name: ansible
-scenario:
-  test_sequence:
-    - cleanup
-    - destroy
-    - create
-    - converge
-    - destroy
+# scenario:
+#  test_sequence:
+#    - cleanup
+#    - destroy
+#    - create
+#    - converge
+#    - destroy
