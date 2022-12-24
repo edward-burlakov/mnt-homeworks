@@ -146,7 +146,7 @@
 
             INFO     Pruning extra files from scenario ephemeral directory
 
-7) * Либо инициализируем новую  пустую роль-макет со сценарием тестирования default с выбранным драйвером
+7) * Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
      c помощью команды  "molecule init role vector-role --driver-name docker"
 
            root@docker:/#  molecule init role 'vector-role' --driver-name docker 
@@ -158,104 +158,104 @@
         INFO     Initializing new scenario default...
         INFO     Initialized scenario in /home/bes/vector-role/molecule/default successfully.
 
-8) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и тестируем роль, исправляем найденные ошибки, если они есть.
+   1) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и тестируем роль, исправляем найденные ошибки, если они есть.
           
-            root@docker:/#  cat  /vector-role/molecule/default/molecule.yml
-            ---
-            dependency:
-              name: galaxy
-            driver:
-              name: docker
-            lint:
-              ansible-lint .
-              yamllint .
-            platforms:
-              - name: Centos8
-                image: docker.io/pycontribs/centos:8
-                pre_build_image: true
-              - name: Ubuntu
-                image: docker.io/pycontribs/ubuntu:latest
-                pre_build_image: true
+               root@docker:/#  cat  /vector-role/molecule/default/molecule.yml
+               ---
+               dependency:
+                 name: galaxy
+               driver:
+                 name: docker
+               lint:
+                 ansible-lint .
+                 yamllint .
+               platforms:
+                 - name: centos_8
+                   image: pycontribs/centos:8
+                   pre_build_image: true
+                 - name: ubuntu
+                   image: pycontribs/ubuntu:latest
+                   pre_build_image: true
 
-            provisioner:
-              name: ansible
-            verifier:
-              name: ansible
+               provisioner:
+                 name: ansible
+               verifier:
+                 name: ansible
 
-10) Запускаем  полный сценарий тестирования .  
+8) Запускаем  полный сценарий тестирования .  
    На шаге dependency  необходимые пакеты скачиваются в каталог /root/.ansible/collections
 
-         root@docker:/#  molecule test -s default
-         INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
-         INFO     Performing prerun...
-         INFO     Set ANSIBLE_LIBRARY=/root/.cache/ansible-compat/f5bcd7/modules:/root/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
-         INFO     Set ANSIBLE_COLLECTIONS_PATH=/root/.cache/ansible-compat/f5bcd7/collections:/root/.ansible/collections:/usr/share/ansible/collections
-         INFO     Set ANSIBLE_ROLES_PATH=/root/.cache/ansible-compat/f5bcd7/roles:/etc/ansible/roles
-         INFO     Running default > dependency
-         WARNING  Skipping, missing the requirements file.
-         WARNING  Skipping, missing the requirements file.
-         INFO     Running default > lint
-         INFO     Lint is disabled.
-         INFO     Running default > cleanup
-         WARNING  Skipping, cleanup playbook not configured.
-         INFO     Running default > destroy
-         INFO     Sanity checks: 'docker'
+        root@docker:/#  molecule test -s default
+        INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+        INFO     Performing prerun...
+        INFO     Set ANSIBLE_LIBRARY=/root/.cache/ansible-compat/f5bcd7/modules:/root/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
+        INFO     Set ANSIBLE_COLLECTIONS_PATH=/root/.cache/ansible-compat/f5bcd7/collections:/root/.ansible/collections:/usr/share/ansible/collections
+        INFO     Set ANSIBLE_ROLES_PATH=/root/.cache/ansible-compat/f5bcd7/roles:/etc/ansible/roles
+        INFO     Running default > dependency
+        WARNING  Skipping, missing the requirements file.
+        WARNING  Skipping, missing the requirements file.
+        INFO     Running default > lint
+        INFO     Lint is disabled.
+        INFO     Running default > cleanup
+        WARNING  Skipping, cleanup playbook not configured.
+        INFO     Running default > destroy
+        INFO     Sanity checks: 'docker'
 
-         PLAY [Destroy] *****************************************************************
+        PLAY [Destroy] *****************************************************************
 
-         TASK [Set async_dir for HOME env] **********************************************
-         ok: [localhost]
-         ...
-         ...
-         ...
-         ...
-         PLAY RECAP *********************************************************************
-         Centos8                    : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
-         Ubuntu                     : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+        TASK [Set async_dir for HOME env] **********************************************
+        ok: [localhost]
+        ...
+        ...
+        ...
+        ...
+        PLAY RECAP *********************************************************************
+        Centos8                    : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+        Ubuntu                     : ok=10   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
 
-         INFO     Running default > idempotence
+        INFO     Running default > idempotence
 
-         PLAY [Converge] ****************************************************************
-         ...
-         ...
-         ...
-         PLAY RECAP *********************************************************************
-         Centos8                    : ok=10   changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-         Ubuntu                     : ok=10   changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+        PLAY [Converge] ****************************************************************
+        ...
+        ...
+        ...
+        PLAY RECAP *********************************************************************
+        Centos8                    : ok=10   changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+        Ubuntu                     : ok=10   changed=4    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-         CRITICAL Idempotence test failed because of the following tasks:
-         * [Centos8] => vector-role : Get Vector installed version
-         * [Ubuntu] => vector-role : Get Vector installed version
-         * [Centos8] => vector-role : Copy distrib to working catalog
-         * [Ubuntu] => vector-role : Copy distrib to working catalog
-         * [Ubuntu] => vector-role : Copy configuration file  for Vector
-         * [Centos8] => vector-role : Copy configuration file  for Vector
-         * [Centos8] => vector-role : Execute Vector in the installation directory
-         * [Ubuntu] => vector-role : Execute Vector in the installation directory
-         WARNING  An error occurred during the test sequence action: 'idempotence'. Cleaning up.
-         INFO     Running default > cleanup
-         WARNING  Skipping, cleanup playbook not configured.
-         INFO     Running default > destroy
+        CRITICAL Idempotence test failed because of the following tasks:
+        * [Centos8] => vector-role : Get Vector installed version
+        * [Ubuntu] => vector-role : Get Vector installed version
+        * [Centos8] => vector-role : Copy distrib to working catalog
+        * [Ubuntu] => vector-role : Copy distrib to working catalog
+        * [Ubuntu] => vector-role : Copy configuration file  for Vector
+        * [Centos8] => vector-role : Copy configuration file  for Vector
+        * [Centos8] => vector-role : Execute Vector in the installation directory
+        * [Ubuntu] => vector-role : Execute Vector in the installation directory
+        WARNING  An error occurred during the test sequence action: 'idempotence'. Cleaning up.
+        INFO     Running default > cleanup
+        WARNING  Skipping, cleanup playbook not configured.
+        INFO     Running default > destroy
 
-         PLAY [Destroy] *****************************************************************
+        PLAY [Destroy] *****************************************************************
 
-         TASK [Set async_dir for HOME env] **********************************************
-         ok: [localhost]
+        TASK [Set async_dir for HOME env] **********************************************
+        ok: [localhost]
 
-         TASK [Destroy molecule instance(s)] ********************************************
-         changed: [localhost] => (item=Centos8)
-         changed: [localhost] => (item=Ubuntu)
+        TASK [Destroy molecule instance(s)] ********************************************
+        changed: [localhost] => (item=Centos8)
+        changed: [localhost] => (item=Ubuntu)
 
-         TASK [Wait for instance(s) deletion to complete] *******************************
-         changed: [localhost] => (item=Centos8)
-         changed: [localhost] => (item=Ubuntu)
+        TASK [Wait for instance(s) deletion to complete] *******************************
+        changed: [localhost] => (item=Centos8)
+        changed: [localhost] => (item=Ubuntu)
 
-         TASK [Delete docker networks(s)] ***********************************************
+        TASK [Delete docker networks(s)] ***********************************************
 
-         PLAY RECAP *********************************************************************
-         localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+        PLAY RECAP *********************************************************************
+        localhost                  : ok=3    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
-         INFO     Pruning extra files from scenario ephemeral directory
+        INFO     Pruning extra files from scenario ephemeral directory
 
 
 9) Добавляем несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
