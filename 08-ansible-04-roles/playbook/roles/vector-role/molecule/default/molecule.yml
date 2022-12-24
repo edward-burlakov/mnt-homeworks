@@ -8,7 +8,7 @@ lint: |
   ansible-lint .
   yamllint .
 platforms:
-  - name: "Сentos8"
+  - name: "centos"
     image: pycontribs/centos:8
     pre_build_image: true
   - name: "Ubuntu"
