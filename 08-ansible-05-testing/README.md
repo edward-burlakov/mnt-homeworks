@@ -6,28 +6,31 @@
    ERROR: molecule-docker 2.1.0 has requirement molecule>=4.0.0, but you'll have molecule 3.5.2 which is incompatible.
 
             
-            root@docker:/#  python3 -m pip install --upgrade "molecule==4.0.4"   
-            root@docker:/#  python3 -m pip install --upgrade 'molecule[docker]'       
+            root@dockerhost:/#  python3 -m pip install --upgrade "molecule==4.0.4"   
+            root@dockerhost:/#  python3 -m pip install --upgrade 'molecule[docker]'       
             ...
             Installing collected packages: websocket-client, docker, molecule-docker
             Successfully installed docker-6.0.1 molecule-docker-2.1.0 websocket-client-1.4.2
 
 2) Проверяем версию молекулы
 
-            root@docker:/# molecule --version
+            root@dockerhost:/# molecule --version
             molecule 4.0.0 using python 3.8
             ansible:2.13.6
             delegated:4.0.0 from molecule
             docker:2.1.0 from molecule_docker requiring collections: community.docker>=3.0.2 ansible.posix>=1.4.0
   
-3) Проверяем версию Python / Устанавливаем  версии Python 3.8.10  и 3.9.16  на основании статьи 
+3) Проверяем версию Python / Устанавливаем  версии Python  3.6.15, 3.8.10  и 3.9.16  на основании статьи 
    [https://medium.datadriveninvestor.com/how-to-install-and-manage-multiple-python-versions-on-linux-916990dabe4b]
 
+             root@dockerhost:/# pyenv install 3.6.15
+             root@dockerhost:/# pyenv install 3.8.6
+             root@dockerhost:/# pyenv install 3.9.16 
 
 4) Устанавливаем версию Python 3.9.16  версией по умолчанию  - -Press  <Ctrl> + <Z> .
 
-            root@docker:/# pyenv global 3.9.16
-            root@docker:/# python3
+            root@dockerhost:/# pyenv global 3.9.16
+            root@dockerhost:/# python3
             Python 3.9.16 (main, Dec 24 2022, 03:29:44)
             [GCC 9.4.0] on linux
             Type "help", "copyright", "credits" or "license" for more information.
@@ -38,24 +41,24 @@
 
 5) Убеждаемся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
             
-            root@docker:/# pip3 install ansible-lint yamllint
-            root@docker:/# yamllint --version
+            root@dockerhost:/# pip3 install ansible-lint yamllint
+            root@dockerhost:/# yamllint --version
             yamllint 1.28.0
 
-            root@docker:/# ansible-lint --version
+            root@dockerhost:/# ansible-lint --version
             ansible-lint 6.8.6 using ansible 2.13.6
             A new release of ansible-lint is available: 6.8.6 → 6.10.0
 
-            root@docker:/# pip3 install git+https://github.com/ansible/ansible-lint.git
+            root@dockerhost:/# pip3 install git+https://github.com/ansible/ansible-lint.git
             Successfully installed ansible-compat-2.2.7 ansible-lint-6.10.1.dev2 pyyaml-6.0
-            root@docker:/home/bes/vector-role/molecule/default# ansible-lint --version
+            root@dockerhost:/home/bes/vector-role/molecule/default# ansible-lint --version
             ansible-lint 6.10.1.dev2 using ansible 2.13.6
             You are using a pre-release version of ansible-lint.
 
 6) Запускаем [molecule test -s centos_7] внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), смотрим на вывод команды.
 
-            root@docker:/#  cd /etc/ansible/roles/ansible-clickhouse
-            root@docker:/#  ls -la
+            root@dockerhost:/#  cd /etc/ansible/roles/ansible-clickhouse
+            root@dockerhost:/#  ls -la
             total 72
             drwxr-xr-x 10 root root  4096 Dec 21 05:56 .
             drwxr-xr-x  5 root root  4096 Dec 21 05:56 ..
@@ -73,9 +76,9 @@
             drwxr-xr-x  2 root root  4096 Dec 21 05:56 vars
             -rw-rw-r--  1 root root   598 Jul 26 15:10 .yamllint
 
-            root@docker:/#  molecule test -s centos_7
-            root@docker:/etc/ansible/roles/ansible-clickhouse# molecule test -s centos_7
-            root@docker:/home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse# molecule  test -s centos_7
+            root@dockerhost:/#  molecule test -s centos_7
+            root@dockerhost:/etc/ansible/roles/ansible-clickhouse# molecule test -s centos_7
+            root@dockerhost:/home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse# molecule  test -s centos_7
             INFO     centos_7 scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
             INFO     Performing prerun with role_name_check=0...
             INFO     Set ANSIBLE_LIBRARY=/root/.cache/ansible-compat/b9a93c/modules:/root/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
@@ -147,22 +150,33 @@
 
             INFO     Pruning extra files from scenario ephemeral directory
 
+#### Результат показывает что стадия lint неуспешна? поскольку свежая версия ansible-lint  не 
+#### тестируется со старыми версий Python 3.6 и Python 3.8    
+
+#### ДЛя использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml       
+root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16
+root@dockerhosthost:/ansible-clickhouse#  molecule test -s centos_7
+CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse/molecule/centos_7/molecule.yml
+["Additional properties are not allowed ('playbooks' was unexpected)"]
+
+            
+7) Создаем сценарий тестирования: 
 * Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
      c помощью команды  "molecule init role vector-role --driver-name docker"
 
-        root@docker:/#  molecule init role 'vector-role' --driver-name docker 
+        root@dockerhost:/#  molecule init role 'vector-role' --driver-name docker 
   
-* Либо  переходим  в каталог   08-ansible-04-roles\playbook\roles\vector-role  из прошлого урока "LESSON 8.4"
+  * Либо  переходим  в каталог   08-ansible-04-roles\playbook\roles\vector-role  из прошлого урока "LESSON 8.4"
   с уже существующей ролью vector-role, чтобы создать для molecule сценарий тестирования по умолчанию
 
-       root@docker:/#  cd /home/bes/LESSON/08-ansible-04-roles\playbook\roles\vector-role   
-       root@docker:/#  molecule init scenario default --driver-name docker
+       root@dockerhost:/#  cd /home/bes/LESSON/08-ansible-04-roles\playbook\roles\vector-role   
+       root@dockerhost:/#  molecule init scenario default --driver-name docker
        INFO     Initializing new scenario default...
        INFO     Initialized scenario in /home/bes/vector-role/molecule/default successfully.
 
 8) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и тестируем роль, исправляем найденные ошибки, если они есть.
           
-            root@docker:/#  cat  /vector-role/molecule/default/molecule.yml
+            root@dockerhost:/#  cat  /vector-role/molecule/default/molecule.yml
             ---
             dependency:
               name: galaxy
@@ -197,7 +211,7 @@
             б) После окончания работы фреймворка molecule
       ![img_2.png](img_2.png)
    
-           root@docker:/#  molecule test -s default
+           root@dockerhost:/#  molecule test -s default
            INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
            INFO     Performing prerun with role_name_check=0...
            INFO     Set ANSIBLE_LIBRARY=/root/.cache/ansible-compat/f5bcd7/modules:/root/.ansible/plugins/modules:/usr/share/ansible/plugins/modules
@@ -447,17 +461,17 @@
 
     Для очистки сценария по умолчанию
 
-         root@docker:/#  molecule reset
+         root@dockerhost:/#  molecule reset
 
     Для проверки запускаем:
 
-         root@docker:/#  molecule matrix test
+         root@dockerhost:/#  molecule matrix test
 
 11) Запускаем тестирование роли повторно и проверяем, что оно прошло успешно, 
     добавив несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
     (проверка, что конфиг валидный, проверка успешности запуска, etc).
 
-         root@docker:/#  molecule test -s default
+         root@dockerhost:/#  molecule test -s default
           ...
           ...
           INFO     Verifier completed successfully.
@@ -495,7 +509,7 @@
 
 14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
     
-         root@docker:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
+         root@dockerhost:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
 
          [root@0259424bb717 vector-role]# 
 
@@ -526,7 +540,7 @@
     
         Записываем в  файл   tox.ini установку  пакета  git и podman
 
-        root@docker:~/vector-role# cat tox-requirements.txt
+        root@dockerhost:~/vector-role# cat tox-requirements.txt
         selinux        
         ansible-lint==5.1.3
         yamllint==1.26.3
