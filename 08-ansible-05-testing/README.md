@@ -495,6 +495,7 @@
 14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
     
          root@docker:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
+
          [root@0259424bb717 vector-role]# 
 
 15) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
@@ -513,7 +514,8 @@
          ERROR:   py39-ansible210: commands failed
          ERROR:   py39-ansible30: commands failed
 
-16) Создаёмй облегчённый сценарий для molecule с драйвером molecule_podman. Проверьте его на исполнимость.
+16) Создаём облегчённый сценарий для molecule с драйвером molecule_podman. Проверяем
+17) его на исполнимость.
 
          Копируем папку default  в папку  compatibility . В новой папке  в файле molecule.yml заменяем   driver docker на  podman .
          Тогда ansbile  внутри докера  автоматически заказчает коннектор  containers.podman:>=1.7.0
@@ -521,7 +523,7 @@
 
 18) Пропишите правильную команду в tox.ini для того чтобы запускался облегчённый сценарий.
     
-        Записываем в  файл   tox.ini устнаовку  пакета  git и podman
+        Записываем в  файл   tox.ini установку  пакета  git и podman
 
         root@docker:~/vector-role# cat tox-requirements.txt
         selinux        
