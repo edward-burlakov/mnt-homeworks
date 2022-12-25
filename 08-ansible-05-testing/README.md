@@ -145,8 +145,7 @@
             localhost                  : ok=3    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
 
             INFO     Pruning extra files from scenario ephemeral directory
-
-* Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
+7) * Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
      c помощью команды  "molecule init role vector-role --driver-name docker"
 
         root@docker:/#  molecule init role 'vector-role' --driver-name docker 
