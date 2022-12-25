@@ -151,8 +151,8 @@
 
             INFO     Pruning extra files from scenario ephemeral directory
 
-#### Результат показывает что стадия lint неуспешна, поскольку свежая версия ansible-lint  не подерживает старые 
-#### версий Python 3.6 и Python 3.8    
+#### Результат показывает что стадия lint неуспешна, поскольку свежая версия ansible-lint  не поддерживает старые  версии
+#### Python 3.6 и Python 3.8    
 
 #### Для использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml       
 root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16
