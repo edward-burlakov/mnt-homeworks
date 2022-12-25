@@ -27,7 +27,7 @@
              root@dockerhost:/# pyenv install 3.8.6
              root@dockerhost:/# pyenv install 3.9.16 
 
-###  4) Устанавливаем версию Python 3.9.16  версией по умолчанию  - -Press  <Ctrl> + <Z> .
+###  4) Устанавливаем версию Python 3.9.16  версией по умолчанию   -  Press ( Ctrl + Z ).
 
             root@dockerhost:/# pyenv global 3.9.16
             root@dockerhost:/# python3
