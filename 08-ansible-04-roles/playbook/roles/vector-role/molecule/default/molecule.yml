@@ -10,6 +10,18 @@ platforms:
   - name: centos
     image: pycontribs/centos:8
     pre_build_image: true
+    command: /usr/sbin/init
+    privileged: true
+    capabilities:
+      - SYS_ADMIN
+    tmpfs:
+      - /run
+      - /tmp
+    env:
+      ANSIBLE_USER: ansible
+      SUDO_GROUP: wheel
+      DEPLOY_GROUP: deployer
+      container: docker
   - name: ubuntu
     image: pycontribs/ubuntu:latest
     pre_build_image: true
