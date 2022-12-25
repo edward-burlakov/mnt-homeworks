@@ -187,10 +187,10 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
               ansible-lint .
               yamllint .
             platforms:
-              - name: Centos8
+              - name: centos
                 image: pycontribs/centos:8
                 pre_build_image: true
-              - name: Ubuntu
+              - name: ubuntu
                 image: pycontribs/ubuntu:latest
                 pre_build_image: true
 
@@ -203,9 +203,9 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
    На шаге dependency  необходимые пакеты скачиваются в каталог /root/.ansible/collections
 
          В режиме реального времени можно отслеживать состояние тестовых контейнеров 
-         или запустив #molecule login -s default --name Centos8
+          запустив # molecule login -s default --name centos
 
-         Можно отслеживать состояние с помощью  docker ps -a 
+         Также можно отслеживать состояние с помощью  docker ps -a 
             а) В процессе выполнения фреймворка molecule
       ![img_1.png](img_1.png)
 
@@ -236,12 +236,12 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
            ok: [localhost]
  
            TASK [Destroy molecule instance(s)] ********************************************
-           changed: [localhost] => (item=Centos8)
-           changed: [localhost] => (item=Ubuntu)
+           changed: [localhost] => (item=centos)
+           changed: [localhost] => (item=ubuntu)
 
            TASK [Wait for instance(s) deletion to complete] *******************************
-           ok: [localhost] => (item=Centos8)
-           ok: [localhost] => (item=Ubuntu)
+           ok: [localhost] => (item=centos)
+           ok: [localhost] => (item=ubuntu)
 
            TASK [Delete docker networks(s)] ***********************************************
            skipping: [localhost]
@@ -265,22 +265,22 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
            skipping: [localhost]
 
            TASK [Check presence of custom Dockerfiles] ************************************
-           ok: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'Centos8', 'pre_build_image': True})
-           ok: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'Ubuntu', 'pre_build_image': True})
+           ok: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True})
+           ok: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True})
 
            TASK [Create Dockerfiles from image names] *************************************
-           skipping: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'Centos8', 'pre_build_image': True})
-           skipping: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'Ubuntu', 'pre_build_image': True})
+           skipping: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True})
+           skipping: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True})
            skipping: [localhost]
 
            TASK [Synchronization the context] *********************************************
-           skipping: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'Centos8', 'pre_build_image': True})
-           skipping: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'Ubuntu', 'pre_build_image': True})
+           skipping: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True})
+           skipping: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True})
            skipping: [localhost]
 
            TASK [Discover local Docker images] ********************************************
-           ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'pycontribs/centos:8', 'name': 'Centos8', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 0, 'ansible_index_var': 'i'})
-           ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'pycontribs/ubuntu:latest', 'name': 'Ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 1, 'ansible_index_var': 'i'})
+           ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 0, 'ansible_index_var': 'i'})
+           ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 1, 'ansible_index_var': 'i'})
 
            TASK [Build an Ansible compatible image (new)] *********************************
            skipping: [localhost] => (item=molecule_local/pycontribs/centos:8)
@@ -291,16 +291,16 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
            skipping: [localhost]
 
            TASK [Determinee the CMD directives] ********************************************
-           ok: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'Centos8', 'pre_build_image': True})
-           ok: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'Ubuntu', 'pre_build_image': True})
+           ok: [localhost] => (item={'image': 'pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True})
+           ok: [localhost] => (item={'image': 'pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True})
 
            TASK [Create molecule instance(s)] *********************************************
-           changed: [localhost] => (item=Centos8)
-           changed: [localhost] => (item=Ubuntu)
+           changed: [localhost] => (item=centos)
+           changed: [localhost] => (item=ubuntu)
 
            TASK [Wait for instance(s) creation to complete] *******************************
-           changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '676164706453.168159', 'results_file': '/root/.ansible_async/676164706453.168159', 'changed': True, 'item': {'image': 'pycontribs/centos:8', 'name': 'Centos8', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
-           changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '176382917463.168233', 'results_file': '/root/.ansible_async/176382917463.168233', 'changed': True, 'item': {'image': 'pycontribs/ubuntu:latest', 'name': 'Ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+           changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '676164706453.168159', 'results_file': '/root/.ansible_async/676164706453.168159', 'changed': True, 'item': {'image': 'pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+           changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '176382917463.168233', 'results_file': '/root/.ansible_async/176382917463.168233', 'changed': True, 'item': {'image': 'pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
 
            PLAY RECAP *********************************************************************
            localhost                  : ok=6    changed=2    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
@@ -312,108 +312,108 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
            PLAY [Converge] ****************************************************************
 
            TASK [Gathering Facts] *********************************************************
-           ok: [Ubuntu]
-           ok: [Centos8]
+           ok: [ubuntu]
+           ok: [centos]
 
            TASK [Apply vector-role] *******************************************************
 
            TASK [vector-role : Export environment variables for Vector] *******************
-           changed: [Ubuntu]
-           changed: [Centos8]
+           changed: [ubuntu]
+           changed: [centos]
 
            TASK [vector-role : Get Vector installed version] ******************************
-           fatal: [Centos8]: FAILED! => {"changed": false, "cmd": "$HOME/.vector/bin/vector --version", "delta": "0:00:00.004081", "end": "2022-12-24 17:31:51.546108", "msg": "non-zero return code", "rc": 127, "start": "2022-12-24 17:31:51.542027", "stderr": "/bin/bash: /root/.vector/bin/vector: No such file or directory", "stderr_lines": ["/bin/bash: /root/.vector/bin/vector: No such file or directory"], "stdout": "", "stdout_lines": []}
-           fatal: [Ubuntu]: FAILED! => {"changed": false, "cmd": "$HOME/.vector/bin/vector --version", "delta": "0:00:00.003557", "end": "2022-12-24 17:31:51.636265", "msg": "non-zero return code", "rc": 127, "start": "2022-12-24 17:31:51.632708", "stderr": "/bin/bash: /root/.vector/bin/vector: No such file or directory", "stderr_lines": ["/bin/bash: /root/.vector/bin/vector: No such file or directory"], "stdout": "", "stdout_lines": []}
+           fatal: [centos]: FAILED! => {"changed": false, "cmd": "$HOME/.vector/bin/vector --version", "delta": "0:00:00.004081", "end": "2022-12-24 17:31:51.546108", "msg": "non-zero return code", "rc": 127, "start": "2022-12-24 17:31:51.542027", "stderr": "/bin/bash: /root/.vector/bin/vector: No such file or directory", "stderr_lines": ["/bin/bash: /root/.vector/bin/vector: No such file or directory"], "stdout": "", "stdout_lines": []}
+           fatal: [ubuntu]: FAILED! => {"changed": false, "cmd": "$HOME/.vector/bin/vector --version", "delta": "0:00:00.003557", "end": "2022-12-24 17:31:51.636265", "msg": "non-zero return code", "rc": 127, "start": "2022-12-24 17:31:51.632708", "stderr": "/bin/bash: /root/.vector/bin/vector: No such file or directory", "stderr_lines": ["/bin/bash: /root/.vector/bin/vector: No such file or directory"], "stdout": "", "stdout_lines": []}
            ...ignoring
            ...ignoring
 
            TASK [vector-role : Ensure installation dir exists and create if its not] ******
-           changed: [Centos8]
-           changed: [Ubuntu]
+           changed: [centos]
+           changed: [ubuntu]
 
            TASK [vector-role : Get archive of Vector from remote URL] *********************
-           changed: [Ubuntu]
-           changed: [Centos8]
+           changed: [ubuntu]
+           changed: [centos]
 
            TASK [vector-role : Extract Vector in the installation directory] **************
-           changed: [Centos8]
-           changed: [Ubuntu]
+           changed: [centos]
+           changed: [ubuntu]
 
            TASK [vector-role : Copy distrib to working catalog] ***************************
-           changed: [Centos8]
-           changed: [Ubuntu]
+           changed: [centos]
+           changed: [ubuntu]
 
            TASK [vector-role : Copy configuration file  for Vector] ***********************
-           changed: [Centos8]
-           changed: [Ubuntu]
+           changed: [centos]
+           changed: [ubuntu]
 
            TASK [vector-role : Copy scriptfile  for Vector] *******************************
-           changed: [Ubuntu]
-           changed: [Centos8]
+           changed: [ubuntu]
+           changed: [centos]
 
            TASK [vector-role : Execute Vector in the installation directory] **************
-           ok: [Centos8]
-           ok: [Ubuntu]
+           ok: [centos]
+           ok: [ubuntu]
 
            PLAY RECAP *********************************************************************
-           Centos8                    : ok=10   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
-           Ubuntu                     : ok=10   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+           centos                    : ok=10   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+           ubuntu                     : ok=10   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
 
            INFO     Running default > idempotence
 
            PLAY [Converge] ****************************************************************
 
            TASK [Gathering Facts] *********************************************************
-           ok: [Ubuntu]
-           ok: [Centos8]
+           ok: [ubuntu]
+           ok: [centos]
 
            TASK [Apply vector-role] *******************************************************
 
            TASK [vector-role : Export environment variables for Vector] *******************
-           ok: [Centos8]
-           ok: [Ubuntu]
+           ok: [centos]
+           ok: [ubuntu]
 
            TASK [vector-role : Get Vector installed version] ******************************
-           ok: [Ubuntu]
-           ok: [Centos8]
+           ok: [ubuntu]
+           ok: [centos]
 
            TASK [vector-role : Ensure installation dir exists and create if its not] ******
-           ok: [Centos8]
-           ok: [Ubuntu]
+           ok: [centos]
+           ok: [ubuntu]
 
            TASK [vector-role : Get archive of Vector from remote URL] *********************
-           ok: [Centos8]
-           ok: [Ubuntu]
+           ok: [centos]
+           ok: [ubuntu]
 
            TASK [vector-role : Extract Vector in the installation directory] **************
-           ok: [Ubuntu]
-           ok: [Centos8]
+           ok: [ubuntu]
+           ok: [centos]
 
            TASK [vector-role : Copy distrib to working catalog] ***************************
-           changed: [Ubuntu]
-           changed: [Centos8]
+           changed: [ubuntu]
+           changed: [centos]
 
            TASK [vector-role : Copy configuration file  for Vector] ***********************
-           changed: [Ubuntu]
-           changed: [Centos8]
+           changed: [ubuntu]
+           changed: [centos]
 
            TASK [vector-role : Copy scriptfile  for Vector] *******************************
-           ok: [Centos8]
-           ok: [Ubuntu]
+           ok: [centos]
+           ok: [ubuntu]
 
            TASK [vector-role : Execute Vector in the installation directory] **************
-           ok: [Centos8]
-           ok: [Ubuntu]
+           ok: [centos]
+           ok: [ubuntu]
 
            PLAY RECAP *********************************************************************
-           Centos8                    : ok=10   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
-           Ubuntu                     : ok=10   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+           centos                    : ok=10   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+           ubuntu                     : ok=10   changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
            CRITICAL Idempotence test failed because of the following tasks:
-           * [Ubuntu] => vector-role : Copy distrib to working catalog
-           * [Centos8] => vector-role : Copy distrib to working catalog
-           * [Ubuntu] => vector-role : Copy configuration file  for Vector
-           * [Centos8] => vector-role : Copy configuration file  for Vector
+           * [ubuntu] => vector-role : Copy distrib to working catalog
+           * [centos] => vector-role : Copy distrib to working catalog
+           * [ubuntu] => vector-role : Copy configuration file  for Vector
+           * [centos] => vector-role : Copy configuration file  for Vector
            WARNING  An error occurred during the test sequence action: 'idempotence'. Cleaning up.
            INFO     Running default > cleanup
            WARNING  Skipping, cleanup playbook not configured.
@@ -425,13 +425,13 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
            ok: [localhost]
 
            TASK [Destroy molecule instance(s)] ********************************************
-           changed: [localhost] => (item=Centos8)
-           changed: [localhost] => (item=Ubuntu)
+           changed: [localhost] => (item=centos)
+           changed: [localhost] => (item=ubuntu)
 
            TASK [Wait for instance(s) deletion to complete] *******************************
            FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
-           changed: [localhost] => (item=Centos8)
-           changed: [localhost] => (item=Ubuntu)
+           changed: [localhost] => (item=centos)
+           changed: [localhost] => (item=ubuntu)
 
            TASK [Delete docker networks(s)] ***********************************************
            skipping: [localhost]
@@ -487,12 +487,12 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
 
           TASK [Destroy molecule instance(s)] ********************************************
           changed: [localhost] => (item=centos)
-          changed: [localhost] => (item=Ubuntu)
+          changed: [localhost] => (item=ubuntu)
 
           TASK [Wait for instance(s) deletion to complete] *******************************
           FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
           changed: [localhost] => (item=centos)
-          changed: [localhost] => (item=Ubuntu)
+          changed: [localhost] => (item=ubuntu)
 
           TASK [Delete docker networks(s)] ***********************************************
           skipping: [localhost]
@@ -510,9 +510,9 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
 
 14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
     
-         root@dockerhost:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
+        root@dockerhost:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
 
-         [root@0259424bb717 vector-role]# 
+        [root@0259424bb717 vector-role]# 
 
 15) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
       
@@ -551,6 +551,6 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
         molecule_podman==4.2.0
         git==2.31.1
 
-19) Запустите команду tox. Убедитесь, что всё отработало успешно.
+19) Запускаем команду tox. Убеждаемся, что всё отработало успешно.
 
-20) Добавьте новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
+20) Добавляем новый новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
