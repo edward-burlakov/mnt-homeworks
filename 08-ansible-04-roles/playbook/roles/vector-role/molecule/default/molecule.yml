@@ -1,7 +1,6 @@
 ---
 dependency:
   name: galaxy
-  enabled: false
 driver:
   name: docker
 lint: |
@@ -21,7 +20,7 @@ verifier:
 scenario:
   test_sequence:
     - dependency
-    - lint
+ #   - lint
     - cleanup
     - destroy
     - syntax

@@ -41,6 +41,7 @@
             root@docker:/# pip3 install ansible-lint yamllint
             root@docker:/# yamllint --version
             yamllint 1.28.0
+
             root@docker:/# ansible-lint --version
             ansible-lint 6.8.6 using ansible 2.13.6
             A new release of ansible-lint is available: 6.8.6 → 6.10.0
