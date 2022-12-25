@@ -488,14 +488,14 @@
 
 12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
           
-         https://github.com/edward-burlakov/vector-role/releases/tag/1.0.5
+          https://github.com/edward-burlakov/vector-role/releases/tag/1.0.5
 
 13) Добавляем в директорию с vector-role файлы  tox.ini и tox-requirements.txt
 
 14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
     
-        root@docker:/#  docker run --privileged=True -v /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
-        [root@0259424bb717 vector-role]# 
+         root@docker:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
+         [root@0259424bb717 vector-role]# 
 
 15) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
       
@@ -513,7 +513,26 @@
          ERROR:   py39-ansible210: commands failed
          ERROR:   py39-ansible30: commands failed
 
-17) Создайте облегчённый сценарий для molecule с драйвером molecule_podman. Проверьте его на исполнимость.
+16) Создаёмй облегчённый сценарий для molecule с драйвером molecule_podman. Проверьте его на исполнимость.
+
+         Копируем папку default  в папку  compatibility . В новой папке  в файле molecule.yml заменяем   driver docker на  podman .
+         Тогда ansbile  внутри докера  автоматически заказчает коннектор  containers.podman:>=1.7.0
+
+
 18) Пропишите правильную команду в tox.ini для того чтобы запускался облегчённый сценарий.
+    
+        Записываем в  файл   tox.ini устнаовку  пакета  git и podman
+
+        root@docker:~/vector-role# cat tox-requirements.txt
+        selinux        
+        ansible-lint==5.1.3
+        yamllint==1.26.3
+        lxml
+        molecule==3.4.0
+        jmespath
+        molecule_podman==4.2.0
+        git==2.31.1
+
 19) Запустите команду tox. Убедитесь, что всё отработало успешно.
+
 20) Добавьте новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
