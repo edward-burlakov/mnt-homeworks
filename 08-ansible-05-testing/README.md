@@ -154,12 +154,12 @@
 #### Результат показывает что стадия lint неуспешна, поскольку свежая версия ansible-lint  не поддерживает старые  версии
 #### Python 3.6 и Python 3.8    
 
-#### Для использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml       
-root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16
-root@dockerhosthost:/ansible-clickhouse#  molecule test -s centos_7
-CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse/molecule/centos_7/molecule.yml
-["Additional properties are not allowed ('playbooks' was unexpected)"]
+#### Для использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml
 
+          root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16
+          root@dockerhosthost:/ansible-clickhouse#  molecule test -s centos_7
+          CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse/molecule/centos_7/molecule.yml
+          ["Additional properties are not allowed ('playbooks' was unexpected)"]
             
 7) Создаем сценарий тестирования: 
 * Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
