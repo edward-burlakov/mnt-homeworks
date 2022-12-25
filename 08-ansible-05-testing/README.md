@@ -192,10 +192,10 @@
 
          Можно отслеживать состояние с помощью  docker ps -a 
             а) В процессе выполнения фреймворка molecule
-      ![img.png](img.png)
+      ![img_1.png](img_1.png)
 
             б) После окончания работы фреймворка molecule
-      ![img_1.png](img_1.png)
+      ![img_2.png](img_2.png)
    
            root@docker:/#  molecule test -s default
            INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
