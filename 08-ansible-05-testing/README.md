@@ -15,9 +15,9 @@
 2) Проверяем версию молекулы
 
             root@docker:/# molecule --version
-            molecule 4.0.0 using python 3.8
-            ansible:2.13.6
-            delegated:4.0.0 from molecule
+            molecule 4.0.4 using python 3.9
+            ansible:2.14.1
+            delegated:4.0.4 from molecule
             docker:2.1.0 from molecule_docker requiring collections: community.docker>=3.0.2 ansible.posix>=1.4.0
   
 3) Проверяем версию Python / Устанавливаем  версии Python 3.8.10  и 3.9.16  на основании статьи 
@@ -146,6 +146,8 @@
 
             INFO     Pruning extra files from scenario ephemeral directory
 
+7) Настраиваем сценарий тестирования default внутри роли  vector-role
+
 * Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
      c помощью команды  "molecule init role vector-role --driver-name docker"
 
@@ -191,10 +193,10 @@
 
          Можно отслеживать состояние с помощью  docker ps -a 
             а) В процессе выполнения фреймворка molecule
-      ![img.png](img.png)
+      ![img_1.png](img_1.png)
 
             б) После окончания работы фреймворка molecule
-      ![img_1.png](img_1.png)
+      ![img_2.png](img_2.png)
    
            root@docker:/#  molecule test -s default
            INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
@@ -492,13 +494,15 @@
 
 13) Добавляем в директорию с vector-role файлы  tox.ini и tox-requirements.txt
 
-14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
+14)  Копируем папку  ~/vector-role/molecule/default  в папку  ~/vector-role/molecule/compatibility . 
+
+15) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
     
          root@docker:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
 
          [root@0259424bb717 vector-role]# 
 
-15) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
+16) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
       
          [root@0259424bb717 vector-role]# tox
          py37-ansible210 create: /opt/vector-role/.tox/py37-ansible210
@@ -514,13 +518,13 @@
          ERROR:   py39-ansible210: commands failed
          ERROR:   py39-ansible30: commands failed
 
-16) Создаём облегчённый сценарий для molecule с драйвером molecule_podman. Проверяем
-17) его на исполнимость.
+17) Создаём облегчённый сценарий для molecule с драйвером molecule_podman   оставляем  только тест для Python 3.9. 
+   Проверяем  его на исполнимость.
 
          Копируем папку default  в папку  compatibility . В новой папке  в файле molecule.yml заменяем   driver docker на  podman .
          Тогда ansbile  внутри докера  автоматически заказчает коннектор  containers.podman:>=1.7.0
 
-
+       
 18) Пропишите правильную команду в tox.ini для того чтобы запускался облегчённый сценарий.
     
         Записываем в  файл   tox.ini установку  пакета  git и podman

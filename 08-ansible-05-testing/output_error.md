@@ -2,7 +2,7 @@
 docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
 
 ###  [root@593f62096d3a vector-role]#  tox 
-Скриншот вывода команды:
+Скриншот вывода команды c спольщованием  драйвера PODMAN:
 ![img_3.png](img_3.png)
 
 
