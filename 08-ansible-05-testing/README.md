@@ -533,7 +533,7 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
 16) Создаём облегчённый сценарий для molecule с драйвером molecule_podman. Проверяем
 17) его на исполнимость.
 
-         Копируем папку default  в папку  compatibility . В новой папке  в файле molecule.yml заменяем   driver docker на  podman .
+         В новой папке  в файле molecule.yml заменяем   driver docker на  podman .
          Тогда ansbile  внутри докера  автоматически заказчает коннектор  containers.podman:>=1.7.0
 
 
@@ -552,5 +552,182 @@ CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles
         git==2.31.1
 
 19) Запускаем команду tox. Убеждаемся, что всё отработало успешно.
+        [root@8ab72bbc3acb vector-role]# tox
+
+        py36-ansible210 installed: ansible==2.10.7,ansible-base==2.10.17,ansible-compat==1.0.0,ansible-lint==5.1.3,arrow==1.2.3,bcrypt==4.0.1,binaryornot==0.4.4,bracex==2.2.1,cached-property==1.5.2,Cerberus==1.3.2,certifi==2022.12.7,cffi==1.15.1,chardet==5.0.0,charset-normalizer==2.0.12,click==8.0.4,click-help-colors==0.9.1,commonmark==0.9.1,cookiecutter==1.7.3,cryptography==38.0.4,dataclasses==0.8,distro==1.8.0,enrich==1.2.7,idna==3.4,importlib-metadata==4.8.3,Jinja2==3.0.3,jinja2-time==0.2.0,jmespath==0.10.0,lxml==4.9.2,MarkupSafe==2.0.1,molecule==3.4.0,molecule-podman==1.0.1,packaging==21.3,paramiko==2.12.0,pathspec==0.9.0,pluggy==0.13.1,poyo==0.5.0,pycparser==2.21,Pygments==2.13.0,PyNaCl==1.5.0,pyparsing==3.0.9,python-dateutil==2.8.2,python-slugify==6.1.2,PyYAML==5.4.1,requests==2.27.1,rich==12.6.0,ruamel.yaml==0.17.21,ruamel.yaml.clib==0.2.7,selinux==0.2.1,six==1.16.0,subprocess-tee==0.3.5,tenacity==8.1.0,text-unidecode==1.3,typing_extensions==4.1.1,urllib3==1.26.13,wcmatch==8.3,yamllint==1.26.3,zipp==3.6.0
+        py36-ansible210 run-test-pre: PYTHONHASHSEED='1508017431'
+        py36-ansible210 run-test: commands[0] | molecule test -s default --destroy always
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/requests/__init__.py:104: RequestsDependencyWarning: urllib3 (1.26.13) or chardet (5.0.0)/charset_normalizer (2.0.12) doesn't match a supported version!
+        RequestsDependencyWarning)
+        INFO     default scenario test matrix: dependency, cleanup, destroy, syntax, create, prepare, converge, side_effect, verify, cleanup, destroy
+        INFO     Performing prerun...
+        WARNING  Failed to locate command: [Errno 2] No such file or directory: 'git': 'git'
+        INFO     Guessed /opt/vector-role as project root directory
+        INFO     Using /root/.cache/ansible-lint/b984a4/roles/edwardburlakov.vector symlink to current repository in order to enable Ansible to find the role using its expected full name.
+        INFO     Added ANSIBLE_ROLES_PATH=~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:/root/.cache/ansible-lint/b984a4/roles
+        INFO     Running default > dependency
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        WARNING  Skipping, missing the requirements file.
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        WARNING  Skipping, missing the requirements file.
+        INFO     Running default > cleanup
+        WARNING  Skipping, cleanup playbook not configured.
+        INFO     Running default > destroy
+        INFO     Sanity checks: 'podman'
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+
+        PLAY [Destroy] *****************************************************************
+
+        TASK [Destroy molecule instance(s)] ********************************************
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        changed: [localhost] => (item={'env': {'ANSIBLE_USER': 'ansible', 'DEPLOY_GROUP': 'deployer', 'SUDO_GROUP': 'wheel', 'container': 'docker'}, 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True})
+        changed: [localhost] => (item={'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True})
+
+          TASK [Wait for instance(s) deletion to complete] *******************************
+        changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '331985713650.7433', 'results_file': '/root/.ansible_async/331985713650.7433', 'changed': True, 'failed': False, 'item': {'env': {'ANSIBLE_USER': 'ansible', 'DEPLOY_GROUP': 'deployer', 'SUDO_GROUP': 'wheel', 'container': 'docker'}, 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+        changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '945167250732.7453', 'results_file': '/root/.ansible_async/945167250732.7453', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+        PLAY RECAP *********************************************************************
+        localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+        INFO     Running default > syntax 
+
+        playbook: /opt/vector-role/molecule/default/converge.yml
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        INFO     Running default > create
+
+        PLAY [Create] ******************************************************************
+
+        TASK [get podman executable path] **********************************************
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        ok: [localhost]
+
+        TASK [save path to executable as fact] *****************************************
+        ok: [localhost]
+
+        TASK [Log into a container registry] *******************************************
+        skipping: [localhost] => (item="centos registry username: None specified")
+        skipping: [localhost] => (item="ubuntu registry username: None specified")
+
+        TASK [Check presence of custom Dockerfiles] ************************************
+        ok: [localhost] => (item=Dockerfile: None specified)
+        ok: [localhost] => (item=Dockerfile: None specified)
+
+        TASK [Create Dockerfiles from image names] *************************************
+        skipping: [localhost] => (item="Dockerfile: None specified; Image: docker.io/pycontribs/centos:8")
+        skipping: [localhost] => (item="Dockerfile: None specified; Image: docker.io/pycontribs/ubuntu:latest")
+
+        TASK [Discover local Podman images] ******************************************** 
+        ok: [localhost] => (item=centos )
+        ok: [localhost] => (item=ubuntu)
+
+        TASK [Build an Ansible compatible image] ***************************************
+        skipping: [localhost] => (item=docker.io/pycontribs/centos:8)
+        skipping: [localhost] => (item=docker.io/pycontribs/ubuntu:latest)
+
+        TASK [Determine the CMD directives] ********************************************
+        ok: [localhost] => (item="centos command: None specified")
+        ok: [localhost] => (item="ubuntu command: None specified")
+
+        TASK [Remove possible pre-existing containers] *********************************
+        changed: [localhost]
+
+        TASK [Discover local podman networks] ******************************************
+        skipping: [localhost] => (item=centos: None specified)
+        skipping: [localhost] => (item=ubuntu: None specified)
+
+        TASK [Create podman network dedicated to this scenario] ************************
+        skipping: [localhost]
+
+        TASK [Create molecule instance(s)] *********************************************
+        changed: [localhost] => (item=centos)
+        changed: [localhost] => (item=ubuntu)
+
+        TASK [Wait for instance(s) creation to complete] *******************************
+        changed: [localhost] => (item=centos)
+        changed: [localhost] => (item=ubuntu)
+
+        PLAY RECAP *********************************************************************
+        localhost                  : ok=8    changed=3    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
+
+        INFO     Running default > prepare
+        WARNING  Skipping, prepare playbook not configured.
+        INFO     Running default > converge
+
+        PLAY [Converge] ****************************************************************
+
+        TASK [Gathering Facts] *********************************************************
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+        from cryptography.exceptions import InvalidSignature
+        ok: [centos]
+        ok: [ubuntu]
+
+        TASK [Apply vector-role] *******************************************************
+
+        TASK [vector-role : Export environment variables for Vector] *******************
+        fatal: [ubuntu]: FAILED! => {"msg": "Failed to get information on remote file (/etc/profile.d/vector.sh): sudo: unable to resolve host ubuntu\nsudo: unable to send audit message\nsudo: pam_open_session: System error\nsudo: policy plugin failed session initialization\n"}
+        changed: [centos]
+
+        TASK [vector-role : Get Vector installed version] ******************************
+        fatal: [centos]: FAILED! => {"changed": false, "cmd": "/etc/vector/bin/vector --version", "delta": "0:00:00.003788", "end": "2022-12-25 21:21:09.744691", "msg": "non-zero return code", "rc": 127, "start": "2022-12-25 21:21:09.740903", "stderr": "/bin/bash: /etc/vector/bin/vector: No such file or directory", "stderr_lines": ["/bin/bash: /etc/vector/bin/vector: No such file or directory"], "stdout": "", "stdout_lines": []}
+        ...ignoring
+
+        TASK [vector-role : Ensure installation dir exists and create if its not] ******
+        changed: [centos]
+
+        TASK [vector-role : Get archive of Vector from remote URL] *********************
+        changed: [centos]
+
+        TASK [vector-role : Extract Vector in the installation directory] **************
+        changed: [centos]
+
+        TASK [vector-role : Copy distrib to working catalog] ***************************
+        changed: [centos]
+
+        TASK [vector-role : Copy configuration file for Vector] ************************
+        changed: [centos]
+
+        TASK [vector-role : Copy scriptfile  for Vector] *******************************
+        changed: [centos]
+
+        TASK [vector-role : Execute Vector in the installation directory] **************
+        ok: [centos]
+
+        PLAY RECAP *********************************************************************
+        centos                     : ok=10   changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=1
+        ubuntu                     : ok=1    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0
+
+        CRITICAL Ansible return code was 2, command was: ['ansible-playbook', '--inventory', '/root/.cache/molecule/vector-role/default/inventory', '--skip-tags', 'molecule-notest,notest', '/opt/vector-role/molecule/default/converge.yml']
+        WARNING  An error occurred during the test sequence action: 'converge'. Cleaning up.
+        INFO     Running default > cleanup
+        WARNING  Skipping, cleanup playbook not configured.
+        INFO     Running default > destroy
+
+        PLAY [Destroy] *****************************************************************
+
+        TASK [Destroy molecule instance(s)] ********************************************
+        /opt/vector-role/.tox/py36-ansible210/lib/python3.6/site-packages/ansible/parsing/vault/__init__.py:44: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release.
+          from cryptography.exceptions import InvalidSignature
+        changed: [localhost] => (item={'env': {'ANSIBLE_USER': 'ansible', 'DEPLOY_GROUP': 'deployer', 'SUDO_GROUP': 'wheel', 'container': 'docker'}, 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True})
+        changed: [localhost] => (item={'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True})
+
+        TASK [Wait for instance(s) deletion to complete] *******************************
+        FAILED - RETRYING: Wait for instance(s) deletion to complete (300 retries left).
+        FAILED - RETRYING: Wait for instance(s) deletion to complete (299 retries left).
+        changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '264879563514.9918', 'results_file': '/root/.ansible_async/264879563514.9918', 'changed': True, 'failed': False, 'item': {'env': {'ANSIBLE_USER': 'ansible', 'DEPLOY_GROUP': 'deployer', 'SUDO_GROUP': 'wheel', 'container': 'docker'}, 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+        changed: [localhost] => (item={'started': 1, 'finished': 0, 'ansible_job_id': '216223059452.9938', 'results_file': '/root/.ansible_async/216223059452.9938', 'changed': True, 'failed': False, 'item': {'image': 'docker.io/pycontribs/ubuntu:latest', 'name': 'ubuntu', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+        PLAY RECAP *********************************************************************
+        localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
 20) Добавляем новый новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
