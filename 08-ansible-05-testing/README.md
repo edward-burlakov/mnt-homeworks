@@ -542,7 +542,7 @@
 
         root@dockerhost:~/vector-role# cat tox-requirements.txt
         selinux        
-        ansible-lint==5.1.3
+        ansible-lint==5.1.3    # У версии ansible-lint  начиная с 6.0.0  на рабтает плагин * ansiblelint.prerun *  !!!
         yamllint==1.26.3
         lxml
         molecule==3.4.0
