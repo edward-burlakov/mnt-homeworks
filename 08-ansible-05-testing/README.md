@@ -56,8 +56,9 @@
             You are using a pre-release version of ansible-lint.
 
 ###  6) Запускаем [molecule test -s centos_7] внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), смотрим на вывод команды.
+     
+            root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16   # Переключаемся на PYTHON 3.9.16       
 
-            root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16   № переключаемся на PYTHON 3.9.16
             root@dockerhost:/#  cd /etc/ansible/roles/ansible-clickhouse
             root@dockerhost:/#  ls -la
             total 72
