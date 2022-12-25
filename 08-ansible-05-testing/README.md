@@ -538,8 +538,7 @@
 
 
 18) Записываем в  файл   tox.ini установку   podman для того, чтобы запускался облегчённый сценарий.
-    
-        
+           
 
         root@dockerhost:~/vector-role# cat tox-requirements.txt
         selinux        
@@ -549,7 +548,6 @@
         molecule==3.4.0
         jmespath
         molecule_podman==4.2.0
-        git==2.31.1
 
 19) Запускаем команду tox. Убеждаемся, что всё отработало успешно.
         [root@8ab72bbc3acb vector-role]# tox
