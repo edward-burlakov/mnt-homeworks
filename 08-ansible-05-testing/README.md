@@ -57,6 +57,7 @@
 
 6) Запускаем [molecule test -s centos_7] внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), смотрим на вывод команды.
 
+            root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16   № переключаемся на PYTHON 3.9.16
             root@dockerhost:/#  cd /etc/ansible/roles/ansible-clickhouse
             root@dockerhost:/#  ls -la
             total 72
@@ -150,10 +151,10 @@
 
             INFO     Pruning extra files from scenario ephemeral directory
 
-#### Результат показывает что стадия lint неуспешна, поскольку свежая версия ansible-lint  не 
-#### тестируется со старыми версий Python 3.6 и Python 3.8    
+#### Результат показывает что стадия lint неуспешна, поскольку свежая версия ansible-lint  не подерживает старые 
+#### версий Python 3.6 и Python 3.8    
 
-#### ДЛя использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml       
+#### Для использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml       
 root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16
 root@dockerhosthost:/ansible-clickhouse#  molecule test -s centos_7
 CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse/molecule/centos_7/molecule.yml
