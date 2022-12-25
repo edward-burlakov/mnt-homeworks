@@ -1,7 +1,7 @@
 ### Molecule
 ----
 
-1) Убедимся предварительно, что необходимый драйвер  docker пакета-фреймворка molecule установлен.
+### 1) Убедимся предварительно, что необходимый драйвер  docker пакета-фреймворка molecule установлен.
    Сначала устанавливаем свежую версию molecule 4.0.0  вместо 3.5.2, иначе получим ошибку  
    ERROR: molecule-docker 2.1.0 has requirement molecule>=4.0.0, but you'll have molecule 3.5.2 which is incompatible.
 
@@ -12,7 +12,7 @@
             Installing collected packages: websocket-client, docker, molecule-docker
             Successfully installed docker-6.0.1 molecule-docker-2.1.0 websocket-client-1.4.2
 
-2) Проверяем версию молекулы
+### 2) Проверяем версию молекулы
 
             root@dockerhost:/# molecule --version
             molecule 4.0.0 using python 3.8
@@ -20,14 +20,14 @@
             delegated:4.0.0 from molecule
             docker:2.1.0 from molecule_docker requiring collections: community.docker>=3.0.2 ansible.posix>=1.4.0
   
-3) Проверяем версию Python / Устанавливаем  версии Python  3.6.15, 3.8.10  и 3.9.16  на основании статьи 
+### 3) Проверяем версию Python / Устанавливаем  версии Python  3.6.15, 3.8.10  и 3.9.16  на основании статьи 
    [https://medium.datadriveninvestor.com/how-to-install-and-manage-multiple-python-versions-on-linux-916990dabe4b]
 
              root@dockerhost:/# pyenv install 3.6.15
              root@dockerhost:/# pyenv install 3.8.6
              root@dockerhost:/# pyenv install 3.9.16 
 
-4) Устанавливаем версию Python 3.9.16  версией по умолчанию  - -Press  <Ctrl> + <Z> .
+###  4) Устанавливаем версию Python 3.9.16  версией по умолчанию  - -Press  <Ctrl> + <Z> .
 
             root@dockerhost:/# pyenv global 3.9.16
             root@dockerhost:/# python3
@@ -39,7 +39,7 @@
 
             
 
-5) Убеждаемся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
+###  5) Убеждаемся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
             
             root@dockerhost:/# pip3 install ansible-lint yamllint
             root@dockerhost:/# yamllint --version
@@ -55,7 +55,7 @@
             ansible-lint 6.10.1.dev2 using ansible 2.13.6
             You are using a pre-release version of ansible-lint.
 
-6) Запускаем [molecule test -s centos_7] внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), смотрим на вывод команды.
+###  6) Запускаем [molecule test -s centos_7] внутри корневой директории clickhouse-role ( Ошибка автора ? в уроке 8.4 ansible-clickhouse  ), смотрим на вывод команды.
 
             root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16   № переключаемся на PYTHON 3.9.16
             root@dockerhost:/#  cd /etc/ansible/roles/ansible-clickhouse
@@ -151,31 +151,31 @@
 
             INFO     Pruning extra files from scenario ephemeral directory
 
-#### Результат показывает что стадия lint неуспешна, поскольку свежая версия ansible-lint  не поддерживает старые  версии
-#### Python 3.6 и Python 3.8    
+### Результат показывает что стадия lint неуспешна, поскольку свежая версия ansible-lint  не поддерживает старые  версии
+### Python 3.6 и Python 3.8    
 
-#### Для использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml
+### Для использования версии Python 3.9.16  необходимо перерабатывать синтаксис файла molecule.yml
 
-          root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16
-          root@dockerhosthost:/ansible-clickhouse#  molecule test -s centos_7
-          CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse/molecule/centos_7/molecule.yml
-          ["Additional properties are not allowed ('playbooks' was unexpected)"]
+           root@dockerhosthost:/ansible-clickhouse#  pyenv global  3.9.16
+           root@dockerhosthost:/ansible-clickhouse#  molecule test -s centos_7
+           CRITICAL Failed to validate /home/bes/LESSONS/08-ansible-04-roles/playbook/roles/ansible-clickhouse/molecule/centos_7/molecule.yml
+           ["Additional properties are not allowed ('playbooks' was unexpected)"]
             
-7) Создаем сценарий тестирования: 
+### 7) Создаем сценарий тестирования: 
 * Либо инициализируем новый  пустой макет роли со сценарием тестирования default с выбранным драйвером
      c помощью команды  "molecule init role vector-role --driver-name docker"
 
-        root@dockerhost:/#  molecule init role 'vector-role' --driver-name docker 
+           root@dockerhost:/#  molecule init role 'vector-role' --driver-name docker 
   
   * Либо  переходим  в каталог   08-ansible-04-roles\playbook\roles\vector-role  из прошлого урока "LESSON 8.4"
   с уже существующей ролью vector-role, чтобы создать для molecule сценарий тестирования по умолчанию
 
-       root@dockerhost:/#  cd /home/bes/LESSON/08-ansible-04-roles\playbook\roles\vector-role   
-       root@dockerhost:/#  molecule init scenario default --driver-name docker
-       INFO     Initializing new scenario default...
-       INFO     Initialized scenario in /home/bes/vector-role/molecule/default successfully.
+           root@dockerhost:/#  cd /home/bes/LESSON/08-ansible-04-roles\playbook\roles\vector-role   
+           root@dockerhost:/#  molecule init scenario default --driver-name docker
+           INFO     Initializing new scenario default...
+           INFO     Initialized scenario in /home/bes/vector-role/molecule/default successfully.
 
-8) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и тестируем роль, исправляем найденные ошибки, если они есть.
+### 8) Добавляем несколько разных дистрибутивов (centos:8, ubuntu:latest) для инстансов и тестируем роль, исправляем найденные ошибки, если они есть.
           
             root@dockerhost:/#  cat  /vector-role/molecule/default/molecule.yml
             ---
@@ -199,14 +199,14 @@
             verifier:
               name: ansible
 
-9) Запускаем  полный сценарий тестирования .  
+### 9) Запускаем  полный сценарий тестирования .  
    На шаге dependency  необходимые пакеты скачиваются в каталог /root/.ansible/collections
 
-         В режиме реального времени можно отслеживать состояние тестовых контейнеров 
-          запустив # molecule login -s default --name centos
+           В режиме реального времени можно отслеживать состояние тестовых контейнеров 
+           запустив # molecule login -s default --name centos
 
-         Также можно отслеживать состояние с помощью  docker ps -a 
-            а) В процессе выполнения фреймворка molecule
+           Также можно отслеживать состояние с помощью  docker ps -a 
+           а) В процессе выполнения фреймворка molecule
       ![img_1.png](img_1.png)
 
             б) После окончания работы фреймворка molecule
@@ -441,8 +441,7 @@
 
            INFO     Pruning extra files from scenario ephemeral directory
 
-10) Переопределяем список тестов путем добавления сценария в файл module/default/molecule.yml
-    Исключаем из списка тест на идемпотентность 
+### 10) Переопределяем список тестов путем добавления сценария в файл module/default/molecule.yml / Исключаем из списка тест на идемпотентность 
 
           scenario:
             test_sequence: 
@@ -468,7 +467,7 @@
 
          root@dockerhost:/#  molecule matrix test
 
-11) Запускаем тестирование роли повторно и проверяем, что оно прошло успешно, 
+### 11) Запускаем тестирование роли повторно и проверяем, что оно прошло успешно, 
     добавив несколько assert'ов в verify.yml файл для проверки работоспособности vector-role
     (проверка, что конфиг валидный, проверка успешности запуска, etc).
 
@@ -502,19 +501,19 @@
 
           INFO     Pruning extra files from scenario ephemeral directory
 
-12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
+###  12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
           
           https://github.com/edward-burlakov/vector-role/releases/tag/1.0.5
 
-13) Добавляем в директорию с vector-role файлы  tox.ini и tox-requirements.txt
+###  13) Добавляем в директорию с vector-role файлы  tox.ini и tox-requirements.txt
 
-14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
+###  14) Запускаем  docker, подключая volume c ролью vector-role, где path_to_repo - путь до корня репозитория с vector-role на вашей файловой системе.
     
         root@dockerhost:/#  docker run --privileged=True -v /root/vector-role:/opt/vector-role -w /opt/vector-role -it aragast/netology:latest /bin/bash
 
         [root@0259424bb717 vector-role]# 
 
-15) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
+### 15) Внутри контейнера  0259424bb717  выполняем  команду tox, смотрим на вывод.
       
          [root@0259424bb717 vector-role]# tox
          py37-ansible210 create: /opt/vector-role/.tox/py37-ansible210
@@ -530,14 +529,13 @@
          ERROR:   py39-ansible210: commands failed
          ERROR:   py39-ansible30: commands failed
 
-16) Создаём облегчённый сценарий для molecule с драйвером molecule_podman. Проверяем
-17) его на исполнимость.
+### 16) Создаём облегчённый сценарий для molecule с драйвером molecule_podman. Проверяем  его на исполнимость.
 
          В новой папке  в файле molecule.yml заменяем   driver docker на  podman .
          Тогда ansbile  внутри докера  автоматически заказчает коннектор  containers.podman:>=1.7.0
 
 
-18) Записываем в  файл   tox.ini установку   podman для того, чтобы запускался облегчённый сценарий.
+### 17) Записываем в  файл   tox.ini установку   podman для того, чтобы запускался облегчённый сценарий.
            
 
         root@dockerhost:~/vector-role# cat tox-requirements.txt
@@ -549,7 +547,7 @@
         jmespath
         molecule_podman==4.2.0
 
-19) Запускаем команду tox. Убеждаемся, что всё отработало успешно.
+### 18) Запускаем команду tox. Убеждаемся, что всё отработало успешно.
         [root@8ab72bbc3acb vector-role]# tox
 
         py36-ansible210 installed: ansible==2.10.7,ansible-base==2.10.17,ansible-compat==1.0.0,ansible-lint==5.1.3,arrow==1.2.3,bcrypt==4.0.1,binaryornot==0.4.4,bracex==2.2.1,cached-property==1.5.2,Cerberus==1.3.2,certifi==2022.12.7,cffi==1.15.1,chardet==5.0.0,charset-normalizer==2.0.12,click==8.0.4,click-help-colors==0.9.1,commonmark==0.9.1,cookiecutter==1.7.3,cryptography==38.0.4,dataclasses==0.8,distro==1.8.0,enrich==1.2.7,idna==3.4,importlib-metadata==4.8.3,Jinja2==3.0.3,jinja2-time==0.2.0,jmespath==0.10.0,lxml==4.9.2,MarkupSafe==2.0.1,molecule==3.4.0,molecule-podman==1.0.1,packaging==21.3,paramiko==2.12.0,pathspec==0.9.0,pluggy==0.13.1,poyo==0.5.0,pycparser==2.21,Pygments==2.13.0,PyNaCl==1.5.0,pyparsing==3.0.9,python-dateutil==2.8.2,python-slugify==6.1.2,PyYAML==5.4.1,requests==2.27.1,rich==12.6.0,ruamel.yaml==0.17.21,ruamel.yaml.clib==0.2.7,selinux==0.2.1,six==1.16.0,subprocess-tee==0.3.5,tenacity==8.1.0,text-unidecode==1.3,typing_extensions==4.1.1,urllib3==1.26.13,wcmatch==8.3,yamllint==1.26.3,zipp==3.6.0
@@ -728,4 +726,4 @@
         PLAY RECAP *********************************************************************
         localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-20) Добавляем новый новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
+### 19) Добавляем новый новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
