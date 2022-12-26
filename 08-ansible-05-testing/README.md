@@ -504,7 +504,7 @@
 
 ###  12) Добавляем  новый тег на коммит с рабочим сценарием в соответствии с семантическим версионированием.
           
-          https://github.com/edward-burlakov/vector-role/releases/tag/1.0.5
+          https://github.com/edward-burlakov/vector-role/releases/tag/1.0.6
 
 ###  13) Добавляем в директорию с vector-role файлы  tox.ini и tox-requirements.txt
 
