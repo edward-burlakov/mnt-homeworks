@@ -90,12 +90,14 @@ def run_module():
 # Инициализируем переменные
     fpath1 = module.params['path']
     fcontent1 = module.params['content']
-    file_full_path = os.path.join(fpath1, "text.txt")
-
+    full_tmp_path = os.path.join("/tmp/", "text.txt")
+    full_dest_path = os.path.join(fpath1, "text.txt")
 #  Создаем файл и записываем содержимое в файл
-    f = open(file_full_path, "w")
+    f = open(full_tmp_path, "w")
     f.write(fcontent1)
     f.close()
+#   Копируем готовый файл из  временного каталога
+    module.atomic_move(full_tmp_path, full_dest_path, unsafe_writes=False)
 
 # in the event of a successful module execution, you will want to
 # simple AnsibleModule.exit_json(), passing the key/value results
