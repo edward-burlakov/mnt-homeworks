@@ -23,6 +23,8 @@
 ### 3) Проверяем версию Python / Устанавливаем  версии Python  3.6.15, 3.8.10  и 3.9.16  на основании статьи 
    [https://medium.datadriveninvestor.com/how-to-install-and-manage-multiple-python-versions-on-linux-916990dabe4b]
 
+             root@dockerhost:/# git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+             Добавляем ~/.pyenv в $PATH
              root@dockerhost:/# pyenv install 3.6.15
              root@dockerhost:/# pyenv install 3.8.6
              root@dockerhost:/# pyenv install 3.9.16 
