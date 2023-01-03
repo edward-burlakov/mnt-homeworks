@@ -28,7 +28,12 @@ options:
         type: str
     content:
         description:
-            - This is the content of  newly creating file.
+            - This is the content of newly creating file.
+        required: true
+        type: str
+    name:
+        description:
+            - This is a name of newly creating file.
         required: true
         type: str
 # Specify this value according to your collection
@@ -57,7 +62,8 @@ def run_module():
 # define available arguments/parameters a user can pass to the module
     module_args = dict(
          path=dict(type='path', required=True),
-         content=dict(type='str', required=True)
+         content=dict(type='str', required=True),
+         name=dict(type='str', required=True)
     )
 
 # seed the result dict in the object
@@ -90,12 +96,16 @@ def run_module():
 # Инициализируем переменные
     fpath1 = module.params['path']
     fcontent1 = module.params['content']
-    full_tmp_path = os.path.join("/tmp/", "text.txt")
-    full_dest_path = os.path.join(fpath1, "text.txt")
+    fname1 = module.params['name']
+
+    full_tmp_path = os.path.join("/tmp/", fname1)
+    full_dest_path = os.path.join(fpath1, fname1)
+
 #  Создаем файл и записываем содержимое в файл
     f = open(full_tmp_path, "w")
     f.write(fcontent1)
     f.close()
+
 #   Копируем готовый файл из  временного каталога
     module.atomic_move(full_tmp_path, full_dest_path, unsafe_writes=False)
 

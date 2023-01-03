@@ -83,15 +83,15 @@
 
        [root@centos-host ~]#  ansible-galaxy collection init edward-burlakov.ansible_collection
 
-8. В данную collection перенесите свой module в соответствующую директорию.
-9. Single task playbook преобразуйте в single task role и перенесите в collection. У role должны быть default всех параметров module
-10. Создайте playbook для использования этой role.
-11. Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.0` на этот коммит.
-12. Создайте .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection.
-13. Создайте ещё одну директорию любого наименования, перенесите туда single task playbook и архив c collection.
-14. Установите collection из локального архива: `ansible-galaxy collection install <archivename>.tar.gz`
-15. Запустите playbook, убедитесь, что он работает.
-16. В ответ необходимо прислать ссылку на репозиторий с collection
+9. В данную collection перенесите свой module в соответствующую директорию.
+10. Single task playbook преобразуйте в single task role и перенесите в collection. У role должны быть default всех параметров module
+11. Создайте playbook для использования этой role.
+12. Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.1` на этот коммит.
+13. Создайте .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection.
+14. Создайте ещё одну директорию любого наименования, перенесите туда single task playbook и архив c collection.
+15. Установите collection из локального архива: `ansible-galaxy collection install <archivename>.tar.gz`
+16. Запустите playbook, убедитесь, что он работает.
+17. В ответ необходимо прислать ссылку на репозиторий с collection
 
 ## Необязательная часть
 
