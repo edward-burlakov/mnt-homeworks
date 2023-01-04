@@ -60,6 +60,7 @@
 ### 8)   Развертываем пустой каталог  lighthouse  при помощи ansible-galaxy из шаблона  по умолчанию
        
          root@docker:/#  ansible-galaxy role init lighthouse-role
+
 ----
 ### 9)  Повторяем шаги 4) - 5) -6)  для  проекта lighthouse , учитывая, что одна роль должна настраивать один продукт. 
 

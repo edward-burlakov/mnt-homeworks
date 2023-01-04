@@ -7,4 +7,5 @@
       my_own_module:
         path: "/root/"
         content: "Hello, Edward I!"
+        name: "first.md"
 

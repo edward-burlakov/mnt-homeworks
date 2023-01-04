@@ -1,4 +1,4 @@
-# Домашнее задание к занятию "08.04 Создание собственных modules"
+# Домашнее задание к занятию "08.06 Создание собственных modules"
 
 ## Подготовка к выполнению
 1. Создайте пустой публичный репозиторий в любом своём проекте: `my_own_collection`
@@ -12,7 +12,7 @@
 9. Ваше окружение настроено, для того чтобы запустить его, нужно находиться в директории `ansible` 
    и выполнить конструкцию `. venv/bin/activate && . hacking/env-setup`
 
-## Основная часть
+## Основная часть  . Главная задача - создать свою коллекцию  с модулем и опублковать её.
 
 1. Устанавливаем python3 версии 3.9.14  и  ansible версии 7.1.0
         # pyenv install 3.9.14
@@ -23,23 +23,24 @@
         venv [root@centos-host ~]# touch /modules/my_own_module.py
 
 
-3. Заполняем файл в соответствии с требованиями ansible так, чтобы он выполнял основную задачу: 
+3. Скачиваем и заполняем шаблонный файл в соответствии с требованиями ansible так, чтобы он выполнял основную задачу: 
    module должен создавать текстовый файл на удалённом хосте по пути, определённом в параметре `path`, с содержимым, определённым в параметре `content`.
    
         Вставляем код со страницы https://docs.ansible.com/ansible/latest/dev_guide/developing_modules_general.html#creating-a-module
-        Дополняем модуль run_module()  кодом создания файла .
+        Дополняем модуль run_module()  кодом создания файла.
 
 4. Проверяем module на исполняемость локально. Проверяем путь к локальным модулям и копируем созданный модуль по этому пути .
-   Запускаем модуль, указав параметры: 
-       
+   
        venv [root@centos-host ~]#  ansible-config dump |grep DEFAULT_MODULE_PATH 
        DEFAULT_MODULE_PATH(default) = ['/root/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
-         
+        
        venv [root@centos-host ~]#  cp  my_own_module.py  /usr/share/ansible/plugins/modules
+   
+       Запускаем модуль, указав параметры: 
 
        venv [root@centos-host ~]#  ansible localhost -m my_own_module -a 'path="/root/" content="Hello, Edward!" '
         
-4. Пишем  single task playbook и используем module в нём. Для этого создаем файлы   site .yml и inventory/prod.yml . Запускаем playbook
+6. Пишем  single task playbook и используем module в нём. Для этого создаем файлы   site.yml и inventory/prod.yml . Запускаем playbook
           
        venv [root@centos-host ~]#  ansible-playbook -i inventory/prod.yml site.yml --check
        [WARNING]: You are running the development version of Ansible. You should only run Ansible from "devel" if you are modifying the Ansible engine, or trying out
@@ -79,19 +80,75 @@
     
        venv [root@centos-host ~]#  deactivate
         
-7. Инициализируем новую collection:
+7. Инициализируем новую collection . Заполняем обязательный файл ansible.cfg
 
-       [root@centos-host ~]#  ansible-galaxy collection init edward-burlakov.ansible_collection
+       [root@centos-host ~]#  ansible-galaxy collection init my_own_collection
 
-9. В данную collection перенесите свой module в соответствующую директорию.
-10. Single task playbook преобразуйте в single task role и перенесите в collection. У role должны быть default всех параметров module
-11. Создайте playbook для использования этой role.
-12. Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.1` на этот коммит.
-13. Создайте .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection.
-14. Создайте ещё одну директорию любого наименования, перенесите туда single task playbook и архив c collection.
-15. Установите collection из локального архива: `ansible-galaxy collection install <archivename>.tar.gz`
-16. Запустите playbook, убедитесь, что он работает.
-17. В ответ необходимо прислать ссылку на репозиторий с collection
+8. В данную collection переносим свой module в соответствующую директорию
+
+       [root@centos-host ~]#  cp  my_own_module.py    /my_own_collection/plugins/modules 
+   
+        
+9. Single task playbook преобразовываем в single task role и перенесим в collection. У role должны быть default всех параметров module
+    
+      
+10. Создаём playbook site.yml  для использования этой role. 
+11. Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.1` на этот коммит.
+12. Создаём .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection. Выкладываем на Github.
+13. Создаём ещё одну директорию NEW, переносим  туда single task playbook и архив c collection.
+       
+        root@centos-host# ls -la NEW
+        итого 16
+        drwxr-xr-x.  5 root root  122 янв  4 19:24 .
+        dr-xr-x---. 11 root root 4096 янв  4 19:01 ..
+        -rw-r--r--.  1 root root 8174 янв  4 19:10 edwardburlakov-my_own_collection-1.0.0.tar.gz
+        drwxr-xr-x.  3 root root   17 янв  4 15:40 group_vars
+        drwxr-xr-x.  2 root root   22 янв  3 10:23 inventory
+        -rw-r--r--.  1 root root   92 янв  4 19:20 site.yml
+        drwxr-xr-x.  2 root root    6 янв  4 15:41 vars
+
+        root@centos-host# cat  site.yml
+        ---
+        - name: Create file with new content.
+        hosts: all
+        roles:
+          - name: my_own_role
+
+14. Устанавливаем  collection из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
+
+        root@centos-host# ansible-galaxy collection install -p ansible_collections   edwardburlakov-my_own_collection-1.0.0.tar.gz
+        Starting galaxy collection install process
+        Process install dependency map
+        Starting collection install process
+        Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection'
+        edwardburlakov.my_own_collection:1.0.0 was installed successfully
+
+        Вопрос  Как сделать видимой модуль my_own_collection из локально развернутой колллекции  для  запускаемого playbook ? 
+
+        Удалось сделать только так :
+
+        root@centos-host NEW# cat site.yml
+        ---
+          - name: Create file with new content.
+            hosts: localhost
+            roles:
+              - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
+
+15. Запускаем  playbook NEW , убеждаемся, что он работает.
+   
+        root@centos-host NEW# ansible-playbook -i inventory/prod.yml site.yml
+ 
+        PLAY [Create file with new content.] ********************************************************************************************************************************
+ 
+        TASK [Gathering Facts] **********************************************************************************************************************************************
+        ok: [localhost]
+
+        PLAY RECAP **********************************************************************************************************************************************************
+        ocalhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+
+16. В ответ необходимо прислать ссылку на репозиторий с collection
 
 ## Необязательная часть
 

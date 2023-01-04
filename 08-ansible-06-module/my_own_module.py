@@ -86,11 +86,31 @@ def run_module():
         supports_check_mode=True
     )
 
-
 # use whatever logic you need to determine whether or not this module
 # made any modifications to your target
     if module.params['content']:
-        result['changed'] = True
+       result['changed'] = True
+
+# if the user is working with this module in only check mode we do not
+# want to make any changes to the environment, just return the current
+# state with no modifications
+    if module.check_mode:
+       module.exit_json(**result)
+
+# manipulate or modify the state as needed (this is going to be the
+# part where your module will do what it needs to do)
+    result['original_message'] = module.params['name']
+    result['message'] = 'goodbye'
+
+# during the execution of the module, if there is an exception or a
+# conditional state that effectively causes a failure, run
+# AnsibleModule.fail_json() to pass in the message and the result
+    if module.params['name'] == 'fail me':
+       module.fail_json(msg='You requested this to fail', **result)
+
+# in the event of a successful module execution, you will want to
+# simple AnsibleModule.exit_json(), passing the key/value results
+    module.exit_json(**result)
 
 
 # Инициализируем переменные
