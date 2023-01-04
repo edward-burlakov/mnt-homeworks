@@ -4,7 +4,7 @@
   roles:
     - lighthouse-role
 - name: Install vector role
-  hosts: vector4
+  hosts: vector
   roles:
     - vector-role
 - name: Install clickhouse role
