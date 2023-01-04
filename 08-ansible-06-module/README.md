@@ -1,18 +1,18 @@
 # Домашнее задание к занятию "08.06 Создание собственных modules"
 
 ## Подготовка к выполнению
-1. Создайте пустой публичный репозиторий в любом своём проекте: `my_own_collection`
-2. Скачайте репозиторий ansible: `git clone https://github.com/ansible/ansible.git` по любому удобному вам пути
-3. Зайдите в директорию ansible: `cd ansible`
-4. Создайте виртуальное окружение: `python3 -m venv venv`
-5. Активируйте виртуальное окружение: `. venv/bin/activate`. Дальнейшие действия производятся только в виртуальном окружении
-6. Установите зависимости `pip3 install -r requirements.txt`
-7. Запустить настройку окружения `. hacking/env-setup`
-8. Если все шаги прошли успешно - выйти из виртуального окружения   `deactivate` 
-9. Ваше окружение настроено, для того чтобы запустить его, нужно находиться в директории `ansible` 
-   и выполнить конструкцию `. venv/bin/activate && . hacking/env-setup`
+1. Создаём пустой публичный репозиторий в любом своём проекте: `my_own_collection`
+2. Скачиваем репозиторий ansible: `git clone https://github.com/ansible/ansible.git` по любому удобному вам пути
+3. Переходим в директорию ansible: `cd ansible`
+4. Создаём виртуальное окружение: `python3 -m venv venv`
+5. Активируем виртуальное окружение: `. venv/bin/activate`. Дальнейшие действия производятся только в виртуальном окружении
+6. Устанавливаем зависимости `pip3 install -r requirements.txt`
+7. Запускаем настройку окружения `. hacking/env-setup`
+8. Выходим из виртуального окружения   `deactivate` 
+9. Виртуальное окружение настроено. Переходим в директорию ansible: `cd ansible`
+   и выполняем конструкцию `. venv/bin/activate && . hacking/env-setup`
 
-## Основная часть  . Главная задача - создать свою коллекцию  с модулем и опублковать её.
+## Основная часть. Главная задача - создать свою коллекцию с модулем и опубликовать её.
 
 1. Устанавливаем python3 версии 3.9.14  и  ansible версии 7.1.0
         # pyenv install 3.9.14
@@ -123,9 +123,18 @@
         Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection'
         edwardburlakov.my_own_collection:1.0.0 was installed successfully
 
-        Вопрос  Как сделать видимой модуль my_own_collection из локально развернутой колллекции  для  запускаемого playbook ? 
 
-        Удалось сделать только так :
+
+16 ю Поверяем что новая коллекция развернулась локально:
+
+        root@centos-host# ansible-galaxy collection list | grep edwardburlakov
+        edwardburlakov.my_own_collection 1.0.0
+
+
+
+        Вопрос: Как сделать видимым модуль my_own_collection из локально развернутой коллекции  для  запускаемого playbook ? 
+
+        Удалось сделать только так, явно указав путь:
 
         root@centos-host NEW# cat site.yml
         ---
@@ -134,7 +143,7 @@
             roles:
               - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
 
-16. Запускаем  playbook NEW , убеждаемся, что он работает.
+16. Запускаем playbook NEW и убеждаемся, что он работает.
    
         root@centos-host NEW# ansible-playbook -i inventory/prod.yml site.yml
  
