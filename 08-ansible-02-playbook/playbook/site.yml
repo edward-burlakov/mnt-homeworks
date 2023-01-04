@@ -18,7 +18,7 @@
       become: true
       ansible.builtin.file:
         state: directory
-        path: "{{ java_home  }}"
+        path: "{{ java_home }}"
         mode: 0644
       tags: java
     - name: Extract java in the installation directory
