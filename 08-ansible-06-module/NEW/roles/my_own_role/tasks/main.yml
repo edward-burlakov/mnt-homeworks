@@ -1,0 +1,7 @@
+---
+- name: Create file with new content.
+  become: true
+  my_own_module:
+    path: "{{ fpath }}"
+    content: "{{ fcontent }}"
+    name: "{{ fname }}"

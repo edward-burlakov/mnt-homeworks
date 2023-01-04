@@ -1,0 +1,17 @@
+galaxy_info:
+  role_name: my_own_role
+  namespace: edwardburlakov
+  author: Edward Burlakov
+  description: Role for installation of Lesson 8.6
+  company: Unix Ltd.
+  license: MIT
+  min_ansible_version: "2.8"
+  platforms:
+    - name: centos
+      versions:
+        - 8
+    - name: ubuntu
+      versions:
+        - latest
+  galaxy_tags:
+    - file
