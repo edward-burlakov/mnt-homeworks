@@ -123,9 +123,18 @@
         Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection'
         edwardburlakov.my_own_collection:1.0.0 was installed successfully
 
-        Вопрос  Как сделать видимой модуль my_own_collection из локально развернутой колллекции  для  запускаемого playbook ? 
 
-        Удалось сделать только так :
+
+16 ю Поверяем что новая коллекция развернулась локально:
+
+        root@centos-host# ansible-galaxy collection list | grep edwardburlakov
+        edwardburlakov.my_own_collection 1.0.0
+
+
+
+        Вопрос: Как сделать видимым модуль my_own_collection из локально развернутой коллекции  для  запускаемого playbook ? 
+
+        Удалось сделать только так, явно указав путь:
 
         root@centos-host NEW# cat site.yml
         ---
@@ -134,7 +143,7 @@
             roles:
               - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
 
-16. Запускаем  playbook NEW , убеждаемся, что он работает.
+16. Запускаем playbook NEW и убеждаемся, что он работает.
    
         root@centos-host NEW# ansible-playbook -i inventory/prod.yml site.yml
  
