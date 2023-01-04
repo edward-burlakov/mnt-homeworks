@@ -40,7 +40,7 @@
 
        venv [root@centos-host ~]#  ansible localhost -m my_own_module -a 'path="/root/" content="Hello, Edward!" '
         
-6. Пишем  single task playbook и используем module в нём. Для этого создаем файлы   site.yml и inventory/prod.yml . Запускаем playbook
+5. Пишем  single task playbook и используем module в нём. Для этого создаем файлы   site.yml и inventory/prod.yml . Запускаем playbook
           
        venv [root@centos-host ~]#  ansible-playbook -i inventory/prod.yml site.yml --check
        [WARNING]: You are running the development version of Ansible. You should only run Ansible from "devel" if you are modifying the Ansible engine, or trying out
@@ -59,7 +59,7 @@
  
       
 
-5. Проверяем через playbook на идемпотентность.
+6. Проверяем через playbook на идемпотентность.
 
        venv [root@centos-host ~]#  ansible-playbook --diff -i inventory/prod.yml site.yml --check
        [WARNING]: You are running the development version of Ansible. You should only run Ansible from "devel" if you are modifying the Ansible engine, or trying out
@@ -76,26 +76,26 @@
        PLAY RECAP **********************************************************************************************************************************************************
        localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-6. Выходим из виртуального окружения.
+7. Выходим из виртуального окружения.
     
        venv [root@centos-host ~]#  deactivate
         
-7. Инициализируем новую collection . Заполняем обязательный файл ansible.cfg
+8. Инициализируем новую collection . Заполняем обязательный файл ansible.cfg
 
        [root@centos-host ~]#  ansible-galaxy collection init my_own_collection
 
-8. В данную collection переносим свой module в соответствующую директорию
+9. В данную collection переносим свой module в соответствующую директорию
 
        [root@centos-host ~]#  cp  my_own_module.py    /my_own_collection/plugins/modules 
    
         
-9. Single task playbook преобразовываем в single task role и перенесим в collection. У role должны быть default всех параметров module
+10. Single task playbook преобразовываем в single task role и перенесим в collection. У role должны быть default всех параметров module
     
       
-10. Создаём playbook site.yml  для использования этой role. 
-11. Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.1` на этот коммит.
-12. Создаём .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection. Выкладываем на Github.
-13. Создаём ещё одну директорию NEW, переносим  туда single task playbook и архив c collection.
+11. Создаём playbook site.yml  для использования этой role. 
+12. Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.1` на этот коммит.
+13. Создаём .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection. Выкладываем на Github.
+14. Создаём ещё одну директорию NEW, переносим  туда single task playbook и архив c collection.
        
         root@centos-host# ls -la NEW
         итого 16
@@ -114,7 +114,7 @@
         roles:
           - name: my_own_role
 
-14. Устанавливаем  collection из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
+15. Устанавливаем  collection из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
 
         root@centos-host# ansible-galaxy collection install -p ansible_collections   edwardburlakov-my_own_collection-1.0.0.tar.gz
         Starting galaxy collection install process
@@ -134,7 +134,7 @@
             roles:
               - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
 
-15. Запускаем  playbook NEW , убеждаемся, что он работает.
+16. Запускаем  playbook NEW , убеждаемся, что он работает.
    
         root@centos-host NEW# ansible-playbook -i inventory/prod.yml site.yml
  
@@ -148,7 +148,7 @@
 
 
 
-16. В ответ необходимо прислать ссылку на репозиторий с collection
+17. В ответ необходимо прислать ссылку на репозиторий с collection
 
 ## Необязательная часть
 
