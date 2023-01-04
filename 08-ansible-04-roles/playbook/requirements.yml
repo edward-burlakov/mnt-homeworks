@@ -1,4 +1,4 @@
----
+8---
   - name: ansible-clickhouse
     src: git@github.com:AlexeySetevoi/ansible-clickhouse.git
     scm: git
