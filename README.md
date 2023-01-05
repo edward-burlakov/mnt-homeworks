@@ -14,9 +14,13 @@
 
 8.2. [Работа с Playbook](./08-ansible-02-playbook/README.md)
 
-8.3. [Работа с Roles](./08-ansible-03-role/README.md)
+8.3. [Работа с Yandex](./08-ansible-03-yandex/README.md)
 
-8.4. [Создание собственных модулей](./08-ansible-04-module/README.md)
+8.4. [Работа с Roles](./08-ansible-04-roles/README.md)
+
+8.5. [Работа с тестами](./08-ansible-05-testing/README.md)
+
+8.6. [Создание собственных модулей](./08-ansible-06-module/README.md)
 
 ## Блок 9. Непрерывная разработка и интеграция
 
