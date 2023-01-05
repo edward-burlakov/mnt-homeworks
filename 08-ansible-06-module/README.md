@@ -135,12 +135,12 @@
 
 15. Устанавливаем collection в папку roles внутри проекта из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
 
-        root@centos-host #  ansible-galaxy collection install -p roles   edwardburlakov-my_own_collection-1.0.0.tar.gz
-        Starting galaxy collection install process
+        root@centos-host #  ansible-galaxy collection install edwardburlakov-my_own_collection-1.0.0.tar.gz
         Process install dependency map
         Starting collection install process
-        Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/NEW/roles/ansible_collections/edwardburlakov/my_own_collection''
+        Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection'
         edwardburlakov.my_own_collection:1.0.0 was installed successfully
+
 
 16. Поверяем что новая коллекция развернулась локально:
 
