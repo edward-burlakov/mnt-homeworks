@@ -2,4 +2,4 @@
 - name: Create file with new content.
   hosts: localhost
   roles:
-    - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
+    - ./roles/ansible_collections/edwardburlakov/my_own_collection

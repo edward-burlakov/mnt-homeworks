@@ -3,7 +3,9 @@
 # Copyright: (c) 2022, Edward Burlakovs <edwardb@mail.ru>
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import (absolute_import, division, print_function)
+
 __metaclass__ = type
+
 # Импортируем библиотеки Python
 from ansible.module_utils.basic import AnsibleModule
 import os
@@ -57,63 +59,63 @@ RETURN = r'''
 # These are examples of possible return values, and in general should use other names for return values.
 '''
 
-def run_module():
 
-# define available arguments/parameters a user can pass to the module
+def run_module():
+    #  define available arguments/parameters a user can pass to the module
     module_args = dict(
         path=dict(type='path', required=True),
         content=dict(type='str', required=True),
         name=dict(type='str', required=True)
     )
-    
-# seed the result dict in the object
-# we primarily care about changed and state
-# changed is if this module effectively modified the target
-# state will include any data that you want your module to pass back
-# for consumption, for example, in a subsequent task
+
+    # seed the result dict in the object
+    # we primarily care about changed and state
+    # changed is if this module effectively modified the target
+    # state will include any data that you want your module to pass back
+    # for consumption, for example, in a subsequent task
     result = dict(
         changed=False,
         original_message='File created  successfully.',
         message=''
     )
 
-# the AnsibleModule object will be our abstraction working with Ansible
-# this includes instantiation, a couple of common attr would be the
-# args/params passed to the execution, as well as if the module
-# supports check mode
+    # the AnsibleModule object will be our abstraction working with Ansible
+    # this includes instantiation, a couple of common attr would be the
+    # args/params passed to the execution, as well as if the module
+    # supports check mode
     module = AnsibleModule(
         argument_spec=module_args,
         supports_check_mode=True
     )
 
-# use whatever logic you need to determine whether or not this module
-# made any modifications to your target
+    # use whatever logic you need to determine whether or not this module
+    # made any modifications to your target
     if module.params['content']:
-       result['changed'] = True
+        result['changed'] = True
 
-# if the user is working with this module in only check mode we do not
-# want to make any changes to the environment, just return the current
-# state with no modifications
+    # if the user is working with this module in only check mode we do not
+    # want to make any changes to the environment, just return the current
+    # state with no modifications
     if module.check_mode:
-       module.exit_json(**result)
+        module.exit_json(**result)
 
-# manipulate or modify the state as needed (this is going to be the
-# part where your module will do what it needs to do)
+    # manipulate or modify the state as needed (this is going to be the
+    # part where your module will do what it needs to do)
     result['original_message'] = module.params['name']
     result['message'] = 'goodbye'
-    
-# during the execution of the module, if there is an exception or a
-# conditional state that effectively causes a failure, run
-# AnsibleModule.fail_json() to pass in the message and the result
-    if module.params['name'] == 'fail me':
-       module.fail_json(msg='You requested this to fail', **result)
 
-# in the event of a successful module execution, you will want to
-# simple AnsibleModule.exit_json(), passing the key/value results
+    # during the execution of the module, if there is an exception or a
+    # conditional state that effectively causes a failure, run
+    # AnsibleModule.fail_json() to pass in the message and the result
+    if module.params['name'] == 'fail me':
+        module.fail_json(msg='You requested this to fail', **result)
+
+    # in the event of a successful module execution, you will want to
+    # simple AnsibleModule.exit_json(), passing the key/value results
     module.exit_json(msg="Something went wrong", **result)
     module.exit_json(**result)
 
-# Инициализируем переменные
+    # Инициализируем переменные
     fpath1 = module.params['path']
     fcontent1 = module.params['content']
     fname1 = module.params['name']
@@ -121,21 +123,16 @@ def run_module():
     full_tmp_path = os.path.join("/tmp/", fname1)
     full_dest_path = os.path.join(fpath1, fname1)
 
-#  Создаем файл и записываем содержимое в файл
+    #  Создаем файл и записываем содержимое в файл
     f = open(full_tmp_path, "w")
     f.write(fcontent1)
     f.close()
 
-#   Копируем готовый файл из  временного каталога
+    #   Копируем готовый файл из  временного каталога
     module.atomic_move(full_tmp_path, full_dest_path, unsafe_writes=False)
 
-# in the event of a successful module execution, you will want to
-# simple AnsibleModule.exit_json(), passing the key/value results
-    module.exit_json(**result)
-
-
 def main():
-# Запускаем модуль run_module, передавая внутрь внешние аргументы модуля.
+    #  Запускаем модуль run_module, передавая внутрь внешние аргументы модуля.
     run_module()
 
 if __name__ == '__main__':

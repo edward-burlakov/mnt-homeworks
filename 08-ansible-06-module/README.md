@@ -89,7 +89,7 @@
        [root@centos-host ~]#  cp  my_own_module.py    /my_own_collection/plugins/modules 
    
         
-10. Single task playbook преобразовываем в single task role и перенесим в collection. У role должны быть default всех параметров module
+10. Single task playbook преобразовываем в single task role и переносим в collection. У role должны быть default всех параметров module
     
       
 11. Создаём playbook site.yml  для использования этой role. 
@@ -114,34 +114,29 @@
         roles:
           - name: my_own_role
 
-15. Устанавливаем  collection из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
+15. Устанавливаем collection в папку roles внутри проекта из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
 
-        root@centos-host# ansible-galaxy collection install -p ansible_collections   edwardburlakov-my_own_collection-1.0.0.tar.gz
+        root@centos-host# ansible-galaxy collection install -p roles   edwardburlakov-my_own_collection-1.0.0.tar.gz
         Starting galaxy collection install process
         Process install dependency map
         Starting collection install process
-        Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection'
+        Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/NEW/roles/ansible_collections/edwardburlakov/my_own_collection''
         edwardburlakov.my_own_collection:1.0.0 was installed successfully
 
-
-
-16 ю Поверяем что новая коллекция развернулась локально:
+16. Поверяем что новая коллекция развернулась локально:
 
         root@centos-host# ansible-galaxy collection list | grep edwardburlakov
         edwardburlakov.my_own_collection 1.0.0
 
-
-
         Вопрос: Как сделать видимым модуль my_own_module из локально развернутой коллекции  для  запускаемого playbook ? 
-
-        Удалось сделать только так, явно указав путь:
+        Удалось сделать только так, явно указав путь в папку roles
 
         root@centos-host NEW# cat site.yml
         ---
           - name: Create file with new content.
             hosts: localhost
             roles:
-              - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
+              - ./roles/ansible_collections/edwardburlakov/my_own_collection
 
 16. Запускаем playbook NEW и убеждаемся, что он работает.
    
