@@ -15,6 +15,7 @@
 ## Основная часть. Главная задача - создать свою коллекцию с модулем и опубликовать её.
 
 1. Устанавливаем python3 версии 3.9.14  и  ansible версии 7.1.0
+
         # pyenv install 3.9.14
         # pip3 install ansible
 
@@ -80,72 +81,82 @@
     
        venv [root@centos-host ~]#  deactivate
         
-8. Инициализируем новую collection . Заполняем обязательный файл ansible.cfg
+8. Инициализируем новую коллекцию my_own_collection . Заполняем обязательный файл ansible.cfg
 
-       [root@centos-host ~]#  ansible-galaxy collection init my_own_collection
+       root@centos-host ~/#  ansible-galaxy collection init edwardburlakov.my_own_collection
 
-9. В данную collection переносим свой module в соответствующую директорию
+9. В данную коллекцию my_own_collection переносим свой module в соответствующую директорию
 
-       [root@centos-host ~]#  cp  my_own_module.py    /my_own_collection/plugins/modules 
-   
+       root@centos-host ~/#  cp  my_own_module.py    /my_own_collection/plugins/modules 
         
-10. Single task playbook преобразовываем в single task role и перенесим в collection. У role должны быть default всех параметров module
-    
-      
+10. Single task playbook преобразовываем в single task role и переносим в my_own_collection. 
+    У role должны быть default всех параметров module .
 11. Создаём playbook site.yml  для использования этой role. 
 12. Заполните всю документацию по collection, выложите в свой репозиторий, поставьте тег `1.0.1` на этот коммит.
 13. Создаём .tar.gz этой collection: `ansible-galaxy collection build` в корневой директории collection. Выкладываем на Github.
 14. Создаём ещё одну директорию NEW, переносим  туда single task playbook и архив c collection.
        
-        root@centos-host# ls -la NEW
-        итого 16
-        drwxr-xr-x.  5 root root  122 янв  4 19:24 .
-        dr-xr-x---. 11 root root 4096 янв  4 19:01 ..
-        -rw-r--r--.  1 root root 8174 янв  4 19:10 edwardburlakov-my_own_collection-1.0.0.tar.gz
+        root@centos-host ~/# ls -la NEW
+        итого 24
+        drwxr-xr-x.  6 root root  156 янв  5 22:29 .
+        dr-xr-x---. 12 root root 4096 янв  5 21:11 ..
+        -rw-r--r--.  1 root root 8258 янв  5 21:27 edwardburlakov-my_own_collection-1.0.0.tar.gz
         drwxr-xr-x.  3 root root   17 янв  4 15:40 group_vars
         drwxr-xr-x.  2 root root   22 янв  3 10:23 inventory
-        -rw-r--r--.  1 root root   92 янв  4 19:20 site.yml
+        drwxr-xr-x.  2 root root    6 янв  5 20:59 roles
+        -rw-r--r--.  1 root root  155 янв  5 01:48 site_role.yml
+        -rw-r--r--.  1 root root  253 янв  5 22:29 site.yml
         drwxr-xr-x.  2 root root    6 янв  4 15:41 vars
 
-        root@centos-host# cat  site.yml
+        Плейбук, использующий роль:
+
+        root@centos-host /NEW/# cat  site_role.yml
         ---
         - name: Create file with new content.
-        hosts: all
-        roles:
-          - name: my_own_role
+          hosts: localhost
+          roles:
+            - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
 
-15. Устанавливаем  collection из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
+        ==========================================================================================================
+        Плейбук, использующий модуль: 
 
-        root@centos-host# ansible-galaxy collection install -p ansible_collections   edwardburlakov-my_own_collection-1.0.0.tar.gz
-        Starting galaxy collection install process
+        root@centos-host /NEW/# cat site.yml
+        ---
+        - name: Runnig of my own module
+          hosts: localhost
+          tasks:
+            - name: Execute it
+              become: true
+              edwardburlakov.my_own_collection.my_own_module:
+                path: "{{ fpath }}"
+                content: "{{ fcontent }}"
+                name: "'{{ fname }}"
+
+
+15. Устанавливаем collection в папку roles внутри проекта из локального архива: `ansible-galaxy collection install -p <destination>   <archivename>.tar.gz`
+
+        root@centos-host #  ansible-galaxy collection install edwardburlakov-my_own_collection-1.0.0.tar.gz
         Process install dependency map
         Starting collection install process
         Installing 'edwardburlakov.my_own_collection:1.0.0' to '/root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection'
         edwardburlakov.my_own_collection:1.0.0 was installed successfully
 
 
+16. Поверяем что новая коллекция развернулась локально:
 
-16 ю Поверяем что новая коллекция развернулась локально:
-
-        root@centos-host# ansible-galaxy collection list | grep edwardburlakov
+        root@centos-host #  ansible-galaxy collection list | grep edwardburlakov
         edwardburlakov.my_own_collection 1.0.0
 
-
-
-        Вопрос: Как сделать видимым модуль my_own_module из локально развернутой коллекции  для  запускаемого playbook ? 
-
-        Удалось сделать только так, явно указав путь:
-
-        root@centos-host NEW# cat site.yml
+        root@centos-host /NEW/# cat site_role.yml
         ---
           - name: Create file with new content.
             hosts: localhost
             roles:
-              - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
+              - ./roles/ansible_collections/edwardburlakov/my_own_collection
 
-16. Запускаем playbook NEW и убеждаемся, что он работает.
+17. Запускаем playbook NEW и убеждаемся, что он работает.
    
-        root@centos-host NEW# ansible-playbook -i inventory/prod.yml site.yml
+        root@centos-host NEW# ansible-playbook -i inventory/prod.yml site_role.yml
  
         PLAY [Create file with new content.] ********************************************************************************************************************************
  
@@ -155,7 +166,23 @@
         PLAY RECAP **********************************************************************************************************************************************************
         ocalhost                  : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 
-17. В ответ необходимо прислать ссылку на репозиторий с collection
+        ==========================================================================================================================
+
+        [root@centos-host NEW]# ansible-playbook --diff -i inventory/prod.yml site.yml
+
+        PLAY [Runnig of my own module] **************************************************************************************************************************************
+
+        TASK [Gathering Facts] **********************************************************************************************************************************************
+        ok: [localhost]
+
+        TASK [Execute it] ***************************************************************************************************************************************************
+        changed: [localhost]
+
+        PLAY RECAP **********************************************************************************************************************************************************
+        localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+
+18. В ответе предоставлена ссылка на репозиторий с коллекцией my_own_collection
 
 * ###  <https://github.com/edward-burlakov/my_own_collection> 
 

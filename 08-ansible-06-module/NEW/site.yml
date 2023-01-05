@@ -1,5 +1,10 @@
 ---
-- name: Create file with new content.
+- name: Running of my own module
   hosts: localhost
-  roles:
-    - /root/.ansible/collections/ansible_collections/edwardburlakov/my_own_collection
+  tasks:
+    - name: Execute it
+      become: true
+      edwardburlakov.my_own_collection.my_own_module:
+         path: "{{ fpath }}"
+         content: "{{ fcontent }}"
+         name: "{{ fname }}"
