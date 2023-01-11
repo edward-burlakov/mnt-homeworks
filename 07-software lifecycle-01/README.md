@@ -55,7 +55,12 @@
 Запускаем задачу и отслеживаем на КАНБАН доске
 ![img_14.png](img_14.png)
 
-Выгрузка схем workflow c помощью импорта в XML :
+---
+### Выгрузка схем workflow c помощью импорта в XML :
+
+[https://github.com/edward-burlakov/mnt-homeworks/blob/master/07-software%20lifecycle-01/QYTG2023%20Workflow%20for%20Bugs.xml]
+
+[https://github.com/edward-burlakov/mnt-homeworks/blob/master/07-software%20lifecycle-01/QYTG2023%20Workflow%20for%20Other%20tasks.xml]
 
 
 
