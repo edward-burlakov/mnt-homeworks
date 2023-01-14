@@ -6,4 +6,3 @@ java_home: "/opt/jdk/{{ jdk_folder }}"
 sonarqube_db_name: sonar
 sonarqube_db_user: sonar
 sonarqube_db_password: sonar
-ansible_python_interpreter: auto_silent
