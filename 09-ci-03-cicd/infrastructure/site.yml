@@ -4,12 +4,12 @@
   pre_tasks:
     - name: install unzip
       become: true
-      yum:
+      ansible.builtin.yum:
         name: unzip
         state: present
   tasks:
     - name: Upload .tar.gz file conaining binaries from remote storage
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ jdk_url }}"
         dest: "/tmp/jdk-{{ jdk_distr_name }}"
         mode: 0755
@@ -18,14 +18,14 @@
 
     - name: Ensure installation dir exists
       become: true
-      file:
+      ansible.builtin.file:
         state: directory
         path: "{{ java_home }}"
         mode: 0755
 
     - name: Extract java in the installation directory
       become: true
-      unarchive:
+      ansible.builtin.unarchive:
         copy: false
         src: "/tmp/jdk-{{ jdk_distr_name }}"
         dest: "{{ java_home }}"
@@ -34,7 +34,7 @@
 
     - name: Export environment variables
       become: true
-      template:
+      ansible.builtin.template:
         src: jdk.sh.j2
         dest: /etc/profile.d/jdk.sh
         owner: root
@@ -46,7 +46,7 @@
   become: true
   tasks:
     - name: Change repo file
-      copy:
+      ansible.builtin.copy:
         src: CentOS-Base.repo
         dest: /etc/yum.repos.d/CentOS-Base.repo
         mode: 0644
@@ -54,45 +54,45 @@
         group: root
 
     - name: Install PostgreSQL repos
-      yum:
+      ansible.builtin.yum:
         name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
         state: present
         validate_certs: false
 
     - name: Install PostgreSQL
-      yum:
+      ansible.builtin.yum:
         name: "postgresql{{ postgresql_version }}-server"
         state: present
 
     - name: Init template1 DB
-      command: /usr/pgsql-11/bin/postgresql-11-setup initdb
+      ansible.builtin.command: /usr/pgsql-11/bin/postgresql-11-setup initdb
       failed_when: false
 
     - name: Start pgsql service
-      systemd:
+      ansible.builtin.systemd:
         name: "postgresql-{{ postgresql_version }}"
         state: started
         enabled: true
 
     - name: Create user in system
-      user:
+      ansible.builtin.user:
         name: "{{ sonarqube_db_user }}"
     - name: Create user for Sonar in PostgreSQL
       become_user: postgres
-      command: "createuser -s -e {{ sonarqube_db_user }}"
+      ansible.builtin.command: "createuser -s -e {{ sonarqube_db_user }}"
       failed_when: false
 
     - name: Change password for Sonar user in PostgreSQL
       become_user: postgres
-      command: "psql -c \"ALTER USER sonar WITH ENCRYPTED password '{{ sonarqube_db_password }}';\""
+      ansible.builtin.command: "psql -c \"ALTER USER sonar WITH ENCRYPTED password '{{ sonarqube_db_password }}';\""
 
     - name: Create Sonar DB
       become_user: postgres
-      command: "createdb {{ sonarqube_db_name }}"
+      ansible.builtin.command: "createdb {{ sonarqube_db_name }}"
       failed_when: false
 
     - name: Copy pg_hba.conf
-      copy:
+      ansible.builtin.copy:
         src: pg_hba.conf
         dest: /var/lib/pgsql/11/data/pg_hba.conf
         mode: 0600
@@ -104,23 +104,23 @@
   become: true
   tasks:
     - name: Create group in system
-      group:
+      ansible.builtin.group:
         name: "{{ sonarqube_db_user }}"
         state: present
 
     - name: Create user in system
-      user:
+      ansible.builtin.user:
         name: "{{ sonarqube_db_user }}"
         group: "{{ sonarqube_db_user }}"
 
     - name: "Set up ssh key to access for managed node"
-      authorized_key:
+      ansible.builtin.authorized_key:
         user: "{{ sonarqube_db_user }}"
         state: present
         key: "{{ lookup('file', 'id_rsa.pub') }}"
 
     - name: "Allow group to have passwordless sudo"
-      lineinfile:
+      ansible.builtin.lineinfile:
         dest: /etc/sudoers
         state: present
         regexp: '^%{{ sonarqube_db_user }}'
@@ -128,7 +128,7 @@
         validate: 'visudo -cf %s'
 
     - name: Increase Virtual Memory
-      lineinfile:
+      ansible.builtin.lineinfile:
         dest: /etc/sysctl.conf
         state: present
         regexp: '^vm.max_map_count'
@@ -142,14 +142,14 @@
     ansible_user: "{{ sonarqube_db_user }}"
   tasks:
     - name: Get distrib ZIP
-      get_url:
+      ansible.builtin.get_url:
         url: "{{ sonar_download_url }}"
         dest: "/tmp/{{ sonar_version_directory }}.zip"
         validate_certs: false
 
     - name: Unzip Sonar
       become: true
-      unarchive:
+      ansible.builtin.unarchive:
         src: "/tmp/{{ sonar_version_directory }}.zip"
         dest: /usr/local/
         copy: false
@@ -159,7 +159,7 @@
 
     - name: Move Sonar into place.
       become: true
-      copy:
+      ansible.builtin.copy:
         src: /usr/local/{{ sonar_version_directory }}/
         dest: /usr/local/sonar/
         owner: "{{ sonarqube_db_user }}"
@@ -167,7 +167,7 @@
         remote_src: true
 
     - name: Configure SonarQube JDBC settings for PostgreSQL.
-      lineinfile:
+      ansible.builtin.lineinfile:
         dest: /usr/local/sonar/conf/sonar.properties
         regexp: "{{ item.regexp }}"
         line: "{{ item.line }}"
@@ -182,14 +182,14 @@
           line: "sonar.web.context={{ sonar_web_context }}"
     
     - name: Generate wrapper.conf
-      template:
+      ansible.builtin.template:
         src: wrapper.conf.j2
         dest: /usr/local/sonar/conf/wrapper.conf
         mode: 0644
 
     - name: Symlink sonar bin.
       become: true
-      file:
+      ansible.builtin.file:
         src: /usr/local/sonar/bin/linux-x86-64/sonar.sh
         dest: /usr/bin/sonar
         state: link
@@ -197,7 +197,7 @@
 
     - name: Copy SonarQube systemd unit file into place (for systemd systems).
       become: true
-      template:
+      ansible.builtin.template:
         src: sonar.unit.j2
         dest: /etc/systemd/system/sonar.service
         owner: root
@@ -206,7 +206,7 @@
 
     - name: Ensure Sonar is running and set to start on boot.
       become: true
-      service:
+      ansible.builtin.service:
         name: sonar
         state: restarted
         enabled: true
@@ -218,7 +218,7 @@
       tags: ['skip_ansible_lint']
 
     - name: Make sure Sonar is responding on the configured port.
-      wait_for:
+      ansible.builtin.wait_for:
         port: 9000
         delay: 3
         timeout: 300
@@ -227,7 +227,7 @@
   pre_tasks:
     - name: Create Nexus group
       become: true
-      group:
+      ansible.builtin.group:
         name: "{{ nexus_user_group }}"
         state: present
     - name: Create Nexus user
@@ -236,13 +236,13 @@
         name: "{{ nexus_user_name }}"
     - name: Install JDK
       become: true
-      package:
+      ansible.builtin.package:
         name: [java-1.8.0-openjdk, java-1.8.0-openjdk-devel]
         state: present
   tasks:
     - name: Create Nexus directories
       become: true
-      file:
+      ansible.builtin.file:
         group: "{{ nexus_user_group }}"
         owner: "{{ nexus_user_name }}"
         path: "{{ item }}"
@@ -257,7 +257,7 @@
     - name: Download Nexus
       become: true
       become_user: "{{ nexus_user_name }}"
-      get_url:
+      ansible.builtin.get_url:
         dest: "{{ nexus_directory_package }}/nexus-{{ nexus_version }}.tar.gz"
         url: "{{ nexus_download_url }}/nexus-{{ nexus_version }}-unix.tar.gz"
         validate_certs: false
@@ -265,7 +265,7 @@
     - name: Unpack Nexus
       become: true
       become_user: "{{ nexus_user_name }}"
-      unarchive:
+      ansible.builtin.unarchive:
         copy: no
         creates: "{{ nexus_directory_package }}/nexus-{{ nexus_version }}"
         dest: "{{ nexus_directory_package }}"
@@ -274,7 +274,7 @@
     - name: Link to Nexus Directory
       become: true
       become_user: "{{ nexus_user_name }}"
-      file:
+      ansible.builtin.file:
         dest: "{{ nexus_directory_home }}"
         src: "{{ nexus_directory_package }}/nexus-{{ nexus_version }}"
         state: link
@@ -282,7 +282,7 @@
     - name: Add NEXUS_HOME for Nexus user
       become: true
       become_user: "{{ nexus_user_name }}"
-      lineinfile:
+      ansible.builtin.lineinfile:
         create: yes
         dest: "/home/{{ nexus_user_name }}/.bashrc"
         insertafter: EOF
@@ -291,7 +291,7 @@
     - name: Add run_as_user to Nexus.rc
       become: true
       become_user: "{{ nexus_user_name }}"
-      lineinfile:
+      ansible.builtin.lineinfile:
         create: yes
         dest: "{{ nexus_directory_home }}/bin/nexus.rc"
         insertafter: EOF
@@ -300,7 +300,7 @@
 
     - name: Raise nofile limit for Nexus user
       become: true
-      pam_limits:
+      ansible.builtin.pam_limits:
         domain: "{{ nexus_user_name }}"
         limit_type: "-"
         limit_item: nofile
@@ -308,14 +308,14 @@
 
     - name: Create Nexus service for SystemD
       become: true
-      template:
+      ansible.builtin.template:
         dest: /lib/systemd/system/nexus.service
         mode: 0644
         src: nexus.systemd.j2
 
     - name: Ensure Nexus service is enabled for SystemD
       become: true
-      systemd:
+      ansible.builtin.systemd:
         daemon_reload: yes
         enabled: yes
         name: nexus
@@ -325,7 +325,7 @@
     - name: Create Nexus vmoptions
       become: true
       become_user: "{{ nexus_user_name }}"
-      template:
+      ansible.builtin.template:
         dest: "{{ nexus_directory_home }}/bin/nexus.vmoptions"
         src: nexus.vmoptions.j2
       register: nexus_config_changed
@@ -333,7 +333,7 @@
     - name: Create Nexus properties
       become: true
       become_user: "{{ nexus_user_name }}"
-      template:
+      ansible.builtin.template:
         dest: "{{ nexus_directory_data }}/etc/nexus.properties"
         src: nexus.properties.j2
       register: nexus_config_changed
@@ -341,7 +341,7 @@
     - name: Lower Nexus disk space threshold
       become: true
       become_user: "{{ nexus_user_name }}"
-      lineinfile:
+      ansible.builtin.lineinfile:
         backrefs: yes
         dest: "{{ nexus_directory_home }}/etc/karaf/system.properties"
         insertafter: EOF
@@ -352,7 +352,7 @@
 
     - name: Start Nexus service if enabled
       become: true
-      service:
+      ansible.builtin.service:
         enabled: yes
         name: nexus
         state: started
@@ -364,7 +364,7 @@
 
     - name: Ensure Nexus service is restarted
       become: true
-      service:
+      ansible.builtin.service:
         name: nexus
         state: restarted
       when:
@@ -374,7 +374,7 @@
         - skip_ansible_lint
 
     - name: Wait for Nexus port if started
-      wait_for:
+      ansible.builtin.wait_for:
         port: "{{ nexus_port }}"
         state: started
         timeout: "{{ nexus_port_check_timeout }}"
