@@ -2,7 +2,7 @@
 - name: Get OpenJDK installed
   hosts: sonarqube
   pre_tasks:
-    - name: install unzip
+    - name: Install unzip
       become: true
       ansible.builtin.yum:
         name: unzip
@@ -114,7 +114,7 @@
         group: "{{ sonarqube_db_user }}"
 
     - name: "Set up ssh key to access for managed node"
-      ansible.builtin.authorized_key:
+      ansible.posix.authorized_key:
         user: "{{ sonarqube_db_user }}"
         state: present
         key: "{{ lookup('file', 'id_rsa.pub') }}"
@@ -134,11 +134,11 @@
         regexp: '^vm.max_map_count'
         line: 'vm.max_map_count=262144'
     - name: Reboot VM
-      reboot:
+      ansible.builtin.reboot:
 
 - name: Get Sonarqube installed
   hosts: sonarqube
-  vars: 
+  vars:
     ansible_user: "{{ sonarqube_db_user }}"
   tasks:
     - name: Get distrib ZIP
@@ -180,7 +180,6 @@
           line: "sonar.jdbc.url=jdbc:postgresql://localhost:{{ sonar_db_port }}/{{ sonarqube_db_name }}?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
         - regexp: "^sonar.web.context"
           line: "sonar.web.context={{ sonar_web_context }}"
-    
     - name: Generate wrapper.conf
       ansible.builtin.template:
         src: wrapper.conf.j2
@@ -232,7 +231,7 @@
         state: present
     - name: Create Nexus user
       become: true
-      user:
+      ansible.builtin.user:
         name: "{{ nexus_user_name }}"
     - name: Install JDK
       become: true
@@ -300,7 +299,7 @@
 
     - name: Raise nofile limit for Nexus user
       become: true
-      ansible.builtin.pam_limits:
+      community.general.pam_limits:
         domain: "{{ nexus_user_name }}"
         limit_type: "-"
         limit_item: nofile
