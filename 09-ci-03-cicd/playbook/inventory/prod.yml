@@ -1,0 +1,13 @@
+---
+  sonarqube:
+    hosts:
+      vm-01:
+        ansible_host: 51.250.110.236:
+        ansible_connection: ssh
+        ansible_user: root
+  nexus:
+    hosts:
+      vm-02:
+        ansible_host: 51.250.110.236
+        ansible_connection: ssh
+        ansible_user: root
