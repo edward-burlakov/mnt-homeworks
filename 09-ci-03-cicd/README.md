@@ -179,8 +179,8 @@ Warnings:
 #### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/example/maven-metadata.xml]
 
 
-
-### Знакомство с Maven
+---
+## Знакомство с Maven
 
 ### Подготовка к выполнению
 
@@ -271,12 +271,7 @@ Warnings:
         drwxr-xr-x.  3 root root  19 янв 16 06:09 log4j
         drwxr-xr-x.  6 root root  65 янв 16 06:09 org
 
-4. В ответе присылаем исправленный файл `pom.xml`
+4. В ответ включен исправленный файл `pom.xml`
 
----
+### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/mvn/pom.xml]
 
-### Как оформить ДЗ?
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
-
----
