@@ -157,6 +157,7 @@ Warnings:
 ![img_12.png](img_12.png)
 ![img_13.png](img_13.png)
 
+
 ---
 ## Знакомство с Nexus
 
@@ -188,11 +189,16 @@ Warnings:
          [root@centos-host /opt/#  wget https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
          
        
-### 2. Разархивируем, делаем так, чтобы binary был доступен через вызов в shell (или меняем переменную PATH или любой другой удобный вам способ)
+### 2. Разархивируем, делаем так, чтобы binary был доступен через вызов в shell  - меняем переменную PATH или любой другой удобный вам способ)
 
-         [root@centos-host /opt/# export PATH=/usr/local/apache-maven-3.x.y/bin:$PATH
+         [root@centos-host /opt/# export PATH=/opt/apache-maven-3.8.7/bin:$PATH
 
 ### 3. Проверяем все варианты JAVA-релизов на management-хосте .
+
+        [root@centos-host bash-completion]# java -version
+        openjdk version "1.8.0_352"
+        OpenJDK Runtime Environment (build 1.8.0_352-b08)
+        OpenJDK 64-Bit Server VM (build 25.352-b08, mixed mode)
 
         [root@centos-host apache-maven-3.8.7]# alternatives --list  | grep java
         java                    auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8.x86_64/jre/bin/java
@@ -200,24 +206,71 @@ Warnings:
         jre_1.8.0               auto    /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8.x86_64/jre
         jre_1.8.0_openjdk       auto    /usr/lib/jvm/jre-1.8.0-openjdk-1.8.0.352.b08-2.el8.x86_64
 
-### 4. Устанавливаем переменную JAVA_PATH на management-хосте .
+### 4. Устанавливаем переменную JAVA_PATH на management-хосте,   указывая на пакет jre_1.8.0.
 
-        [root@centos-host completions]# export JAVA_HOME=/usr/share/bash-completion/completions
-        [root@centos-host completions]# echo $JAVA_HOME
-        /usr/share/bash-completion/completions
-        [root@centos-host completions]#
+        [root@centos-host bin]# export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8.x86_64/jre
+        [root@centos-host bin]# echo $JAVA_HOME
+        /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8.x86_64/jre
 
 ### 4. Удаляем из `apache-maven-<version>/conf/settings.xml` упоминание о правиле, отвергающем http соединение( раздел mirrors->id: my-repository-http-unblocker)
 
+    Удаляем блок
+    <mirror>
+      <id>maven-default-http-blocker</id>
+      <mirrorOf>external:http:*</mirrorOf>
+      <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+      <url>http://0.0.0.0/</url>
+      <blocked>true</blocked>
+    </mirror>
+
 ### 5. Проверяем `mvn --version`
+
+       [root@centos-host /]# mvn --version
+       Apache Maven 3.8.7 (b89d5959fcde851dcb1c8946a785a163f14e1e29)
+       Maven home: /opt/apache-maven-3.8.7
+       Java version: 1.8.0_352, vendor: Red Hat, Inc., runtime: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8.x86_64/jre
+       Default locale: ru_RU, platform encoding: UTF-8
+       OS name: "linux", version: "4.18.0-408.el8.x86_64", arch: "amd64", family: "unix"
 
 ### 6. Забираем директорию [mvn](./mvn) с pom
 
 ### Основная часть
 
 1. Меняем в `pom.xml` блок с зависимостями под наш артефакт из первого пункта задания для Nexus (java с версией 8_282)
-2. Запускаем команду `mvn package` в директории с `pom.xml`, ожидаем успешного окончания
+
+       <groupId>netology</groupId>
+       <artifactId>java</artifactId>
+       <version>8_282</version>
+       <repositories>
+        <repository>
+          <id>my-repo</id>
+          <name>maven-public</name>
+          <url>http://158.160.18.219:8081//repository/maven-public/</url>
+        </repository>
+       </repositories>
+
+2. Запускаем команду `mvn package` в директории с `pom.xml`, ожидаем успешного окончания пакетов
+![img_16.png](img_16.png)
+![img_15.png](img_15.png)
+
 3. Проверяем директорию `~/.m2/repository/`, находим наш артефакт
+
+        [root@centos-host repository]# pwd
+        /root/.m2/repository
+        [root@centos-host repository]# ls -la
+        итого 0
+        drwxr-xr-x. 11 root root 167 янв 16 06:09 .
+        drwxr-xr-x.  3 root root  24 янв 16 06:09 ..
+        drwxr-xr-x.  3 root root  38 янв 16 06:09 backport-util-concurrent
+        drwxr-xr-x.  3 root root  25 янв 16 06:09 classworlds
+        drwxr-xr-x.  3 root root  20 янв 16 06:09 com
+        drwxr-xr-x.  3 root root  25 янв 16 06:09 commons-cli
+        drwxr-xr-x.  3 root root  26 янв 16 06:09 commons-lang
+        drwxr-xr-x.  3 root root  33 янв 16 06:09 commons-logging
+        drwxr-xr-x.  3 root root  19 янв 16 06:09 junit
+        drwxr-xr-x.  3 root root  19 янв 16 06:09 log4j
+        drwxr-xr-x.  6 root root  65 янв 16 06:09 org
+
 4. В ответе присылаем исправленный файл `pom.xml`
 
 ---
