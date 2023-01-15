@@ -31,18 +31,20 @@
 
 ### Основная часть
 
-1. Создаём новый проект на management хосте. 
-   Исходник проекта будет располагаться  в каталоге (./home/bes/09-ci-03-cicd/example/fail.py)
-      
-   Выбираем локальный инструмент анализа кода.
-![img_3.png](img_3.png)
+1. Создаём новый локальный проект. Для этого 
+   Исходник проекта будет располагаться на management хосте  в каталоге (./home/bes/09-ci-03-cicd/example/fail.py)
 
-2. Генерим уникальный  токен проекта:
+2. В интерфейсе SonarQube генерим  имя и уникальный  токен проекта:
 
 ![img_4.png](img_4.png)
 
-3. На management-хосте скачиваем  и устанавливаем пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
+Выбираем локальный инструмент анализа кода.
+
+![img_3.png](img_3.png)
+
+4. На management-хосте скачиваем  и устанавливаем пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
    [https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner/]
+
 ![img_5.png](img_5.png)
 
        [root@centos-host /opt/#  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
@@ -57,7 +59,7 @@
    
        2023-01-16 00:59:42 (2,60 MB/s) - «sonar-scanner-cli-4.7.0.2747-linux.zip» сохранён [43162003/43162003]
 
-4. В корневом каталоге проекта создаём файл sonar-project.properties  со следующим содержимым. Вносим имя проекта и его уникальный токен.
+5. В корневом каталоге проекта создаём файл sonar-project.properties со следующим содержимым. Вносим  в файл свойств проекта имя проекта и его уникальный токен.
        
        [root@centos-host /home/bes/09-ci-03-cicd/example/#  cat sonar-project.properties
        # must be unique in a given SonarQube instance
@@ -74,12 +76,12 @@
        # Encoding of the source code. Default is default system encoding
        #sonar.sourceEncoding=UTF-8
 
-5. Делаем так, чтобы binary был доступен через вызов в shell.  Для этого меняем переменную PATH.
+6. Делаем так, чтобы binary был доступен через вызов в shell.  Для этого меняем переменную PATH.
        
         [root@centos-host /opt/# unzip sonar-scanner-cli-4.7.0.2747-linux.zip  
         [root@centos-host /opt/# export PATH=$PATH:/opt/sonar-scanner/bin
 
-6. Редактируем настройки сканера, указывая на удаленный хост с сервером SONAR-QUBE в облаке YC.
+7. Редактируем настройки сканера, указывая на удаленный хост с сервером SONAR-QUBE в облаке YC.
 
         [root@centos-host /opt/sonar-scanner/conf]#  cat sonar-scanner.properties
            #Configure here general information about the environment, such as SonarQube server connection details for example
@@ -95,7 +97,7 @@
            #----- Default source code encoding
            sonar.sourceEncoding=UTF-8
 
-7. Проверяем работу сканера. Обязательно переходим в корень проекта и запускаем `sonar-scanner --version`
+8. Проверяем работу сканера. Обязательно переходим в корень проекта и запускаем `sonar-scanner --version`
 
         [root@centos-host example]# cd /home/bes/09-ci-03-cicd/example 
         [root@centos-host example]# sonar-scanner --version
@@ -106,11 +108,11 @@
         INFO: Linux 4.18.0-408.el8.x86_64 amd64
         [root@centos-host example]#
 
-8. Запускаем анализатор против кода из директории [example](./example) с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
+9. Запускаем анализатор против кода из директории [example](./example) с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
     
         [root@centos-host example]#  sonar-scanner -Dsonar.coverage.exclusions=fail.py
        
-9. Смотрим результат в интерфейсе - файл fail.py проигнорирован.   
+10. Смотрим результат в интерфейсе - файл fail.py проигнорирован.   
 
 ![img_7.png](img_7.png)
     
@@ -151,8 +153,8 @@ Warnings:
 11. Запускаем анализатор повторно - проверяем, что QG пройдены успешно
 12. Делаем скриншот успешного прохождения анализа, прикладываем к решению ДЗ
 
- ![img_12.png](img_12.png)
-
+![img_12.png](img_12.png)
+![img_13.png](img_13.png)
 
 ## Знакомство с Nexus
 
