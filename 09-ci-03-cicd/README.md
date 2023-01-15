@@ -175,7 +175,7 @@ Warnings:
 
 4. Файл конфигурации артефакта`maven-metadata.xml`  - помещаем  в ответ Д.З.
 
-[https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/example/maven-metadata.xml]
+#### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/example/maven-metadata.xml]
 
 
 
