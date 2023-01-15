@@ -3,21 +3,25 @@
 ## Подготовка к выполнению
 
 ---
-### 1. Создаём 2 VM в yandex cloud со следующими параметрами: 2CPU 4RAM Centos7(остальное по минимальным требованиям)
+#### 1. Создаём 2 VM в yandex cloud со следующими параметрами: 2CPU 4RAM Centos7(остальное по минимальным требованиям)
 
         1) На management хосте создадем  нового юзера bes,отличного от root .  
         2) Сгенерировал для него ключ id_rsa.pub .  
         3) на YC под данным юзером  cоздаем 2 виртуалки с заданными параметрами .   
         4) Вносим данного пользователя в файл hosts.yml
-2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты  . Добавляем в hosts.yml юзера bes  .
-3. Добавляем в [files](./infrastructure/files/) файл со своим публичным ключом юзера  bes (id_rsa.pub).
-4. Выполняем проверку кода ./infrastructure/site.yml  с помощью ansible-lint  . Исправляем ошибки . Меняем  собственника на директорю проекта на bes .
-5. Запускаем playbook, ожидаем успешного завершения.
-6. Проверяем готовность Sonarqube через [браузер](http://158.160.46.194:9000)
+
+#### 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты  . Добавляем в hosts.yml юзера bes  .
+#### 3. Добавляем в [files](./infrastructure/files/) файл со своим публичным ключом юзера  bes (id_rsa.pub).
+#### 4. Выполняем проверку кода ./infrastructure/site.yml  с помощью ansible-lint  . Исправляем ошибки . Меняем  собственника на директорю проекта на bes .
+#### 5. Запускаем playbook, ожидаем успешного завершения.
+#### 6. Проверяем готовность Sonarqube через [браузер](http://158.160.46.194:9000)
+
 ![img_1.png](img_1.png)
+
 7. Заходим под admin\admin, меняем пароль на свой -admin123
 8. Проверяем готовность Nexus через [браузер](http://158.160.18.219:8081)
 9. Подключаемся под admin\admin123, меняем пароль а admin456, сохраняем анонимный доступ
+
 ![img_2.png](img_2.png)
 ![img_6.png](img_6.png)
 
@@ -28,12 +32,16 @@
 ### Основная часть
 
 1. Создаём новый проект "My first project" . Выбираем локальный инструмент анализа кода .
+
 ![img_3.png](img_3.png)
+
 2. Генерим уникальный  токен проекта:
+
 ![img_4.png](img_4.png)
 
-3. Скачиваем и устанавливаем на management-хост пакет sonar-scanner, который нам предлагает скачать сам sonarqube о ссылке
+3. Скачиваем и устанавливаем на management-хост пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
    [https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner/]
+
 ![img_5.png](img_5.png)
  
       
