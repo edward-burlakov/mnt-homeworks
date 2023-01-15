@@ -108,7 +108,8 @@
         INFO: Linux 4.18.0-408.el8.x86_64 amd64
         [root@centos-host example]#
 
-### 9. Запускаем анализатор против кода из директории [example](./example) с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
+### 9. Запускаем анализатор против кода из директории [example](./example) 
+с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
     
         [root@centos-host example]#  sonar-scanner -Dsonar.coverage.exclusions=fail.py
 
@@ -130,7 +131,7 @@ Warnings:
 ### -- Отключаем опцию SCM
 ![img_11.png](img_11.png)
 
-### -- Задаем явные версии Python
+### -- Указываем явно тестируемые версии Python в файле /opt/sonar-scanner/conf/sonar-scanner.properties
 
          [root@centos-host conf]# cat sonar-scanner.properties
          #Configure here general information about the environment, such as SonarQube server connection details for example
