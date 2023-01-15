@@ -173,7 +173,11 @@ Warnings:
 
 ![img_14.png](img_14.png)
 
-4. В ответе присылаем файл `maven-metadata.xml` для этого артефакта
+4. Файл конфигурации артефакта`maven-metadata.xml`  - помещаем  в ответ Д.З.
+
+[https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/example/maven-metadata.xml]
+
+
 
 ### Знакомство с Maven
 
