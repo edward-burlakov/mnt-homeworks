@@ -31,27 +31,128 @@
 
 ### Основная часть
 
-1. Создаём новый проект "My first project" . Выбираем локальный инструмент анализа кода .
-
+1. Создаём новый проект на management хосте. 
+   Исходник проекта будет располагаться  в каталоге (./home/bes/09-ci-03-cicd/example/fail.py)
+      
+   Выбираем локальный инструмент анализа кода.
 ![img_3.png](img_3.png)
 
 2. Генерим уникальный  токен проекта:
 
 ![img_4.png](img_4.png)
 
-3. Скачиваем и устанавливаем на management-хост пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
+3. На management-хосте скачиваем  и устанавливаем пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
    [https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner/]
-
 ![img_5.png](img_5.png)
- 
-      
-4. Делаем так, чтобы binary был доступен через вызов в shell (или меняем переменную PATH или любой другой удобный вам способ)
-5. Проверяем `sonar-scanner --version`
-6. Запускаем анализатор против кода из директории [example](./example) с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
-7. Смотрим результат в интерфейсе
-8. Исправляем ошибки, которые он выявил(включая warnings)
-9. Запускаем анализатор повторно - проверяем, что QG пройдены успешно
-10. Делаем скриншот успешного прохождения анализа, прикладываем к решению ДЗ
+
+       [root@centos-host /opt/#  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+       --2023-01-16 00:59:25--  https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
+       Распознаётся binaries.sonarsource.com (binaries.sonarsource.com)… 13.33.243.70, 13.33.243.94, 13.33.243.96, ...
+       Подключение к binaries.sonarsource.com (binaries.sonarsource.com)|13.33.243.70|:443... соединение установлено.
+       HTTP-запрос отправлен. Ожидание ответа… 200 OK
+       Длина: 43162003 (41M) [application/zip]
+       Сохранение в: «sonar-scanner-cli-4.7.0.2747-linux.zip»
+   
+       sonar-scanner-cli-4.7.0.2747-linux.zip   100%[==================================================================================>]  41,16M  2,66MB/s    за 16s
+   
+       2023-01-16 00:59:42 (2,60 MB/s) - «sonar-scanner-cli-4.7.0.2747-linux.zip» сохранён [43162003/43162003]
+
+4. В корневом каталоге проекта создаём файл sonar-project.properties  со следующим содержимым. Вносим имя проекта и его уникальный токен.
+       
+       [root@centos-host /home/bes/09-ci-03-cicd/example/#  cat sonar-project.properties
+       # must be unique in a given SonarQube instance
+       sonar.projectKey=62215a71eef217da6c4b9447e073931835425722
+
+       # --- optional properties ---
+
+       # defaults to project key
+       sonar.projectName=My First Project
+
+       # defaults to 'not provided'
+       #sonar.projectVersion=1.0
+
+       # Encoding of the source code. Default is default system encoding
+       #sonar.sourceEncoding=UTF-8
+
+5. Делаем так, чтобы binary был доступен через вызов в shell.  Для этого меняем переменную PATH.
+       
+        [root@centos-host /opt/# unzip sonar-scanner-cli-4.7.0.2747-linux.zip  
+        [root@centos-host /opt/# export PATH=$PATH:/opt/sonar-scanner/bin
+
+6. Редактируем настройки сканера, указывая на удаленный хост с сервером SONAR-QUBE в облаке YC.
+
+        [root@centos-host /opt/sonar-scanner/conf]#  cat sonar-scanner.properties
+           #Configure here general information about the environment, such as SonarQube server connection details for example
+           #No information about specific project should appear here
+
+           #----- Default SonarQube server
+           sonar.host.url=http://158.160.46.194:9000
+
+           #-----  Default SonarQube server login & password
+           sonar.login=admin
+           sonar.password=admin123 
+
+           #----- Default source code encoding
+           sonar.sourceEncoding=UTF-8
+
+7. Проверяем работу сканера. Обязательно переходим в корень проекта и запускаем `sonar-scanner --version`
+
+        [root@centos-host example]# cd /home/bes/09-ci-03-cicd/example 
+        [root@centos-host example]# sonar-scanner --version
+        INFO: Scanner configuration file: /opt/sonar-scanner/conf/sonar-scanner.properties
+        INFO: Project root configuration file: /home/bes/09-ci-03-cicd/example/sonar-project.properties
+        INFO: SonarScanner 4.7.0.2747
+        INFO: Java 11.0.14.1 Eclipse Adoptium (64-bit)
+        INFO: Linux 4.18.0-408.el8.x86_64 amd64
+        [root@centos-host example]#
+
+8. Запускаем анализатор против кода из директории [example](./example) с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
+    
+        [root@centos-host example]#  sonar-scanner -Dsonar.coverage.exclusions=fail.py
+       
+9. Смотрим результат в интерфейсе - файл fail.py проигнорирован.   
+
+![img_7.png](img_7.png)
+    
+10. Запускаем  без ключа и затем исправляем ошибки, которые он выявил(включая warnings).  
+
+         [root@centos-host example]#  sonar-scanner
+
+![img_8.png](img_8.png)
+![img_9.png](img_9.png)
+
+Warnings:
+
+![img_10.png](img_10.png)
+
+-- Отключаем опцию SCM
+![img_11.png](img_11.png)
+
+-- Задаем явные версии Python
+
+         [root@centos-host conf]# cat sonar-scanner.properties
+         #Configure here general information about the environment, such as SonarQube server connection details for example
+         #No information about specific project should appear here
+
+         #----- Default SonarQube server
+         sonar.host.url=http://158.160.46.194:9000
+
+         #----- Default source code encoding
+         sonar.sourceEncoding=UTF-8
+
+         #--Default Python vesions
+         sonar.python.version=3.8, 3.9
+
+         #-----  Default SonarQube server login
+         sonar.login=admin
+         sonar.password=admin123
+
+
+11. Запускаем анализатор повторно - проверяем, что QG пройдены успешно
+12. Делаем скриншот успешного прохождения анализа, прикладываем к решению ДЗ
+
+ ![img_12.png](img_12.png)
+
 
 ## Знакомство с Nexus
 
