@@ -31,18 +31,18 @@
 
 ### Основная часть
 
-1. Создаём новый локальный проект. Для этого 
+### 1. Создаём новый локальный проект. Для этого 
    Исходник проекта будет располагаться на management хосте  в каталоге (./home/bes/09-ci-03-cicd/example/fail.py)
 
-2. В интерфейсе SonarQube генерим  имя и уникальный  токен проекта:
+### 2. В интерфейсе SonarQube генерим  имя и уникальный  токен проекта:
 
 ![img_4.png](img_4.png)
 
-Выбираем локальный инструмент анализа кода.
+### Выбираем локальный инструмент анализа кода.
 
 ![img_3.png](img_3.png)
 
-4. На management-хосте скачиваем  и устанавливаем пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
+### 4. На management-хосте скачиваем  и устанавливаем пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
    [https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner/]
 
 ![img_5.png](img_5.png)
@@ -59,7 +59,7 @@
    
        2023-01-16 00:59:42 (2,60 MB/s) - «sonar-scanner-cli-4.7.0.2747-linux.zip» сохранён [43162003/43162003]
 
-5. В корневом каталоге проекта создаём файл sonar-project.properties со следующим содержимым. Вносим  в файл свойств проекта имя проекта и его уникальный токен.
+### 5. В корневом каталоге проекта создаём файл sonar-project.properties со следующим содержимым. Вносим  в файл свойств проекта имя проекта и его уникальный токен.
        
        [root@centos-host /home/bes/09-ci-03-cicd/example/#  cat sonar-project.properties
        # must be unique in a given SonarQube instance
@@ -76,12 +76,12 @@
        # Encoding of the source code. Default is default system encoding
        #sonar.sourceEncoding=UTF-8
 
-6. Делаем так, чтобы binary был доступен через вызов в shell.  Для этого меняем переменную PATH.
+### 6. Делаем так, чтобы binary был доступен через вызов в shell.  Для этого меняем переменную PATH.
        
         [root@centos-host /opt/# unzip sonar-scanner-cli-4.7.0.2747-linux.zip  
         [root@centos-host /opt/# export PATH=$PATH:/opt/sonar-scanner/bin
 
-7. Редактируем настройки сканера, указывая на удаленный хост с сервером SONAR-QUBE в облаке YC.
+### 7. Редактируем настройки сканера, указывая на удаленный хост с сервером SONAR-QUBE в облаке YC.
 
         [root@centos-host /opt/sonar-scanner/conf]#  cat sonar-scanner.properties
            #Configure here general information about the environment, such as SonarQube server connection details for example
@@ -97,7 +97,7 @@
            #----- Default source code encoding
            sonar.sourceEncoding=UTF-8
 
-8. Проверяем работу сканера. Обязательно переходим в корень проекта и запускаем `sonar-scanner --version`
+### 8. Проверяем работу сканера. Обязательно переходим в корень проекта и запускаем `sonar-scanner --version`
 
         [root@centos-host example]# cd /home/bes/09-ci-03-cicd/example 
         [root@centos-host example]# sonar-scanner --version
@@ -108,15 +108,15 @@
         INFO: Linux 4.18.0-408.el8.x86_64 amd64
         [root@centos-host example]#
 
-9. Запускаем анализатор против кода из директории [example](./example) с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
+### 9. Запускаем анализатор против кода из директории [example](./example) с дополнительным ключом `-Dsonar.coverage.exclusions=fail.py`
     
         [root@centos-host example]#  sonar-scanner -Dsonar.coverage.exclusions=fail.py
-       
-10. Смотрим результат в интерфейсе - файл fail.py проигнорирован.   
+
+### 10. Смотрим результат в интерфейсе - файл fail.py проигнорирован.   
 
 ![img_7.png](img_7.png)
-    
-10. Запускаем  без ключа и затем исправляем ошибки, которые он выявил(включая warnings).  
+
+### 11. Запускаем  без ключа и затем исправляем ошибки, которые он выявил(включая warnings).  
 
          [root@centos-host example]#  sonar-scanner
 
@@ -127,10 +127,10 @@ Warnings:
 
 ![img_10.png](img_10.png)
 
--- Отключаем опцию SCM
+### -- Отключаем опцию SCM
 ![img_11.png](img_11.png)
 
--- Задаем явные версии Python
+### -- Задаем явные версии Python
 
          [root@centos-host conf]# cat sonar-scanner.properties
          #Configure here general information about the environment, such as SonarQube server connection details for example
@@ -150,12 +150,13 @@ Warnings:
          sonar.password=admin123
 
 
-11. Запускаем анализатор повторно - проверяем, что QG пройдены успешно
-12. Делаем скриншот успешного прохождения анализа, прикладываем к решению ДЗ
+### 12. Запускаем анализатор повторно - проверяем, что QG пройдены успешно
+### 13. Делаем скриншот успешного прохождения анализа, прикладываем к решению ДЗ
 
 ![img_12.png](img_12.png)
 ![img_13.png](img_13.png)
 
+---
 ## Знакомство с Nexus
 
 ### Основная часть
