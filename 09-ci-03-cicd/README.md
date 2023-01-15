@@ -174,7 +174,7 @@ Warnings:
 
 ![img_14.png](img_14.png)
 
-4. Файл конфигурации артефакта`maven-metadata.xml`  - помещаем  в ответ Д.З.
+4.  В ответ в Д.З. включен файл конфигурации артефакта`maven-metadata.xml`  
 
 #### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/example/maven-metadata.xml]
 
@@ -271,7 +271,7 @@ Warnings:
         drwxr-xr-x.  3 root root  19 янв 16 06:09 log4j
         drwxr-xr-x.  6 root root  65 янв 16 06:09 org
 
-4. В ответ включен исправленный файл `pom.xml`
+4. В ответ в Д.З. включен исправленный файл `pom.xml`
 
 ### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/mvn/pom.xml]
 
