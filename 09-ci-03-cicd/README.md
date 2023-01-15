@@ -11,8 +11,8 @@
         4) Вносим данного пользователя в файл hosts.yml
 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты  . Добавляем в hosts.yml юзера bes  .
 3. Добавляем в [files](./infrastructure/files/) файл со своим публичным ключом юзера  bes (id_rsa.pub).
-4. Выпаоняем проверку кода ./infrastructure/site.yml  с помощью ansible-lint  . Исправляем ошибки .
-5. Запускаем playbook, ожидаем успешного завершения
+4. Выполняем проверку кода ./infrastructure/site.yml  с помощью ansible-lint  . Исправляем ошибки . Меняем  собственника на директорю проекта на bes .
+5. Запускаем playbook, ожидаем успешного завершения.
 6. Проверяем готовность Sonarqube через [браузер](http://158.160.46.194:9000)
 ![img_1.png](img_1.png)
 7. Заходим под admin\admin, меняем пароль на свой -admin123
