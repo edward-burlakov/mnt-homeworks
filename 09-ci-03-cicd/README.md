@@ -212,7 +212,7 @@ Warnings:
         [root@centos-host bin]# echo $JAVA_HOME
         /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.352.b08-2.el8.x86_64/jre
 
-### 4. Удаляем из `apache-maven-<version>/conf/settings.xml` упоминание о правиле, отвергающем http соединение( раздел mirrors->id: my-repository-http-unblocker)
+### 5. Удаляем из `apache-maven-<version>/conf/settings.xml` упоминание о правиле, отвергающем http соединение( раздел mirrors->id: my-repository-http-unblocker)
 
     Удаляем блок
     <mirror>
@@ -222,7 +222,7 @@ Warnings:
       <url>http://0.0.0.0/</url>
     </mirror>
 
-### 5. Проверяем `mvn --version`
+### 6. Проверяем `mvn --version`
 
        [root@centos-host /]# mvn --version
        Apache Maven 3.8.7 (b89d5959fcde851dcb1c8946a785a163f14e1e29)
@@ -231,11 +231,11 @@ Warnings:
        Default locale: ru_RU, platform encoding: UTF-8
        OS name: "linux", version: "4.18.0-408.el8.x86_64", arch: "amd64", family: "unix"
 
-### 6. Забираем директорию [mvn](./mvn) с pom
+### 7. Забираем директорию [mvn](./mvn) с pom
 
 ### Основная часть
 
-1. Меняем в `pom.xml` блок с зависимостями под наш артефакт из первого пункта задания для Nexus (java с версией 8_282)
+### 1. Меняем в `pom.xml` блок с зависимостями под наш артефакт из первого пункта задания для Nexus (java с версией 8_282)
 
        <groupId>netology</groupId>
        <artifactId>java</artifactId>
@@ -249,16 +249,16 @@ Warnings:
         </repository>
        </repositories>
 
-2. Запускаем команду `mvn package` в директории с `pom.xml`, ожидаем успешного окончания пакетов
+### 2. Запускаем команду `mvn package` в директории с `pom.xml`, ожидаем успешного окончания пакетов
 
 ![img_16.png](img_16.png)
 ![img_15.png](img_15.png)
 
-Повторный запуск ( без скачивания зависимостей и артефактов).
+### Повторный запуск ( без скачивания зависимостей и артефактов).
 
 ![img_17.png](img_17.png)
 
-3. Проверяем директорию `~/.m2/repository/`, находим наши артефакты
+### 3. Проверяем директорию `~/.m2/repository/`, находим наши артефакты
 
         [root@centos-host repository]# pwd
         /root/.m2/repository
@@ -286,7 +286,7 @@ Warnings:
         -rw-r--r--. 1 root root 1472 янв 16 06:53 java-8_282.jar
         drwxr-xr-x. 2 root root   28 янв 16 06:09 maven-archiver
 
-4. В ответ в Д.З. включен исправленный файл `pom.xml`
+### 4. В ответ в Д.З. включен исправленный файл `pom.xml`
 
 ### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/mvn/pom.xml]
 
