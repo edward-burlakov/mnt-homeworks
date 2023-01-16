@@ -220,7 +220,6 @@ Warnings:
       <mirrorOf>external:http:*</mirrorOf>
       <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
       <url>http://0.0.0.0/</url>
-      <blocked>true</blocked>
     </mirror>
 
 ### 5. Проверяем `mvn --version`
@@ -245,13 +244,19 @@ Warnings:
         <repository>
           <id>my-repo</id>
           <name>maven-public</name>
-          <url>http://158.160.18.219:8081//repository/maven-public/</url>
+          <url>http://51.250.99.185
+      <blocked>true</blocked>:8081/repository/maven-public/</url>
         </repository>
        </repositories>
 
 2. Запускаем команду `mvn package` в директории с `pom.xml`, ожидаем успешного окончания пакетов
+
 ![img_16.png](img_16.png)
 ![img_15.png](img_15.png)
+
+Повторный запуск ( без скачивания зависимостей и артефактов).
+
+![img_17.png](img_17.png)
 
 3. Проверяем директорию `~/.m2/repository/`, находим наш артефакт
 
@@ -270,6 +275,16 @@ Warnings:
         drwxr-xr-x.  3 root root  19 янв 16 06:09 junit
         drwxr-xr-x.  3 root root  19 янв 16 06:09 log4j
         drwxr-xr-x.  6 root root  65 янв 16 06:09 org
+
+   находим скомпилированный JAR-файл
+
+        [root@centos-host mvn]# cd /home/bes/09-ci-03-cicd/mvn/target/
+        [root@centos-host target]# ls -la
+        итого 4
+        drwxr-xr-x. 3 root root   50 янв 16 06:09 .
+        drwxr-xr-x. 3 bes  bes    35 янв 16 06:52 ..
+        -rw-r--r--. 1 root root 1472 янв 16 06:53 java-8_282.jar
+        drwxr-xr-x. 2 root root   28 янв 16 06:09 maven-archiver
 
 4. В ответ в Д.З. включен исправленный файл `pom.xml`
 
