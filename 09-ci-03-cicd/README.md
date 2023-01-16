@@ -176,7 +176,7 @@ Warnings:
 
 4.  В ответ в Д.З. включен файл конфигурации артефакта`maven-metadata.xml`  
 
-#### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/example/maven-metadata.xml]
+### [https://github.com/edward-burlakov/mnt-homeworks/blob/master/09-ci-03-cicd/example/maven-metadata.xml]
 
 
 ---
@@ -258,7 +258,7 @@ Warnings:
 
 ![img_17.png](img_17.png)
 
-3. Проверяем директорию `~/.m2/repository/`, находим наш артефакт
+3. Проверяем директорию `~/.m2/repository/`, находим наши артефакты
 
         [root@centos-host repository]# pwd
         /root/.m2/repository
@@ -276,7 +276,7 @@ Warnings:
         drwxr-xr-x.  3 root root  19 янв 16 06:09 log4j
         drwxr-xr-x.  6 root root  65 янв 16 06:09 org
 
-   находим скомпилированный JAR-файл
+   Находим скомпилированный JAR-файл
 
         [root@centos-host mvn]# cd /home/bes/09-ci-03-cicd/mvn/target/
         [root@centos-host target]# ls -la
