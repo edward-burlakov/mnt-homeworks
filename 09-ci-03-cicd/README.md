@@ -8,9 +8,9 @@
         1) На management хосте создаём  нового юзера bes ,отличного от root .  
         2) Генерируем для него ключ id_rsa.pub .  
         3) На YC под данным юзером  cоздаем 2 виртуалки с заданными параметрами .   
-        4) Вносим данного пользователя в файл hosts.yml
+        4) Вносим данного пользователя  bes  в файл hosts.yml
 
-#### 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты  . Добавляем в hosts.yml юзера bes  .
+#### 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты.
 #### 3. Добавляем в [files](./infrastructure/files/) файл со своим публичным ключом юзера  bes (id_rsa.pub).
 #### 4. Выполняем проверку кода ./infrastructure/site.yml  с помощью ansible-lint  . Исправляем ошибки . Меняем  собственника на директорию проекта на bes .
 #### 5. Запускаем playbook, ожидаем успешного завершения.

@@ -2,13 +2,35 @@
 
 ## Подготовка к выполнению
 
-1. Создать 2 VM: для jenkins-master и jenkins-agent.
-   Созаем две виртуальные машины в YC .  Укахзывает пользователя bes и вносим его публичный ключ.
+### 1. Создаём 2 VM: для jenkins-master и jenkins-agent.
+
 ![img.png](images/img.png)
 
-2. Установить jenkins при помощи playbook'a.
-3. Запустить и проверить работоспособность.
-4. Сделать первоначальную настройку.
+          1) На management хосте создаём  нового юзера bes ,отличного от root .  
+          2) Генерируем для него ключ id_rsa.pub .  
+          3) На YC под данным юзером  cоздаем 2 виртуалки с заданными параметрами .   
+          4) Вносим данного пользователя  bes  в файл hosts.yml
+
+### 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты.
+
+###  2. Устанавливаем  jenkins при помощи playbook'a.
+
+   1. Проверяем линтером ansible-lint  файл  [playbook'a](./infrastructure/site.yml)  на ошибки. Исправляем ошибки .
+   
+   2. Меняем  собственника на директорию проекта на bes.
+
+          [root@centos-host 09-ci-04-jenkins]#  chown -R bes:bes ./infrastructure/
+
+   3. Запускаем сеанс пользователя bes на management хосте.
+        
+          [root@centos-host infrastructure]#  su bes
+      
+   5. запускам плейбук для развертывания двух серверов - jenkins-master  и  jenkins-agent 
+          
+          [bes@centos-host infrastructure]$    ansible-playbook  -i inventory/cicd/hosts.yml site.yml
+
+   5. Запускаем и проверяем работоспособность.
+   6. Выполянем первоначальную настройку.
 
 ## Основная часть
 
