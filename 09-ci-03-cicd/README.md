@@ -16,14 +16,14 @@
 #### 5. Запускаем playbook, ожидаем успешного завершения.
 #### 6. Проверяем готовность Sonarqube через [браузер](http://158.160.46.194:9000)
 
-![img_1.png](img_1.png)
+![img_1.png](images/img_1.png)
 
 7. Заходим под admin\admin, меняем пароль на свой -admin123
 8. Проверяем готовность Nexus через [браузер](http://158.160.18.219:8081)
 9. Подключаемся под admin\admin123, меняем пароль а admin456, сохраняем анонимный доступ
 
-![img_2.png](img_2.png)
-![img_6.png](img_6.png)
+![img_2.png](images/img_2.png)
+![img_6.png](images/img_6.png)
 
 
 
@@ -36,16 +36,16 @@
 
 ### 2. В интерфейсе SonarQube генерим  имя и уникальный  токен проекта:
 
-![img_4.png](img_4.png)
+![img_4.png](images/img_4.png)
 
 ### Выбираем локальный инструмент анализа кода.
 
-![img_3.png](img_3.png)
+![img_3.png](images/img_3.png)
 
 ### 4. На management-хосте скачиваем  и устанавливаем пакет sonar-scanner, который нам предлагает скачать сам sonarqube по ссылке
    [https://docs.sonarqube.org/latest/analyzing-source-code/scanners/sonarscanner/]
 
-![img_5.png](img_5.png)
+![img_5.png](images/img_5.png)
 
        [root@centos-host /opt/#  wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
        --2023-01-16 00:59:25--  https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.7.0.2747-linux.zip
@@ -115,21 +115,21 @@
 
 ### 10. Смотрим результат в интерфейсе - файл fail.py проигнорирован.   
 
-![img_7.png](img_7.png)
+![img_7.png](images/img_7.png)
 
 ### 11. Запускаем  без ключа и затем исправляем ошибки, которые он выявил(включая warnings).  
 
          [root@centos-host example]#  sonar-scanner
 
-![img_8.png](img_8.png)
-![img_9.png](img_9.png)
+![img_8.png](images/img_8.png)
+![img_9.png](images/img_9.png)
 
 Warnings:
 
-![img_10.png](img_10.png)
+![img_10.png](images/img_10.png)
 
 ### -- Отключаем опцию SCM
-![img_11.png](img_11.png)
+![img_11.png](images/img_11.png)
 
 ### -- Указываем явно тестируемые версии Python в файле /opt/sonar-scanner/conf/sonar-scanner.properties
 
@@ -154,8 +154,8 @@ Warnings:
 ### 12. Запускаем анализатор повторно - проверяем, что QG пройдены успешно
 ### 13. Делаем скриншот успешного прохождения анализа, прикладываем к решению ДЗ
 
-![img_12.png](img_12.png)
-![img_13.png](img_13.png)
+![img_12.png](images/img_12.png)
+![img_13.png](images/img_13.png)
 
 
 ---
@@ -172,7 +172,7 @@ Warnings:
 2. В него же загружаем такой же артефакт, но с version: 8_102
 3. Проверяем, что все файлы загрузились успешно
 
-![img_14.png](img_14.png)
+![img_14.png](images/img_14.png)
 
 4.  В ответ в Д.З. включен файл конфигурации артефакта`maven-metadata.xml`  
 
@@ -251,12 +251,12 @@ Warnings:
 
 ### 2. Запускаем команду `mvn package` в директории с `pom.xml`, ожидаем успешного окончания пакетов
 
-![img_16.png](img_16.png)
-![img_15.png](img_15.png)
+![img_16.png](images/img_16.png)
+![img_15.png](images/img_15.png)
 
 ### Повторный запуск ( без скачивания зависимостей и артефактов).
 
-![img_17.png](img_17.png)
+![img_17.png](images/img_17.png)
 
 ### 3. Проверяем директорию `~/.m2/repository/`, находим наши артефакты
 
