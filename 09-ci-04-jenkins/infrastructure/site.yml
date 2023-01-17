@@ -69,7 +69,7 @@
   become_user: "{{ jenkins_user_name }}"
   tasks:
     - name: Add master publickey into authorized_key
-      ansible.builtin.authorized_key:
+      ansible.posix.authorized_key:
         user: "{{ jenkins_user_name }}"
         state: present
         key: "{{ hostvars['jenkins-master-01']['ssh_key_info']['ssh_public_key'] }}"
