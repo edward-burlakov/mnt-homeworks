@@ -4,9 +4,7 @@
 
 1. Создать 2 VM: для jenkins-master и jenkins-agent.
    Созаем две виртуальные машины в YC .  Укахзывает пользователя bes и вносим его публичный ключ.
-
-2. ![img.png](images/img.png)
-
+![img.png](images/img.png)
 
 2. Установить jenkins при помощи playbook'a.
 3. Запустить и проверить работоспособность.
