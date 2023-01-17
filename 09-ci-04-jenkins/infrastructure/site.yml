@@ -4,7 +4,7 @@
   tasks:
     - name: Include user bes to  wheel group
       become: true
-      ansible.builtin.shell: usermod -G wheel bes
+      ansible.builtin.shell: sudo usermod -G wheel bes
         args:
           executable: /bin/bash
     - name: Create group
