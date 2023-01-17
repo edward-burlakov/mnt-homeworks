@@ -10,7 +10,7 @@
     2) Генерируем для него ключ id_rsa.pub .  
     3) На YC под данным юзером  cоздаем 2 виртуалки с заданными параметрами .   
     4) Вносим данного пользователя  bes  в файл hosts.yml
-    5) Входим по ssh на удалённые хосты  и включаем  права root для членов группы wheel c  помощью редактора sudo vusudo.  
+    5) Входим по ssh на удалённые хосты  и включаем  права root для членов группы wheel c  помощью редактора sudo visudo.  
 
 ### 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты.
 
