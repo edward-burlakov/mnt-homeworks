@@ -9,26 +9,24 @@
     1) На management хосте создаём  нового юзера bes ,отличного от root .  
     2) Генерируем для него ключ id_rsa.pub .  
     3) На YC под данным юзером  cоздаем 2 виртуалки с заданными параметрами .   
-    4) Вносим данного пользователя  bes  в файл hosts.yml
-    5) Входим по ssh на удалённые хосты  и включаем  права root для членов группы wheel c  помощью редактора sudo visudo.  
+    4) Вносим данного пользователя bes  в файл hosts.yml
 
 ### 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты.
 
-### 3. Устанавливаем  jenkins при помощи playbook'a.
+### 3. Проверяем линтером ansible-lint  файл  [playbook'a](./infrastructure/site.yml)  на ошибки. Исправляем ошибки .
 
-### 4. Проверяем линтером ansible-lint  файл  [playbook'a](./infrastructure/site.yml)  на ошибки. Исправляем ошибки .
-
-### 5. Меняем  собственника на директорию проекта на bes.
+### 4. Меняем собственника на директорию проекта на пользователя bes.
 
     [root@centos-host 09-ci-04-jenkins]#  chown -R bes:bes ./infrastructure/
 
-
-
-### 6. Запускаем сеанс пользователя bes на management хосте.
+### 5. Запускаем сеанс пользователя bes на management хосте.
         
     [root@centos-host infrastructure]#  su bes
 
-### 7. Запускам и проверяем работоспособность плейбука для развертывания двух серверов - jenkins-master  и  jenkins-agent 
+### 6. !!!!  На management хосте входим в cecсию  юзера bes и из-под него разово открываем ssh-соединение с каждым из созданных хостов !!!!  
+Иначе плейбук зависнет.
+
+### 7. Устанавливаем  jenkins при помощи playbook'a.  Дяя этого запускам и проверяем работоспособность плейбука для развертывания двух серверов - jenkins-master  и  jenkins-agent 
           
     [bes@centos-host infrastructure]$    ansible-playbook  -i inventory/cicd/hosts.yml site.yml
 
