@@ -30,7 +30,7 @@
         
     [root@centos-host infrastructure]#  su bes
 
-## 7. !!!!  На management хосте входим в cecсию  юзера bes и из-под него разово открываем ssh-соединение с каждым из созданных хостов !!!! иначе плейбук зависнет.
+## 7. !!!!  На management хосте входим в cecсию юзера bes и из-под него разово открываем ssh-соединение с каждым из созданных хостов !!!! иначе плейбук зависнет.
 
 ## 8. Устанавливаем  jenkins при помощи playbook'a.  Для этого запускаем и проверяем работоспособность плейбука для развертывания двух серверов - jenkins-master  и  jenkins-agent 
           
@@ -44,8 +44,9 @@
 
       [bes@jenkins-master-001 ~]$ sudo cat /var/lib/jenkins/secrets/initialAdminPassword   -  d068cf767e0940d99d64480ed78e37bf
 
-### 2) Входим в интерфейс через браузер http://62.84.122.87:8080/login?from=%2F  и вводим вышеуказанный пароль  чтобы разблокировать.   
+### 2) Входим в интерфейс через браузер http://62.84.122.87:8080/  и вводим вышеуказанный пароль чтобы разблокировать.   
 
+---
 ### 3) Запускаем установку плагинов
 
 ![img_1.png](images/img_1.png)
@@ -53,20 +54,23 @@
 ### 4) Создаем нового админа и его пароль.
 
 ### 5) Записываем строку подключения со стороны внешних репозиториев ( bitbucket, gitgub etc.) - http://62.84.122.87:8080/
-
+---
 ### 6) Настраиваем внешний узел-агент.
 
 ![img_2.png](images/img_2.png)
 
-### 7) Указываем рабочих каталог и команду запуска процесса JAVA на узле-агенте  . Путь берем из переменной jenkins_agent_dir: ( /opt/jenkins_agent/ )
+---
+### 7) Указываем рабочий каталог и команду запуска процесса JAVA на узле-агенте. Путь берем из переменной jenkins_agent_dir проекта: ( /opt/jenkins_agent/ )
 
 ![img_3.png](images/img_3.png)
 
-### 8) Отключаем внутренние executors- сборщики на мастере. 
+---
+### 8) Отключаем все внутренние executors-сборщики на мастере. 
 
 ![img_4.png](images/img_4.png)
 
-###      9) Убеждаемся что ипользуются только сборщики на удаленном агенте.
+---
+### 9) Убеждаемся что используются только сборщики на удаленном агенте.
 
 ![img_5.png](images/img_5.png)
 
@@ -75,8 +79,14 @@
 
 ---
 ### 1. Создаем  Freestyle Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
+на основании документов https://github.com/alainchiasson/docker-molecule  и
+https://molecule.readthedocs.io/en/latest/ci.html ( Раздел "Jenkins Pipeline" )
    
 ![img_7.png](mages/img_7.png)
+
+    
+
+
 
 ---
 ### 2. Создаем  Declarative Pipeline Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
@@ -105,34 +115,48 @@
             You are using a pre-release version of ansible-lint.
    
 ---
-### 4. Перенсим Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
+### 4. Переносим готовый скрипт для конвейера Declarative Pipeline в репозиторий в файл `/pipeline/Jenkinsfile`.
 
-    В настройках pipelne указываем GIT репозиторий  - https://github.com/edward-burlakov/mnt-homeworks/tree/master/09-ci-04-jenkins/pipeline.
-    с файлом Jenkinsfile .
-    Генерим пару ключей на хосте jenkins-agent.
+####    4.1 Переходим в настройки Jenkins "Dashboard" > Настройка Jenkins ( "Manage Jenkins" ) > Глобальные настройки безопасности( "Configure Global Security" ) >"Git Host Key Verification Configuration". В раскрывающемся списке "Host Key Verification Strategy" выбираем  "Accept first connection".   
 
-              [bes@jenkins-master-001 ~]$ ssh-keygen
-   
-    Паблик-ключ  ~/.ssh/ssh/id_rsa.pub  предварительно должен быть добавлен на сервер GITHUB.
+![img_12.png](images/img_12.png)
+---
+![img_13.png](images/img_13.png)
 
-              [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa.pub
+####    4.2  Входим на Jenkins-master хост и открываем сессию пользователя jenkins ( от имени которого исполняется сервер Jenkins) 
+Можно сразу использовать готовые ключи созданные черех сценарий  в папке ~/.ssh  или сгенерировать новые.
+
+              [root@jenkins-master-001 ~]# su genkins
+
+####    4.3 Предварительно очищаем все старые ключи доступа  к  GITHUB-репозиторию с именем git .
+
+
+####    4.4 В настройках pipeline указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git с файлом /pipeline/Jenkinsfile
+
+####    4.5 Генерируем пару ключей на хосте jenkins-master.
+
+              [jenkins@jenkins-master-001 ~]$ ssh-keygen -t ecdsa -lf id_rsa.pub
+
+####    4.6 Сначала добавляем Паблик-ключ  ~/.ssh/:id_rsa.pub   на сервер GITHUB.
+
+              [jenkins@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa.pub
               ssh-rsa AAAAB3NzaC1yc2EAAAADA.....qjiH94Hbzi7OyHjHlQqI81Z2McQj bes@jenkins-agent-001.ru-central1.internall
 
-    Берем приватный ключ ~/.ssh/ssh/id_rsa   с хоста jenkins-master   на котором уже есть доступ к данному репозиторию и добавляекм в pipeline. 
+####    4.7 Копируем приватный ключ ~/.ssh/ssh/id_rsa с хоста jenkins-master, на котором уже есть доступ к данному репозиторию и добавляем в pipeline. 
 
-               [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa 
-    
+              [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa 
 
-   
- 
+####    4.8 Проверяем доступность сервера GITHUB  
+              [root@jenkins-master-001 jenkins-test]# ssh -T git@github.com
+              Hi edward-burlakov/jenkins-test! You've successfully authenticated, but GitHub does not provide shell access.
 
 ![img_8.png](images/img_8.png)
- 
+--- 
 ![img_9.png](images/img_9.png)
-
+---
 ![img_10.png](images/img_10.png)
-            
-     
+---            
+ 
 4. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
 6. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
 7. Внести необходимые изменения, чтобы Pipeline запускал `ansible-playbook` без флагов `--check --diff`, если не установлен параметр при запуске джобы (prod_run = True), по умолчанию параметр имеет значение False и запускает прогон с флагами `--check --diff`.
