@@ -1,0 +1,3 @@
+---
+sonarqube_version: "9.0.8"
+sonarqube_home: "/opt/sonarqube/{{ sonarqube_version }}"
