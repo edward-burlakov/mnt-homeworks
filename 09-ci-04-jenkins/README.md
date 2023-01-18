@@ -125,7 +125,7 @@
     4.3 В настройках pipelne указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git
     с файлом /pipeline/Jenkinsfile .
 
-    4.4 Генерим пару ключей на хосте jenkins-master.
+    4.4 Генерируем пару ключей на хосте jenkins-master.
 
               [jenkins@jenkins-master-001 ~]$ ssh-keygen -t ecdsa -lf id_rsa.pub
    
