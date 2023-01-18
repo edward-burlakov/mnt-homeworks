@@ -4,18 +4,19 @@
 
 ### 1. Создаём 2 VM: для jenkins-master и jenkins-agent.
 
-![img_6.png](images/img_6.png)
-
     1) На management хосте создаём  нового юзера bes ,отличного от root .  
     2) Генерируем для него ключ id_rsa.pub .  
     3) На YC под данным юзером  cоздаем 2 виртуалки с заданными параметрами .   
     4) Вносим данного пользователя bes  в файл hosts.yml
+---
+![img_6.png](images/img_6.png)
+---
 
 ### 2. Прописываем в [inventory](./infrastructure/inventory/cicd/hosts.yml) [playbook'a](./infrastructure/site.yml) созданные хосты.
 
 ### 3. Проверяем линтером ansible-lint  файл  [playbook'a](./infrastructure/site.yml)  на ошибки. Исправляем ошибки .
 
-### 4. Устанваливаем используемую библиотеку ansible.posix
+### 4. Устанавливаем используемую библиотеку ansible.posix
 
     [root@centos-host 09-ci-04-jenkins]#  sudo ansible-galaxy collection install ansible.posix
 
@@ -55,9 +56,11 @@
 
 ![img_2.png](images/img_2.png)
 
+     7) Указываем рабочих каталог и  коману запуска процесса JAVA на узле-агенте  . Путь берем из переменной jenkins_agent_dir: ( /opt/jenkins_agent/ )
+
 ![img_3.png](images/img_3.png)
 
-     7) Отключаем внутренние executors- сборщики  на мастере и убеждаемся что ипольщцуются только сборщики на агенте 
+     8) Отключаем внутренние executors- сборщики  на мастере и убеждаемся что ипольщцуются только сборщики на агенте 
 
 ![img_4.png](images/img_4.png)
 
