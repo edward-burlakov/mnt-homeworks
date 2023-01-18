@@ -79,8 +79,14 @@
 
 ---
 ### 1. Создаем  Freestyle Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
+на основании документов https://github.com/alainchiasson/docker-molecule  и
+https://molecule.readthedocs.io/en/latest/ci.html ( Раздел "Jenkins Pipeline" )
    
 ![img_7.png](mages/img_7.png)
+
+    
+
+
 
 ---
 ### 2. Создаем  Declarative Pipeline Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.

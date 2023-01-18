@@ -1,26 +1,42 @@
-pipeline  {
-    agent  {
-  label 'linux'
+pipeline {
+  agent {
+    label 'linux'
+    docker {
+      alwaysPull true
+      image 'alainchiasson/docker-molecule'
+      args '--privileged -v /DATA/docker-cache:/docker-cache'
     }
-    stages {
-        stage('Checkout role') {
-            steps {
-                sh 'python3 -V'
-            }
-        }
-        stage('Molecule installation') {
-            steps {
-                sh 'ansible-playbook --version'
-                sh 'python3 -m pip install molecule'
-                sh 'molecule --version'
-            }
-        }
-        stage('Linters Installation') {
-            steps {
-                sh 'pip3 install ansible-lint yamllint'
-                sh 'yamllint --version'
-                sh 'ansible-lint --version'
-            }
-        }
+  }
+  stages {
+    stage ("Docker install") {
+       steps {
+         sh 'sudo yum check-update'
+         sh 'curl -fsSL https://get.docker.com/ | sh'
+         sh 'sudo systemctl start docker'
+         sh 'sudo systemctl enable docker'
+         sh 'sudo systemctl status docker'
+         sh 'sudo usermod -aG docker $(whoami)'
+       }
     }
+    stage ("Display environment info") {
+      steps {
+        sh 'env'
+      }
+    }
+    stage ("Display Molecule version") {
+      steps {
+        sh 'molecule --version'
+      }
+    }
+    stage ("Validate Docker."){
+      steps {
+        sh 'docker info'
+      }
+    }
+    stage ("Validate Tests Pass."){
+      steps {
+        sh 'cd simple && molecule test'
+      }
+    }
+  }
 }

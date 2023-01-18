@@ -16,7 +16,9 @@ node("linux"){
         }
         
     }
-} */
+}
+*/
+
 pipeline  {
     agent  {
   label 'linux'
