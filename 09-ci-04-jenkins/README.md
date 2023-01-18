@@ -15,22 +15,26 @@
 
 ### 3. Проверяем линтером ansible-lint  файл  [playbook'a](./infrastructure/site.yml)  на ошибки. Исправляем ошибки .
 
-### 4. Меняем собственника на директорию проекта на пользователя bes.
+### 4. Устанваливаем используемую библиотеку ansible.posix
+
+    [root@centos-host 09-ci-04-jenkins]#  sudo ansible-galaxy collection install ansible.posix
+
+### 5. Меняем собственника на директорию проекта на пользователя bes.
 
     [root@centos-host 09-ci-04-jenkins]#  chown -R bes:bes ./infrastructure/
 
-### 5. Запускаем сеанс пользователя bes на management хосте.
+### 6. Запускаем сеанс пользователя bes на management хосте.
         
     [root@centos-host infrastructure]#  su bes
 
-### 6. !!!!  На management хосте входим в cecсию  юзера bes и из-под него разово открываем ssh-соединение с каждым из созданных хостов !!!!  
+### 7. !!!!  На management хосте входим в cecсию  юзера bes и из-под него разово открываем ssh-соединение с каждым из созданных хостов !!!!  
 Иначе плейбук зависнет.
 
-### 7. Устанавливаем  jenkins при помощи playbook'a.  Дяя этого запускам и проверяем работоспособность плейбука для развертывания двух серверов - jenkins-master  и  jenkins-agent 
+### 8. Устанавливаем  jenkins при помощи playbook'a.  Дяя этого запускам и проверяем работоспособность плейбука для развертывания двух серверов - jenkins-master  и  jenkins-agent 
           
     [bes@centos-host infrastructure]$    ansible-playbook  -i inventory/cicd/hosts.yml site.yml
 
-### 8. Выполняем первоначальную настройку Jenkins.
+### 9. Выполняем первоначальную настройку Jenkins.
 
 
 
