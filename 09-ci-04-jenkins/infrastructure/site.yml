@@ -2,24 +2,31 @@
 - name: Prepare all hosts
   hosts: all
   tasks:
-    - name: Include user bes to  wheel group
+    - name: "Allow current user to have passwordless sudo"
       become: true
-      ansible.builtin.shell: usermod -G wheel bes
-        args:
-          executable: /bin/bash
+      become_user: root
+      ansible.builtin.lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: 'bes'
+        line: 'bes ALL=(ALL) NOPASSWD: ALL'
+        validate: 'sudo visudo -cf %s'
     - name: Create group
       become: true
+      become_user: bes
       ansible.builtin.group:
         name: "{{ user_group }}"
         state: present
     - name: Create user
       become: true
+      become_user: bes
       ansible.builtin.user:
         name: "{{ user_name }}"
         generate_ssh_key: true
       register: ssh_key_info
     - name: Install JDK
       become: true
+      become_user: bes
       ansible.builtin.package:
         name: "{{ java_packages }}"
         state: present
