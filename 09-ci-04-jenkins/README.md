@@ -76,25 +76,56 @@
 
 1. Сделать Freestyle Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
    
-
+![img_7.png](img_7.png)
 
 2. Сделать Declarative Pipeline Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
+
+  В сценарии предусматриваем :
+   1) Установку пакета-фреймворка molecule.
+   2) Установку линтеров YAMLLINT и  ANSIBLE-LINT  .
+
+
+### 3) Проверяем версию Python / Устанавливаем  версии Python  3.6.15, 3.8.10  и 3.9.16  на основании статьи
+[https://medium.datadriveninvestor.com/how-to-install-and-manage-multiple-python-versions-on-linux-916990dabe4b]
+
+             root@dockerhost:/# git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+             Добавляем ~/.pyenv в $PATH
+             root@dockerhost:/# pyenv install 3.6.15
+             root@dockerhost:/# pyenv install 3.8.6
+             root@dockerhost:/# pyenv install 3.9.16 
+
+###  4) Устанавливаем версию Python 3.9.16  версией по умолчанию   -  Press ( Ctrl + Z ).
+
+            root@dockerhost:/# pyenv global 3.9.16
+            root@dockerhost:/# python3
+            Python 3.9.16 (main, Dec 24 2022, 03:29:44)
+            [GCC 9.4.0] on linux
+            Type "help", "copyright", "credits" or "license" for more information.
+            >>>
+            [2]+  Stopped                 python3
+
+
+
+###  5) Убеждаемся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
+
+            root@dockerhost:/# pip3 install ansible-lint yamllint
+            root@dockerhost:/# yamllint --version
+            yamllint 1.28.0
+
+            root@dockerhost:/# ansible-lint --version
+            ansible-lint 6.8.6 using ansible 2.13.6
+            A new release of ansible-lint is available: 6.8.6 → 6.10.0
+
+            root@dockerhost:/# pip3 install git+https://github.com/ansible/ansible-lint.git
+            Successfully installed ansible-compat-2.2.7 ansible-lint-6.10.1.dev2 pyyaml-6.0
+            root@dockerhost:/home/bes/vector-role/molecule/default# ansible-lint --version
+            ansible-lint 6.10.1.dev2 using ansible 2.13.6
+            You are using a pre-release version of ansible-lint.
+   
+
 3. Перенести Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
 4. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
 5. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
 6. Внести необходимые изменения, чтобы Pipeline запускал `ansible-playbook` без флагов `--check --diff`, если не установлен параметр при запуске джобы (prod_run = True), по умолчанию параметр имеет значение False и запускает прогон с флагами `--check --diff`.
 7. Проверить работоспособность, исправить ошибки, исправленный Pipeline вложить в репозиторий в файл `ScriptedJenkinsfile`.
 8. Отправить ссылку на репозиторий с ролью и Declarative Pipeline и Scripted Pipeline.
-
-## Необязательная часть
-
-1. Создать скрипт на groovy, который будет собирать все Job, которые завершились хотя бы раз неуспешно. Добавить скрипт в репозиторий с решением с названием `AllJobFailure.groovy`.
-2. Создать Scripted Pipeline таким образом, чтобы он мог сначала запустить через Ya.Cloud CLI необходимое количество инстансов, прописать их в инвентори плейбука и после этого запускать плейбук. Тем самым, мы должны по нажатию кнопки получить готовую к использованию систему.
-
----
-
-### Как оформить ДЗ?
-
-Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
-
----
