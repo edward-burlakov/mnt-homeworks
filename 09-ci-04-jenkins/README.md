@@ -30,7 +30,7 @@
         
     [root@centos-host infrastructure]#  su bes
 
-## 7. !!!!  На management хосте входим в cecсию  юзера bes и из-под него разово открываем ssh-соединение с каждым из созданных хостов !!!! иначе плейбук зависнет.
+## 7. !!!!  На management хосте входим в cecсию юзера bes и из-под него разово открываем ssh-соединение с каждым из созданных хостов !!!! иначе плейбук зависнет.
 
 ## 8. Устанавливаем  jenkins при помощи playbook'a.  Для этого запускаем и проверяем работоспособность плейбука для развертывания двух серверов - jenkins-master  и  jenkins-agent 
           
@@ -44,7 +44,7 @@
 
       [bes@jenkins-master-001 ~]$ sudo cat /var/lib/jenkins/secrets/initialAdminPassword   -  d068cf767e0940d99d64480ed78e37bf
 
-### 2) Входим в интерфейс через браузер http://62.84.122.87:8080/login?from=%2F  и вводим вышеуказанный пароль  чтобы разблокировать.   
+### 2) Входим в интерфейс через браузер http://62.84.122.87:8080/login?from=%2F  и вводим вышеуказанный пароль чтобы разблокировать.   
 
 ### 3) Запускаем установку плагинов
 
@@ -58,7 +58,7 @@
 
 ![img_2.png](images/img_2.png)
 
-### 7) Указываем рабочих каталог и команду запуска процесса JAVA на узле-агенте  . Путь берем из переменной jenkins_agent_dir: ( /opt/jenkins_agent/ )
+### 7) Указываем рабочий каталог и команду запуска процесса JAVA на узле-агенте  . Путь берем из переменной jenkins_agent_dir: ( /opt/jenkins_agent/ )
 
 ![img_3.png](images/img_3.png)
 
@@ -66,7 +66,7 @@
 
 ![img_4.png](images/img_4.png)
 
-###      9) Убеждаемся что ипользуются только сборщики на удаленном агенте.
+### 9) Убеждаемся что используются только сборщики на удаленном агенте.
 
 ![img_5.png](images/img_5.png)
 
@@ -142,17 +142,13 @@
               [root@jenkins-master-001 jenkins-test]# ssh -T git@github.com
               Hi edward-burlakov/jenkins-test! You've successfully authenticated, but GitHub does not provide shell access.
 
-
-
 ![img_8.png](images/img_8.png)
  
 ![img_9.png](images/img_9.png)
 
 ![img_10.png](images/img_10.png)
             
-  
-
-
+ 
 4. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
 6. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
 7. Внести необходимые изменения, чтобы Pipeline запускал `ansible-playbook` без флагов `--check --diff`, если не установлен параметр при запуске джобы (prod_run = True), по умолчанию параметр имеет значение False и запускает прогон с флагами `--check --diff`.
