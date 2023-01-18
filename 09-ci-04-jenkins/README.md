@@ -122,25 +122,25 @@
 
               [root@jenkins-master-001 ~]# su genkins
 
-####    4.4 Предварительно очищаем все старые ключи доступа  к  GITHUB-репозиторию с именем git .
+####    4.3 Предварительно очищаем все старые ключи доступа  к  GITHUB-репозиторию с именем git .
 
 
-####    4.5 В настройках pipeline указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git с файлом /pipeline/Jenkinsfile .
+####    4.4 В настройках pipeline указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git с файлом /pipeline/Jenkinsfile
 
-####    4.6 Генерируем пару ключей на хосте jenkins-master.
+####    4.5 Генерируем пару ключей на хосте jenkins-master.
 
               [jenkins@jenkins-master-001 ~]$ ssh-keygen -t ecdsa -lf id_rsa.pub
 
-####    4.7 Сначала добавляем Паблик-ключ  ~/.ssh/:id_rsa.pub   на сервер GITHUB.
+####    4.6 Сначала добавляем Паблик-ключ  ~/.ssh/:id_rsa.pub   на сервер GITHUB.
 
               [jenkins@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa.pub
               ssh-rsa AAAAB3NzaC1yc2EAAAADA.....qjiH94Hbzi7OyHjHlQqI81Z2McQj bes@jenkins-agent-001.ru-central1.internall
 
-####    4.8 Копируем приватный ключ ~/.ssh/ssh/id_rsa с хоста jenkins-master, на котором уже есть доступ к данному репозиторию и добавляем в pipeline. 
+####    4.7 Копируем приватный ключ ~/.ssh/ssh/id_rsa с хоста jenkins-master, на котором уже есть доступ к данному репозиторию и добавляем в pipeline. 
 
               [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa 
 
-####    4.9 Проверяем доступность сервера GITHUB  
+####    4.8 Проверяем доступность сервера GITHUB  
               [root@jenkins-master-001 jenkins-test]# ssh -T git@github.com
               Hi edward-burlakov/jenkins-test! You've successfully authenticated, but GitHub does not provide shell access.
 
