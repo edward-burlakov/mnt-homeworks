@@ -4,7 +4,6 @@
   tasks:
     - name: "Allow current user to have passwordless sudo"
       become: true
-      become_user: root
       ansible.builtin.lineinfile:
         dest: /etc/sudoers
         state: present
@@ -13,13 +12,11 @@
         validate: 'sudo visudo -cf %s'
     - name: Create group
       become: true
-      become_user: bes
       ansible.builtin.group:
         name: "{{ user_group }}"
         state: present
     - name: Create user
       become: true
-      become_user: bes
       ansible.builtin.user:
         name: "{{ user_name }}"
         generate_ssh_key: true
