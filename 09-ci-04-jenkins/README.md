@@ -111,7 +111,7 @@
      > "Git Host Key Verification Configuration". 
      В раскрывающемся списке "Host Key Verification Strategy" выбираем  "Accept first connection".   
 
-![img_1.png](img_1.png)
+![img_12.png](images/img_12.png)
 
     4.2  Входим на Jenkins-master хост и открываем сессию пользователя jenkins ( от имени которого исполняется сервер Jenkins) 
          Можно сразу использовать готовые ключи созданные черех сценарий  в папке ~/.ssh  или сгенерировать новые.
@@ -120,7 +120,7 @@
 
     4.3 Предварительно очищаем все старые ключи доступа  к  GITHUB-репозиторию с именем git .
 
-![img.png](img.png)
+![img_13.png](images/img_13.png)
 
     4.3 В настройках pipelne указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git
     с файлом /pipeline/Jenkinsfile .
