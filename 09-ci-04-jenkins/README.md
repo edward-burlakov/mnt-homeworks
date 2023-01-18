@@ -125,8 +125,9 @@
 
 3. Перенести Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
 
-    В аисройкам pipelne  указфываем GIT реозиторий с файлом Jenkinsfile и указываем  приватный ключ с  managemnent-хоста,
-    на котором уже есть доступ к данному репозиторию . 
+    В настройках pipelne  указфываем GIT реозиторий  - https://github.com/edward-burlakov/mnt-homeworks/tree/master/09-ci-04-jenkins/pipeline.
+    с файлом Jenkinsfile и указываем  приватный ключ с  managemnent-хоста, на котором уже есть доступ к данному репозиторию.
+
 ![img_8.png](images/img_8.png)
  
 ![img_9.png](images/img_9.png)
