@@ -111,46 +111,45 @@
 ---
 ### 4. Переносим готовый скрипт для конвейера Declarative Pipeline в репозиторий в файл `/pipeline/Jenkinsfile`.
 
-####    4.1 Переходим в настройки Jenkins "Dashboard" > Настройка Jenkins ("Manage Jenkins") > Глобальные натсройки безопасности("Configure Global Security") 
-     > "Git Host Key Verification Configuration". 
-     В раскрывающемся списке "Host Key Verification Strategy" выбираем  "Accept first connection".   
+####    4.1 Переходим в настройки Jenkins "Dashboard" > Настройка Jenkins ( "Manage Jenkins" ) > Глобальные настройки безопасности( "Configure Global Security" ) >"Git Host Key Verification Configuration". В раскрывающемся списке "Host Key Verification Strategy" выбираем  "Accept first connection".   
 
 ![img_12.png](images/img_12.png)
+---
+![img_13.png](images/img_13.png)
 
 ####    4.2  Входим на Jenkins-master хост и открываем сессию пользователя jenkins ( от имени которого исполняется сервер Jenkins) 
-         Можно сразу использовать готовые ключи созданные черех сценарий  в папке ~/.ssh  или сгенерировать новые.
+Можно сразу использовать готовые ключи созданные черех сценарий  в папке ~/.ssh  или сгенерировать новые.
 
               [root@jenkins-master-001 ~]# su genkins
 
-####    4.3 Предварительно очищаем все старые ключи доступа  к  GITHUB-репозиторию с именем git .
+####    4.4 Предварительно очищаем все старые ключи доступа  к  GITHUB-репозиторию с именем git .
 
-![img_13.png](images/img_13.png)
 
-####    4.3 В настройках pipelne указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git с файлом /pipeline/Jenkinsfile .
+####    4.5 В настройках pipeline указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git с файлом /pipeline/Jenkinsfile .
 
-####    4.4 Генерируем пару ключей на хосте jenkins-master.
+####    4.6 Генерируем пару ключей на хосте jenkins-master.
 
               [jenkins@jenkins-master-001 ~]$ ssh-keygen -t ecdsa -lf id_rsa.pub
 
-####    4.5 Сначала добавляем Паблик-ключ  ~/.ssh/:id_rsa.pub   на сервер GITHUB.
+####    4.7 Сначала добавляем Паблик-ключ  ~/.ssh/:id_rsa.pub   на сервер GITHUB.
 
               [jenkins@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa.pub
               ssh-rsa AAAAB3NzaC1yc2EAAAADA.....qjiH94Hbzi7OyHjHlQqI81Z2McQj bes@jenkins-agent-001.ru-central1.internall
 
-####    4.6 Копируем приватный ключ ~/.ssh/ssh/id_rsa   с хоста jenkins-master   на котором уже есть доступ к данному репозиторию и добавляем в pipeline. 
+####    4.8 Копируем приватный ключ ~/.ssh/ssh/id_rsa с хоста jenkins-master, на котором уже есть доступ к данному репозиторию и добавляем в pipeline. 
 
               [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa 
 
-####    4.7 Проверяем доступность сервера GITHUB  
+####    4.9 Проверяем доступность сервера GITHUB  
               [root@jenkins-master-001 jenkins-test]# ssh -T git@github.com
               Hi edward-burlakov/jenkins-test! You've successfully authenticated, but GitHub does not provide shell access.
 
 ![img_8.png](images/img_8.png)
- 
+--- 
 ![img_9.png](images/img_9.png)
-
+---
 ![img_10.png](images/img_10.png)
-            
+---            
  
 4. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
 6. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
