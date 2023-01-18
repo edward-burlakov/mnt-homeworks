@@ -4,7 +4,7 @@
 
 ### 1. Создаём 2 VM: для jenkins-master и jenkins-agent.
 
-![img.png](images/img.png)
+![img_6.png](images/img_6.png)
 
     1) На management хосте создаём  нового юзера bes ,отличного от root .  
     2) Генерируем для него ключ id_rsa.pub .  
@@ -34,13 +34,43 @@
           
     [bes@centos-host infrastructure]$    ansible-playbook  -i inventory/cicd/hosts.yml site.yml
 
+![img.png](images/img.png)
+
 ### 9. Выполняем первоначальную настройку Jenkins.
 
+     1)   [bes@jenkins-master-001 ~]$ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+     d068cf767e0940d99d64480ed78e37bf
+
+     2) Входим в интерфейс через браузер http://62.84.122.87:8080/login?from=%2F  и вводим вышеуказанный пароль  чтобы разблокировать.   
+
+     3) Запускаем установку плагинов
+
+![img_1.png](images/img_1.png)
+
+     4) Создаем нового админа и его пароль.
+
+     5) Записываем  строку подлючения со стороны  внешних репозиториев ( bitbucket, gitgub etc.) - http://62.84.122.87:8080/
+
+     6) Настраиваем внешний узел- агент.
+
+![img_2.png](images/img_2.png)
+
+![img_3.png](images/img_3.png)
+
+     7) Отключаем внутренние executors- сборщики  на мастере и убеждаемся что ипольщцуются только сборщики на агенте 
+
+![img_4.png](images/img_4.png)
+
+![img_5.png](images/img_5.png)
 
 
 ## Основная часть
 
 1. Сделать Freestyle Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
+
+    
+
+
 2. Сделать Declarative Pipeline Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
 3. Перенести Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
 4. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
