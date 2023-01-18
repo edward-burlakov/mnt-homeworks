@@ -54,15 +54,15 @@
 
 ### 5) Записываем строку подключения со стороны внешних репозиториев ( bitbucket, gitgub etc.) - http://62.84.122.87:8080/
 
-### 6) Настраиваем внешний узел- агент.
+### 6) Настраиваем внешний узел-агент.
 
 ![img_2.png](images/img_2.png)
 
-### 7) Указываем рабочих каталог и  коману запуска процесса JAVA на узле-агенте  . Путь берем из переменной jenkins_agent_dir: ( /opt/jenkins_agent/ )
+### 7) Указываем рабочих каталог и команду запуска процесса JAVA на узле-агенте  . Путь берем из переменной jenkins_agent_dir: ( /opt/jenkins_agent/ )
 
 ![img_3.png](images/img_3.png)
 
-### 8) Отключаем внутренние executors- сборщики  на мастере . 
+### 8) Отключаем внутренние executors- сборщики на мастере. 
 
 ![img_4.png](images/img_4.png)
 
@@ -73,40 +73,22 @@
 ---
 ## Основная часть
 
-
-1. Сделать Freestyle Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
+---
+### 1. Создаем  Freestyle Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
    
-![img_7.png](img_7.png)
+![img_7.png](mages/img_7.png)
 
-2. Сделать Declarative Pipeline Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
+---
+### 2. Создаем  Declarative Pipeline Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
 
-  В сценарии предусматриваем :
+![img_11.png](images/img_11.png)
+
+  В сценарии предусматриваем:
    1) Установку пакета-фреймворка molecule.
    2) Установку линтеров YAMLLINT и  ANSIBLE-LINT  .
 
-
-### 3) Проверяем версию Python / Устанавливаем  версии Python  3.6.15, 3.8.10  и 3.9.16  на основании статьи
-[https://medium.datadriveninvestor.com/how-to-install-and-manage-multiple-python-versions-on-linux-916990dabe4b]
-
-             root@dockerhost:/# git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-             Добавляем ~/.pyenv в $PATH
-             root@dockerhost:/# pyenv install 3.6.15
-             root@dockerhost:/# pyenv install 3.8.6
-             root@dockerhost:/# pyenv install 3.9.16 
-
-###  4) Устанавливаем версию Python 3.9.16  версией по умолчанию   -  Press ( Ctrl + Z ).
-
-            root@dockerhost:/# pyenv global 3.9.16
-            root@dockerhost:/# python3
-            Python 3.9.16 (main, Dec 24 2022, 03:29:44)
-            [GCC 9.4.0] on linux
-            Type "help", "copyright", "credits" or "license" for more information.
-            >>>
-            [2]+  Stopped                 python3
-
-
-
-###  5) Убеждаемся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
+---
+### 3. Убеждаемся, что необходимые линтеры YAMLLINT и  ANSIBLE-LINT установлены:
 
             root@dockerhost:/# pip3 install ansible-lint yamllint
             root@dockerhost:/# yamllint --version
@@ -122,11 +104,27 @@
             ansible-lint 6.10.1.dev2 using ansible 2.13.6
             You are using a pre-release version of ansible-lint.
    
+---
+### 4. Перенсим Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
 
-3. Перенести Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
+    В настройках pipelne указываем GIT репозиторий  - https://github.com/edward-burlakov/mnt-homeworks/tree/master/09-ci-04-jenkins/pipeline.
+    с файлом Jenkinsfile .
+    Генерим пару ключей на хосте jenkins-agent.
 
-    В настройках pipelne  указфываем GIT реозиторий  - https://github.com/edward-burlakov/mnt-homeworks/tree/master/09-ci-04-jenkins/pipeline.
-    с файлом Jenkinsfile и указываем  приватный ключ с  managemnent-хоста, на котором уже есть доступ к данному репозиторию.
+              [bes@jenkins-master-001 ~]$ ssh-keygen
+   
+    Паблик-ключ  ~/.ssh/ssh/id_rsa.pub  предварительно должен быть добавлен на сервер GITHUB.
+
+              [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa.pub
+              ssh-rsa AAAAB3NzaC1yc2EAAAADA.....qjiH94Hbzi7OyHjHlQqI81Z2McQj bes@jenkins-agent-001.ru-central1.internall
+
+    Берем приватный ключ ~/.ssh/ssh/id_rsa   с хоста jenkins-master   на котором уже есть доступ к данному репозиторию и добавляекм в pipeline. 
+
+               [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa 
+    
+
+   
+ 
 
 ![img_8.png](images/img_8.png)
  
@@ -134,6 +132,7 @@
 
 ![img_10.png](images/img_10.png)
             
+     
 4. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
 6. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
 7. Внести необходимые изменения, чтобы Pipeline запускал `ansible-playbook` без флагов `--check --diff`, если не установлен параметр при запуске джобы (prod_run = True), по умолчанию параметр имеет значение False и запускает прогон с флагами `--check --diff`.
