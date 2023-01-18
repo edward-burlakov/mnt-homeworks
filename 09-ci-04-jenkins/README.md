@@ -105,26 +105,44 @@
             You are using a pre-release version of ansible-lint.
    
 ---
-### 4. Перенсим Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
+### 4. Переносим Declarative Pipeline в репозиторий в файл `Jenkinsfile`.
 
-    В настройках pipelne указываем GIT репозиторий  - https://github.com/edward-burlakov/mnt-homeworks/tree/master/09-ci-04-jenkins/pipeline.
-    с файлом Jenkinsfile .
-    Генерим пару ключей на хосте jenkins-agent.
+    4.1 Переходим в настройки Jenkins "Dashboard" > Настройка Jenkins ("Manage Jenkins") > Глобальные натсройки безопасности("Configure Global Security") 
+     > "Git Host Key Verification Configuration". 
+     В раскрывающемся списке "Host Key Verification Strategy" выбираем  "Accept first connection".   
 
-              [bes@jenkins-master-001 ~]$ ssh-keygen
+![img_1.png](img_1.png)
+
+    4.2  Входим на Jenkins-master хост и открываем сессию пользователя jenkins ( от имени которого исполняется сервер Jenkins) 
+         Можно сразу использовать готовые ключи созданные черех сценарий  в папке ~/.ssh  или сгенерировать новые.
+
+              [root@jenkins-master-001 ~]# su genkins
+
+    4.3 Предварительно очищаем все старые ключи доступа  к  GITHUB-репозиторию с именем git .
+
+![img.png](img.png)
+
+    4.3 В настройках pipelne указываем GIT репозиторий  - git@github.com:edward-burlakov/jenkins-test.git
+    с файлом /pipeline/Jenkinsfile .
+
+    4.4 Генерим пару ключей на хосте jenkins-master.
+
+              [jenkins@jenkins-master-001 ~]$ ssh-keygen -t ecdsa -lf id_rsa.pub
    
-    Паблик-ключ  ~/.ssh/ssh/id_rsa.pub  предварительно должен быть добавлен на сервер GITHUB.
+    4.5 Сначала добавляем Паблик-ключ  ~/.ssh/:id_rsa.pub   на сервер GITHUB.
 
-              [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa.pub
+              [jenkins@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa.pub
               ssh-rsa AAAAB3NzaC1yc2EAAAADA.....qjiH94Hbzi7OyHjHlQqI81Z2McQj bes@jenkins-agent-001.ru-central1.internall
 
-    Берем приватный ключ ~/.ssh/ssh/id_rsa   с хоста jenkins-master   на котором уже есть доступ к данному репозиторию и добавляекм в pipeline. 
+    4.6 Копируем приватный ключ ~/.ssh/ssh/id_rsa   с хоста jenkins-master   на котором уже есть доступ к данному репозиторию и добавляем в pipeline. 
 
-               [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa 
-    
-
+              [bes@jenkins-master-001 ~]$ cat  ~/.ssh/id_rsa 
    
- 
+    4.7 Проверяем доступность сервера GITHUB  
+              [root@jenkins-master-001 jenkins-test]# ssh -T git@github.com
+              Hi edward-burlakov/jenkins-test! You've successfully authenticated, but GitHub does not provide shell access.
+
+
 
 ![img_8.png](images/img_8.png)
  
@@ -132,7 +150,9 @@
 
 ![img_10.png](images/img_10.png)
             
-     
+  
+
+
 4. Создать Multibranch Pipeline на запуск `Jenkinsfile` из репозитория.
 6. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).
 7. Внести необходимые изменения, чтобы Pipeline запускал `ansible-playbook` без флагов `--check --diff`, если не установлен параметр при запуске джобы (prod_run = True), по умолчанию параметр имеет значение False и запускает прогон с флагами `--check --diff`.
