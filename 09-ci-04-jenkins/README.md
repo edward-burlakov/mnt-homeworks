@@ -54,6 +54,7 @@
 ### 4) Создаем нового админа и его пароль.
 
 ### 5) Записываем строку подключения со стороны внешних репозиториев ( bitbucket, gitgub etc.) - http://62.84.122.87:8080/
+
 ---
 ### 6) Настраиваем внешний узел-агент.
 
@@ -74,17 +75,25 @@
 
 ![img_5.png](images/img_5.png)
 
+### 10) Установим подключаемые модули, необходимые для поддержки Docker - "Docker plugin" и "Docker Pipeline" и перезагрузимся master-хост
+
+![img_14.png](images/img_14.png)
+---
+![img_15.png](images/img_15.png)
+
+
 ---
 ## Основная часть
 
 ---
 ### 1. Создаем  Freestyle Job, который будет запускать `molecule test` из любого вашего репозитория с ролью.
-на основании документов https://github.com/alainchiasson/docker-molecule  и
 https://molecule.readthedocs.io/en/latest/ci.html ( Раздел "Jenkins Pipeline" )
-   
-![img_7.png](mages/img_7.png)
+Запустим молекулу в контейнере  - https://www.jenkins.io/doc/book/pipeline/docker/  , 
+используя проект  https://github.com/alainchiasson/docker-molecule
 
-    
+
+
+
 
 
 
