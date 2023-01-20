@@ -9,7 +9,7 @@
     1) На management хосте создаём  нового юзера bes ,отличного от root .  
     2) Генерируем для него ключ id_rsa.pub .  
     3) На YC под данным юзером  cоздаем 2 виртуалки с заданными параметрами .   
-    4) Вносим данного пользователя bes  в файл hosts.yml
+    4) Вносим данного пользователя bes  в файл /inventory/cicd/hosts.yml
 ---
 ![img_6.png](images/img_6.png)
 ---
@@ -18,7 +18,7 @@
 
 ## 3. Проверяем линтером ansible-lint  файл  [playbook'a](./infrastructure/site.yml)  на ошибки. Исправляем ошибки .
 
-## 4. Устанавливаем используемую библиотеку ansible.posix
+## 4. Устанавливаем далее зцвиспользуемую библиотеку ansible.posix
 
     [root@centos-host 09-ci-04-jenkins]#  sudo ansible-galaxy collection install ansible.posix
 
