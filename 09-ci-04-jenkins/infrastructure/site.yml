@@ -23,7 +23,6 @@
       register: ssh_key_info
     - name: Install JDK
       become: true
-      become_user: bes
       ansible.builtin.package:
         name: "{{ java_packages }}"
         state: present
