@@ -10,7 +10,7 @@ pipeline {
   stages {
     stage ("Docker install") {
        steps {
-         sh 'sudo yum check-update'
+         sh 'yum check-update'
          sh 'curl -fsSL https://get.docker.com/ | sh'
          sh 'sudo systemctl start docker'
          sh 'sudo systemctl enable docker'
